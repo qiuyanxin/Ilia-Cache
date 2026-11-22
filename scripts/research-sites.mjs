@@ -1,0 +1,4 @@
+import {readFile,writeFile} from 'node:fs/promises';import {groupSites} from '../public/catalog.mjs';import{readPageMedia}from '../media.mjs';
+const root=new URL('../',import.meta.url);const seed=JSON.parse(await readFile(new URL('public/seed.json',root)));const sites=groupSites(seed),results=[];let index=0;
+await Promise.all(Array.from({length:8},async()=>{while(index<sites.length){const site=sites[index++];const url=['showheyohtaki.github.io','lemomo-ai.github.io','x.com'].includes(site.domain)?site.members[0].url:site.url;let record;try{record={domain:site.domain,checkedAt:new Date().toISOString(),...(await readPageMedia(url,{includeText:true}))};}catch(error){record={domain:site.domain,url,error:error.message};}results.push(record);console.log(`${results.length}/${sites.length} ${site.domain} ${record.error||record.title}`);await writeFile(new URL('verification/website-research.json',root),JSON.stringify(results,null,2));}}));
+console.log('RESEARCH_COMPLETE');

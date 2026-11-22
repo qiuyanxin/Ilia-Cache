@@ -1,0 +1,26 @@
+# Dependencies and local configuration
+node_modules/
+.env
+.env.*
+!.env.example
+
+# macOS and logs
+.DS_Store
+*.log
+npm-debug.log*
+
+# Personal library data and uploaded media
+data/
+
+# Upstream mirrors and third-party source archives
+references/
+preview-src/
+public/imported-react/
+public/imported-motion/
+
+# Local agent settings and verification artifacts
+.agents/
+verification/
+
+# Design review exports
+*-final.jpg

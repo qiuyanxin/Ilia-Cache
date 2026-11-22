@@ -1,0 +1,1922 @@
+[
+  {
+    "id": "ilia-inflatable",
+    "name": "充气立体风",
+    "english": "Inflatable 3D",
+    "description": "饱满、圆润的充气体积，柔软的表面和清晰的光影。",
+    "prompt": "将当前提供的主体与内容设计成充气立体风（Inflatable 3D）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n把主体处理为充气成型的立体软雕塑，轮廓圆润、转角膨胀，保留轻微接缝和受压凹陷。奶油白搭配一至两种明亮糖果色，使用柔软橡胶或半哑光乙烯基表面。大面积柔光从侧上方照射，以接触阴影表现重量；用一个主形体配少量辅助体块形成前后层次，背景干净。避免尖锐硬边、廉价塑料高光和过度堆叠玩具。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "sourceLabel": "Ilia 整理",
+    "group": "视觉风格",
+    "references": [
+      {
+        "source": "https://www.pinterest.com/pin/779756123014613054/",
+        "image": "https://i.pinimg.com/236x/cd/ab/9b/cdab9bab6b845236f8cc6f6123edcc16.jpg",
+        "alt": "Inflatable Abstract 3D Illustrations vol.2"
+      }
+    ],
+    "originalPrompt": "使用充气立体风（Inflatable 3D）作为视觉方向。\n饱满、圆润的充气体积，柔软的表面和清晰的光影。\n根据我的主题和参考素材安排主体、构图与材质，保持整套视觉一致。",
+    "originalPromptEn": "",
+    "promptEn": "Create a complete Inflatable 3D visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nRounded air-filled soft sculpture, subtle seams and pressure dents, creamy white with one or two candy accents, semi-matte vinyl, large soft side light and contact shadows. One dominant volume with restrained supporting shapes; avoid hard edges, excessive gloss and toy clutter.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "ilia-liquid-cutout",
+    "name": "流体镂空",
+    "english": "Liquid cutout",
+    "description": "流动的轮廓、镂空的负形与前后层次。",
+    "prompt": "将当前提供的主体与内容设计成流体镂空（Liquid cutout）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n用连续流体轮廓切出孔洞与通道，把负形当作构图的一部分。形成两至三层有厚度的有机曲面，边缘平滑但不规则，洞口露出不同距离的背景。主色控制在同一色相的深浅变化，用一处对比色标记视觉焦点。侧光让切口厚度和层间投影可见；主体保持清晰，不能只剩随机水波。避免熔化文字、杂乱孔洞和全画面均匀铺纹。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "sourceLabel": "Ilia 整理",
+    "group": "视觉风格",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/7f/0f/d6/7f0fd6e553703d72aa898359df2fe1d7.jpg",
+        "source": "https://www.pinterest.com/pin/660058889135625159/"
+      },
+      {
+        "alt": "其中包括图片：Blue Liquid Bubble Gradient Background",
+        "image": "https://i.pinimg.com/236x/ce/6d/e8/ce6de8785234d2714aa6f88dee63d648.jpg",
+        "source": "https://www.pinterest.com/pin/910712355906592373/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/f5/f1/27/f5f127247476686e25dbd9abd9062b16.jpg",
+        "source": "https://www.pinterest.com/pin/136796907427836046/"
+      }
+    ],
+    "originalPrompt": "使用流体镂空（Liquid cutout）作为视觉方向。\n流动的轮廓、镂空的负形与前后层次。\n根据我的主题和参考素材安排主体、构图与材质，保持整套视觉一致。",
+    "originalPromptEn": "",
+    "promptEn": "Create a complete Liquid cutout visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nFluid organic cutouts with deliberate negative space, two or three thick smooth layers, visible aperture edges and depth shadows. Tonal palette with one contrasting focal accent, soft side light. Preserve recognizable subjects; avoid random holes, melted lettering and uniform decorative noise.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "ilia-diffuse",
+    "name": "柔光弥散",
+    "english": "Soft diffuse glow",
+    "description": "柔和的散射光、模糊的色彩边缘与细腻的明暗过渡。",
+    "prompt": "将当前提供的主体与内容设计成柔光弥散（Soft diffuse glow）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n以柔和散射光和低反差色场建立氛围，色彩边界像透过磨砂玻璃观看，不能出现硬切的渐变带。采用米白、淡粉、浅紫或雾蓝中的两至三色，光晕集中在视觉焦点周围并逐步消散。主体边缘保留足够辨识度，背景更柔，适度细颗粒避免数码感过强。构图留出安静区域承载信息。避免过曝白洞、浓重霓虹和整体失焦。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "sourceLabel": "Ilia 整理",
+    "group": "视觉风格",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/b8/20/7a/b8207a7c69408d93368f10bf54a8346a.jpg",
+        "source": "https://www.pinterest.com/pin/371758144262478253/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/77/be/0c/77be0c2b6c401a20755e9ca21c0a82e4.jpg",
+        "source": "https://www.pinterest.com/pin/1119918632350192914/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/0e/6f/f4/0e6ff4f2368037a37a796782e41b1c99.jpg",
+        "source": "https://www.pinterest.com/pin/282671314106411725/"
+      }
+    ],
+    "originalPrompt": "使用柔光弥散（Soft diffuse glow）作为视觉方向。\n柔和的散射光、模糊的色彩边缘与细腻的明暗过渡。\n根据我的主题和参考素材安排主体、构图与材质，保持整套视觉一致。",
+    "originalPromptEn": "",
+    "promptEn": "Create a complete Soft diffuse glow visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nSoft scattered light, low-contrast color fields and frosted transitions in cream, blush, lilac or mist blue. Localized bloom fading naturally from the focal area, subtle grain and readable subject edges. Keep a quiet information area; avoid blown highlights, neon saturation and universal blur.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "ilia-tamae",
+    "name": "水上多摩江",
+    "english": "Tamae Mizukami",
+    "description": "以加入的作者作品为参考，观察色彩、构图与形态。",
+    "prompt": "将当前提供的主体与内容设计成水上多摩江（Tamae Mizukami）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n以已提供的水上多摩江作品为观察依据，先归纳实际可见的轮廓简化、色块关系、人物比例和画面节奏，再将这些特征用于新的主题。不要凭作者姓名虚构固定配方。优先保留参考中的平面形态、手绘边缘和有限色彩关系，以原创人物、物件或场景重新组织叙事。构图疏密、底色和肌理强度跟随所选参考，避免直接重画原作、套用通用日系滤镜或添加参考里没有的装饰。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "sourceLabel": "Ilia 整理",
+    "group": "视觉风格",
+    "references": [
+      {
+        "alt": "其中包括图片：| tamae mizukami | Tokyo Illustrators Society",
+        "image": "https://i.pinimg.com/236x/9b/b3/47/9bb347a43f6a4d245bc1eeba86ecb5b0.jpg",
+        "source": "https://www.pinterest.com/pin/135459901283757778/"
+      },
+      {
+        "alt": "其中包括图片：tamae mizukami | Tokyo Illustrators Society",
+        "image": "https://i.pinimg.com/236x/05/b0/2f/05b02f5b95b506e6d59fa84ec8f3f6e6.jpg",
+        "source": "https://www.pinterest.com/pin/171840542026773511/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/63/8e/1e/638e1edaf6d9fb6ca11e3ee96e2a845a.jpg",
+        "source": "https://www.pinterest.com/pin/513058582530429929/"
+      }
+    ],
+    "originalPrompt": "使用水上多摩江（Tamae Mizukami）作为视觉方向。\n以加入的作者作品为参考，观察色彩、构图与形态。\n根据我的主题和参考素材安排主体、构图与材质，保持整套视觉一致。",
+    "originalPromptEn": "",
+    "promptEn": "Create a complete Tamae Mizukami visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nStudy the supplied Tamae Mizukami references for observable shape simplification, color relationships, proportions and compositional rhythm. Translate those visible features into an original subject and arrangement. Derive palette, texture and spacing from the actual reference rather than assumptions about the name; do not duplicate an existing composition.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "ilia-nouveau",
+    "name": "奇幻新艺术风",
+    "english": "Whimsical Art Nouveau",
+    "description": "植物般的曲线、装饰边框、自然纹样与奇幻叙事。",
+    "prompt": "将当前提供的主体与内容设计成奇幻新艺术风（Whimsical Art Nouveau）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n用新艺术的植物曲线、长茎、花瓣和流动发丝组织画面，加入克制的奇幻叙事。主形体采用修长轮廓，外围藤蔓形成可阅读的装饰框架，中间留出呼吸空间。苔绿、奶油色和褪色金色为基础，局部暗红点睛；平面色块配细腻线描和纸张颗粒。装饰跟随主体走向而非随意贴花。避免现代霓虹、机械齿轮、过密花边和模糊的装饰性文字。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "sourceLabel": "Ilia 整理",
+    "group": "艺术史",
+    "references": [
+      {
+        "alt": "其中包括图片：Art Nouveau Hand Drawn Illustration Collection",
+        "image": "https://i.pinimg.com/236x/b2/45/74/b24574e55d3db18229d43557f451e014.jpg",
+        "source": "https://www.pinterest.com/pin/663577326380600571/"
+      },
+      {
+        "alt": "5 Graphic Design Styles You Should Know 🎨\n✨ Swiss Style: Known for its clean grids and bold typography.\n✨ Memphis: Playful shapes and colorful patterns are its hallmark.\n✨ Art Nouveau: Features flowing curves inspired by nature.\n✨ Grunge: Characterized by rough textures and rebellious layouts.\n✨ Surrealist Collage: Unexpected combinations that evoke dreams.\n#graphicdesign #designideas",
+        "image": "https://i.pinimg.com/236x/36/d5/bc/36d5bc695d38df7eaac894f0e0182e61.jpg",
+        "source": "https://www.pinterest.com/pin/1129488781588011263/"
+      },
+      {
+        "alt": "其中包括图片：Elegant Art Nouveau Printable Stationery Page - Gold Teal Floral Border",
+        "image": "https://i.pinimg.com/236x/36/e7/d1/36e7d1fb5286adcc0d163120b9b3dbec.jpg",
+        "source": "https://www.pinterest.com/pin/741686632422668979/"
+      }
+    ],
+    "originalPrompt": "使用奇幻新艺术风（Whimsical Art Nouveau）作为视觉方向。\n植物般的曲线、装饰边框、自然纹样与奇幻叙事。\n根据我的主题和参考素材安排主体、构图与材质，保持整套视觉一致。",
+    "originalPromptEn": "",
+    "promptEn": "Create a complete Whimsical Art Nouveau visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nWhimsical Art Nouveau with elongated silhouettes, botanical whiplash curves and an airy ornamental frame. Moss green, cream and muted gold with a small oxblood accent; flat colors, delicate ink lines and paper grain. Let ornament follow the subject; avoid neon, machinery, crowded borders and illegible decorative text.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "ilia-chrome",
+    "name": "液态铬金属",
+    "english": "Liquid chrome",
+    "description": "流动的镜面金属，高反射的银色表面与液态轮廓。",
+    "prompt": "将当前提供的主体与内容设计成液态铬金属（Liquid chrome）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n将主体塑造成高反射银色液态金属，表面连续光滑，具有表面张力形成的鼓起、收束与圆润滴落。用清晰的暗部、长条高光和周围环境的抽象映射表达镜面，而不是把银色涂成灰色。深灰或纯净浅色背景衬托轮廓，允许一处冷蓝反光。采用大柔光箱和窄条轮廓光，保持金属边缘清楚。避免粗糙石材、泡沫橡胶、满屏炫光和不合理的反射方向。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "sourceLabel": "Ilia 整理",
+    "group": "AI 视觉",
+    "references": [
+      {
+        "alt": "其中包括图片：Download premium image of Editable 3D liquid chrome abstract shape design element set by Nunny about liquid metal, chrome, liquid chrome, liquid metal shape, and element silver 15206129",
+        "image": "https://i.pinimg.com/236x/b9/dd/bd/b9ddbd7443f618853e0d1302aba7d799.jpg",
+        "source": "https://www.pinterest.com/pin/293508100737737600/"
+      },
+      {
+        "alt": "其中包括图片：hellon't",
+        "image": "https://i.pinimg.com/236x/cc/db/4a/ccdb4abb6f462e5920a219c3db2a4f7c.jpg",
+        "source": "https://www.pinterest.com/pin/612137774396717180/"
+      },
+      {
+        "alt": "其中包括图片：Y2K Liquid Chrome Metallic Hands Graphic",
+        "image": "https://i.pinimg.com/236x/35/01/93/350193be37a700390482c18eeb4fa0cc.jpg",
+        "source": "https://www.pinterest.com/pin/1144688430314455678/"
+      }
+    ],
+    "originalPrompt": "使用液态铬金属（Liquid chrome）作为视觉方向。\n流动的镜面金属，高反射的银色表面与液态轮廓。\n根据我的主题和参考素材安排主体、构图与材质，保持整套视觉一致。",
+    "originalPromptEn": "",
+    "promptEn": "Create a complete Liquid chrome visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nPolished liquid silver with continuous surfaces, rounded droplets and surface-tension necks. Long softbox highlights, deep reflected darks and one restrained cool-blue reflection; clean dark or light backdrop. Maintain sharp silhouettes and consistent reflections; avoid gray paint, rough stone, rubber and excessive flares.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-ai01",
+    "name": "米白色系",
+    "english": "Shades of Off-White",
+    "description": "暖调的off-white，不是纯白、也不高饱和，这让技术感更温和、克制、可信",
+    "prompt": "将当前提供的主体与内容设计成米白色系（Shades of Off-White）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n以暖调米白建立克制、温和的视觉秩序，使用象牙白、燕麦色、浅灰褐与少量炭黑。通过纸张、亚麻、哑光陶瓷的微小肌理区分层级，不依赖鲜艳色块。采用自然窗光和宽而轻的阴影，画面以对齐、留白、细线与有分寸的文字尺度组织。主体和背景至少有一档明度差。避免纯白刺眼背景、低对比到看不清的文字和无意义的大面积装饰渐变。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Shades of Off-White visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nWarm off-white, ivory, oat and light taupe with restrained charcoal. Paper, linen and matte ceramic microtextures, natural window light and broad faint shadows. Build hierarchy with spacing, alignment and fine rules; maintain readable contrast. Avoid stark white glare and decorative gradients.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "视觉风格",
+    "references": [
+      {
+        "image": "https://lilian.world/styleguide/img/ai01/01.jpg",
+        "source": "https://www.acolorbright.com/en/insights/aesthetics-of-ai",
+        "label": "报告原图 · MAI"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai01/02.jpg",
+        "source": "https://www.acolorbright.com/en/insights/aesthetics-of-ai",
+        "label": "报告原图 · Intercom"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai01/03.jpg",
+        "source": "https://www.acolorbright.com/en/insights/aesthetics-of-ai",
+        "label": "报告原图 · Sierra"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai01/04.jpg",
+        "source": "https://www.acolorbright.com/en/insights/aesthetics-of-ai",
+        "label": "报告原图 · Cursor"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai01/05.jpg",
+        "source": "https://www.acolorbright.com/en/insights/aesthetics-of-ai",
+        "label": "报告原图 · Anthropic"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai01/06.jpg",
+        "source": "https://microsoft.ai",
+        "label": "官网截图 · mai"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai01/07.jpg",
+        "source": "https://microsoft.ai/news/",
+        "label": "官网截图 · mai-news"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai01/08.jpg",
+        "source": "https://www.intercom.com/",
+        "label": "官网截图 · intercom"
+      }
+    ],
+    "originalPrompt": "照这个风格来：米白色系（Shades of Off-White）。\n暖调的off-white，不是纯白、也不高饱和，这让技术感更温和、克制、可信\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Shades of Off-White.\nWarm off-white instead of pure white or anything saturated. It makes the technology feel calmer and easier to trust.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-ai02",
+    "name": "有机渐变",
+    "english": "Organic Gradients",
+    "description": "不是普通线性渐变，而是像云雾、液体、光晕般柔软的有机渐变，更有识别度",
+    "prompt": "将当前提供的主体与内容设计成有机渐变（Organic Gradients）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n让渐变像云雾、液体或透光薄膜在空间中自然混合，颜色由多个柔软场域相互渗透，而非沿一条直线均匀过渡。只选两至三个相邻主色，少量暖冷碰撞形成焦点，边缘低对比，局部保留较清晰形态。大尺度色块主导画面，细颗粒控制在近看才可见。信息区域保持稳定底色。避免彩虹全色、条带、随机发光球和把每个模块都做成不同渐变。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Organic Gradients visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nCloudlike multi-center organic gradients rather than a single linear blend. Two or three related hues, a controlled warm-cool focal intersection, large flowing fields and subtle grain. Keep stable quiet zones for information; avoid rainbow palettes, banding and unrelated gradients on every module.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "视觉风格",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/ee/f5/03/eef5037ca31ff56d2a165a3e7717e5dd.jpg",
+        "source": "https://www.pinterest.com/pin/706080047871119322/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/56/ce/71/56ce713ac3524dfeb43701f40d334093.jpg",
+        "source": "https://www.pinterest.com/pin/1053912750310132801/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/12/cd/49/12cd49a05b72f0142c7c51d27f5322c9.jpg",
+        "source": "https://www.pinterest.com/pin/588282770114519073/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：有机渐变（Organic Gradients）。\n不是普通线性渐变，而是像云雾、液体、光晕般柔软的有机渐变，更有识别度\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Organic Gradients.\nNot a plain linear gradient. Soft and organic, closer to mist, liquid or a halo, which is what makes it recognisable.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-ai03",
+    "name": "数字印象派",
+    "english": "Digital Impressionism",
+    "description": "故意做得朦胧、模糊、失焦，重点不是解释AI，而是营造情绪和对于技术的想象空间",
+    "prompt": "将当前提供的主体与内容设计成数字印象派（Digital Impressionism）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n用可见的数字笔触、短色块与局部失焦捕捉光线和瞬间情绪，让远景融合、近景保留少量方向明确的笔触。配色从真实场景中提取，阴影里加入冷色，受光面保留暖色，避免直接套滤镜。通过明暗团块建立主体，再以点状高光引导视线。画面有空气感，但主体姿态和故事仍可识别。避免过度锐化、均匀涂抹、照片表面盖一层假油画纹理。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Digital Impressionism visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nDigital impressionist marks with deliberate short color patches, warm lit planes and cool shadow notes. Merge distant forms while retaining directional strokes near the focal subject. Build large value masses first, then sparse light accents; preserve gesture and atmosphere without uniform blur or a generic painting filter.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "AI 视觉",
+    "references": [
+      {
+        "image": "https://lilian.world/styleguide/img/ai03/01.jpg",
+        "source": "https://cdn.sanity.io/files/ulktiuek/production/3a7d172c769fea0e49660642f12194c13b841b78.pdf#page=12",
+        "label": "OpenAI"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai03/02.jpg",
+        "source": "https://media.superradiance.net/cdn-cgi/image/width=1800,fit=scale-down,format=auto,onerror=redirect/memotv/projects/2020/deep-meditations-we-are-all-connected-studies/images/deep-meditations-we-are-all-connected-studies.jpg",
+        "label": "Memo Akten"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai03/03.jpg",
+        "source": "https://v3b.fal.media/files/b/0aa2a1a0/7r9D_BVT3VK7MAtfsHBj9.jpg",
+        "label": "fal.ai"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai03/04.jpg",
+        "source": "https://v3b.fal.media/files/b/0aa7657e/LlavC7cCdZ_GGyvyglA82.jpg",
+        "label": "fal.ai"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai03/05.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Agapanthus_--_2025_--_8489.jpg",
+        "label": "Dietmar Rabich"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai03/06.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Darss,_Born_a._Darss_(_1100847).jpg",
+        "label": "Matti Blume"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai03/07.jpg",
+        "source": "https://commons.wikimedia.org/wiki/File:Abstract_ICM_image_of_a_forest.jpg",
+        "label": "sagesolar"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai03/08.jpg",
+        "source": "https://www.wimvanteeffelen.nl/icm.shtml",
+        "label": "Wim van Teeffelen"
+      }
+    ],
+    "originalPrompt": "照这个风格来：数字印象派（Digital Impressionism）。\n故意做得朦胧、模糊、失焦，重点不是解释AI，而是营造情绪和对于技术的想象空间\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Digital Impressionism.\nDeliberately hazy, blurred, out of focus. It is not explaining anything, it is setting a mood and leaving room to imagine.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-ai04",
+    "name": "Lomo感影像",
+    "english": "Lomo Imagery",
+    "description": "高反差、漏光、偏色、模糊等风格回潮，让 AI 看起来没那么冷，更有探索感和创造力",
+    "prompt": "将当前提供的主体与内容设计成Lomo感影像（Lomo Imagery）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n模拟轻型胶片相机的随手拍感，以真实主体、近距离视角和略带偏斜的构图建立临场感。允许高反差、轻微偏青或偏暖、暗角、细颗粒与少量边缘漏光，但选择两三种特征，不全叠加。主体焦点仍清晰，周边可有轻微运动模糊；颜色受现场光线影响。避免精确对称的商业棚拍、过强HDR和遮住主体的大块漏光。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Lomo Imagery visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nCandid compact-film photography with close viewpoints and slightly off-axis framing. Choose a few restrained traits: contrast, mild color cast, vignetting, fine grain or peripheral light leaks. Keep the focal subject recognizable with optional peripheral motion blur; avoid HDR, perfect studio symmetry and overwhelming light leaks.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "视觉风格",
+    "references": [
+      {
+        "image": "https://lilian.world/styleguide/img/ai04/01.jpg",
+        "source": "https://images.squarespace-cdn.com/content/v1/555b8fb9e4b013d27c81ea8e/1782242803482-U8VDTWSR3A797QR0PPFE/20250422_Tractor_Cherry_Blossoms_Rami%2BSara_0056_V4-2_Web.jpg",
+        "label": "Ryan McGinley"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai04/02.jpg",
+        "source": "https://images.squarespace-cdn.com/content/v1/555b8fb9e4b013d27c81ea8e/1782242805538-ISVFCE5OZXQNIQZ3X5SN/20250430_ManHole_Steam_1_Marcus%2BPaulie_0416_V1_Web.jpg",
+        "label": "Ryan McGinley"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai04/03.jpg",
+        "source": "https://images.squarespace-cdn.com/content/v1/555b8fb9e4b013d27c81ea8e/1782242815284-77Y9BJM407IEE7XMZEEW/20250909_Candi_and_Vice_Hotel_0566_V3_FREAK_Web.jpg",
+        "label": "Ryan McGinley"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai04/04.jpg",
+        "source": "https://www.pinterest.com/pin/10977592836357135/",
+        "label": "Pinterest"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai04/05.jpg",
+        "source": "https://www.pinterest.com/pin/155303888029179399/",
+        "label": "Pinterest"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai04/06.jpg",
+        "source": "https://www.pinterest.com/pin/198862139792731439/",
+        "label": "Pinterest"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai04/07.jpg",
+        "source": "https://www.pinterest.com/pin/224194887688491908/",
+        "label": "Pinterest"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai04/08.jpg",
+        "source": "https://www.pinterest.com/pin/23221754323892384/",
+        "label": "Pinterest"
+      }
+    ],
+    "originalPrompt": "照这个风格来：Lomo感影像（Lomo Imagery）。\n高反差、漏光、偏色、模糊等风格回潮，让 AI 看起来没那么冷，更有探索感和创造力\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Lomo Imagery.\nHigh contrast, light leaks, shifted colour, blur. It makes the work look less cold and more like someone out exploring.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-ai05",
+    "name": "当代写实",
+    "english": "Contemporary Realism",
+    "description": "用写实图像强化 AI 很强、很准、很可靠的感受，让抽象技术变得更可感知～",
+    "prompt": "将当前提供的主体与内容设计成当代写实（Contemporary Realism）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n以当代纪实或高质量商业摄影的真实感呈现主体，材料反应、比例、光线方向与景深保持一致。使用接近现实的色彩和不过度修饰的表面细节，人物保留自然皮肤纹理，物体保留合理接缝、磨损和尺度参照。构图围绕明确的一个行动或产品特征展开。选择自然光或可解释的布光。避免塑料皮肤、过度锐化、悬浮无接触阴影和物理不可能的结构。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Contemporary Realism visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nContemporary photographic realism with coherent scale, materials, light direction and depth of field. Natural skin and surface details, believable joints and contact shadows, restrained grading. Compose around one clear action or product feature with explainable lighting; avoid plastic skin, oversharpening and impossible structures.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "视觉风格",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/0a/a8/60/0aa86073060f2e4354c9fc7ff372afed.jpg",
+        "source": "https://www.pinterest.com/pin/779896860517771884/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/13/fd/53/13fd530ddecad490a122494ee95f2579.jpg",
+        "source": "https://www.pinterest.com/pin/140806234698016/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/73/ce/ac/73ceaca7dda591a4758728e114c5d87c.jpg",
+        "source": "https://www.pinterest.com/pin/42010209019982024/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：当代写实（Contemporary Realism）。\n用写实图像强化 AI 很强、很准、很可靠的感受，让抽象技术变得更可感知～\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Contemporary Realism.\nPhotographic realism used to make something abstract feel precise and dependable.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-ai06",
+    "name": "草图与涂鸦",
+    "english": "Sketch and Scribble",
+    "description": "手绘线条、白板笔记、scribble等元素也很常见，用来对抗“机器过于完美”的感受，把人的思考痕迹带回来",
+    "prompt": "将当前提供的主体与内容设计成草图与涂鸦（Sketch and Scribble）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n以铅笔、细记号笔或白板笔的思考痕迹组织视觉，线条保留速度变化、轻微重复和不完全闭合。黑灰线条配纸白底色，一处彩色标记用来强调关键关系。箭头、圈注和小草图必须服务内容，形成从观察到结论的阅读顺序。粗细至少分主线和辅助线两级，空白足够。避免把杂乱当手绘感、随机伪文字和所有元素都加涂鸦边框。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Sketch and Scribble visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nHuman sketch marks with variable pressure, slight retracing and imperfect closures. Black-gray ink on paper white with one emphasis color. Use arrows, circles and small diagrams only to explain a real relationship, with a clear reading sequence and two line weights; avoid random scribbles and fake annotations.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "视觉风格",
+    "references": [
+      {
+        "image": "https://lilian.world/styleguide/img/ai06/01.jpg",
+        "source": "https://xhslink.cn/o/1FA5rwJpyUE",
+        "label": "小红书卡"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai06/02.jpg",
+        "source": "https://xhslink.cn/o/1FA5rwJpyUE",
+        "label": "小红书卡"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai06/03.jpg",
+        "source": "https://i.pinimg.com/originals/7d/2c/f9/7d2cf969b8759019b638d17e8a1c22f6.jpg",
+        "label": "Pinterest"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai06/04.jpg",
+        "source": "https://i.pinimg.com/originals/7f/fa/28/7ffa283ae5ee77c63d486fd3ef623432.jpg",
+        "label": "Pinterest"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai06/05.jpg",
+        "source": "https://i.pinimg.com/originals/84/bf/f9/84bff9348ffdae8e5c0e4a8db43e7754.jpg",
+        "label": "Pinterest"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai06/06.jpg",
+        "source": "https://i.pinimg.com/originals/92/52/ed/9252ed91d6a877d5e163c315d60e703f.jpg",
+        "label": "Pinterest"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai06/07.jpg",
+        "source": "https://i.pinimg.com/originals/68/9a/b6/689ab6f89418d21af98a968308158ef0.jpg",
+        "label": "Pinterest"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai06/08.jpg",
+        "source": "https://i.pinimg.com/originals/bf/93/dd/bf93ddcfa0a52dbdd5aca744f391118b.jpg",
+        "label": "Pinterest"
+      }
+    ],
+    "originalPrompt": "照这个风格来：草图与涂鸦（Sketch and Scribble）。\n手绘线条、白板笔记、scribble等元素也很常见，用来对抗“机器过于完美”的感受，把人的思考痕迹带回来\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Sketch and Scribble.\nHand drawn lines, whiteboard notes, scribbles. It pushes back on machine perfection and puts human thinking back in the frame.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-ai07",
+    "name": "非品牌化学院风",
+    "english": "Non-Brand Academia",
+    "description": "极简排版、低调配色、功能性布局，看起来像实验室主页，传递“我们靠技术和成果”的信息",
+    "prompt": "将当前提供的主体与内容设计成非品牌化学院风（Non-Brand Academia）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n以研究机构主页、工作论文或实验记录的清晰秩序组织画面。白色或浅灰底、黑色正文、少量蓝色链接，采用朴素衬线标题或中性无衬线，按内容层级分配字号。图表、日期、作者、编号围绕真实信息安排；布局优先单栏或稳定网格，分隔线细而克制。视觉信任来自信息清楚，而不是装饰。避免巨大渐变标题、漂浮玻璃卡片和空洞的科技符号。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Non-Brand Academia visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nUnderstated academic presentation: white or light gray, black type and restrained blue links. Plain serif headings or neutral sans, stable single-column or grid structure, modest rules and meaningful author/date/figure metadata. Let information establish credibility; avoid gradient slogans, floating glass cards and arbitrary tech symbols.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "潮流与亚文化风格",
+    "references": [
+      {
+        "alt": "其中包括图片：Art academia",
+        "image": "https://i.pinimg.com/236x/4e/97/3f/4e973f2677c0463a2d6c8176616401b6.jpg",
+        "source": "https://www.pinterest.com/pin/321233385938301703/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/5d/c1/98/5dc198f7da6e6ca1d22998b288d60db9.jpg",
+        "source": "https://www.pinterest.com/pin/9710955442673488/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/ad/b8/94/adb8946da1ad1d7a35d08b3641e0cbf7.jpg",
+        "source": "https://www.pinterest.com/pin/599893612903410123/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：非品牌化学院风（Non-Brand Academia）。\n极简排版、低调配色、功能性布局，看起来像实验室主页，传递“我们靠技术和成果”的信息\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Non-Brand Academia.\nMinimal type, quiet colour, functional layout. It reads like a lab homepage and lets the work speak.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-ai08",
+    "name": "技术插图",
+    "english": "Technical Illustrations",
+    "description": "工程图、系统图、示意图很多，未必真在解释原理，但会强化硬核、严谨、专业的印象",
+    "prompt": "将当前提供的主体与内容设计成技术插图（Technical Illustrations）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n将主题拆成真实可理解的部件、流程或连接关系，使用等轴测、正交剖面或系统示意中的一种主视图。线宽、箭头、标注和编号保持一致，重要路径用一个强调色，其他结构用灰蓝细线。必要的爆炸图明确零件装配顺序，剖切处与外轮廓有区分。背景干净，文字有足够空间。避免假数据、无意义电路、互相矛盾的透视和无法对应部件的注释。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Technical Illustrations visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nTechnical illustration with one consistent isometric, orthographic or cutaway view. Accurate part relationships, systematic line weights, arrows and numbering; one accent highlights the key flow against gray-blue structure. Use exploded views only when assembly order is meaningful; avoid fake data, conflicting perspective and decorative circuits.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "视觉风格",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/4b/d3/43/4bd3439e18c7103f825f52938f329f8d.jpg",
+        "source": "https://www.pinterest.com/pin/1017180265844266830/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/a5/a7/5f/a5a75fe0086506494ebda7f0dde49d46.jpg",
+        "source": "https://www.pinterest.com/pin/654077545929981972/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/24/42/87/244287190f37b057e65364b6884fe938.jpg",
+        "source": "https://www.pinterest.com/pin/245024035960654484/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：技术插图（Technical Illustrations）。\n工程图、系统图、示意图很多，未必真在解释原理，但会强化硬核、严谨、专业的印象\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Technical Illustrations.\nEngineering drawings, system diagrams, schematics. They rarely explain the real mechanism, they signal rigour.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-ai09",
+    "name": "古怪的可爱感",
+    "english": "Quirky Cuteness",
+    "description": "吉祥物、小怪兽、拟人角色，像给复杂技术加了一个缓冲层，增加品牌亲和度",
+    "prompt": "将当前提供的主体与内容设计成古怪的可爱感（Quirky Cuteness）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n设计一个轮廓容易记住、略带不对称的小角色，以圆润体块、简洁五官和一个独特的小缺点制造亲近感。颜色控制在三种以内，背景留白，姿态表达好奇、犹豫或开心中的一种明确情绪。材质可选择纸感、黏土或柔软织物，但整组保持一致。配件必须与角色用途有关。避免通用大眼萌脸、过量腮红、恐怖牙齿和装饰多到认不出主体。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Quirky Cuteness visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nA memorable quirky mascot with rounded volumes, simple features and one endearing asymmetry. Limit the palette to three colors, use one consistent paper, clay or fabric material, and express a clear emotion through posture. Meaningful accessories only; avoid generic oversized eyes, excessive blush and clutter.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "潮流与亚文化风格",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/6d/44/61/6d4461a88f75e927bb94d04f23f6ec2c.jpg",
+        "source": "https://www.pinterest.com/pin/657525614393684185/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/b6/ae/0e/b6ae0e62aba4607101b3519e92104635.jpg",
+        "source": "https://www.pinterest.com/pin/905856912700375409/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/ec/3d/f5/ec3df5ada5959e5e09239c6a3b2a46d7.jpg",
+        "source": "https://www.pinterest.com/pin/211174977779063/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：古怪的可爱感（Quirky Cuteness）。\n吉祥物、小怪兽、拟人角色，像给复杂技术加了一个缓冲层，增加品牌亲和度\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Quirky Cuteness.\nMascots, little monsters, characters with faces. A soft layer in front of something complicated.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-ai10",
+    "name": "变形中的物体",
+    "english": "Morphing Objects",
+    "description": "流动、变形、生成中的形体，不是在表现完成品，而是在表现持续学习和演化的状态",
+    "prompt": "将当前提供的主体与内容设计成变形中的物体（Morphing Objects）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n表现物体在两个清晰形态之间持续转变的中间状态，原形和目标形至少各保留一个识别特征。曲面平滑连续，体积大致守恒，拉伸、折叠或融合选择一种主要运动逻辑。用连续反光和软阴影说明形体走向，背景简洁，颜色沿变形表面保持一致。静态画面捕捉最有张力的一刻；视频让开始、过渡和结束可辨。避免随机液化、闪烁纹理和完全失去主体。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Morphing Objects visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nA readable intermediate state between two recognizable forms. Preserve an identifying feature of each, approximate volume continuity and one primary stretch, fold or merge logic. Continuous highlights and soft shadows explain the evolving surface. For motion show clear start, transition and end; avoid arbitrary liquefaction and texture flicker.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "AI 视觉",
+    "references": [
+      {
+        "image": "https://lilian.world/styleguide/img/ai10/01.jpg",
+        "source": "https://ariweinkle.com/wp-content/uploads/2016/06/Spirals_Cover.jpg",
+        "label": "Ari Weinkle"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai10/02.jpg",
+        "source": "https://ariweinkle.com/wp-content/uploads/2017/07/Glasswave_Cover.jpg",
+        "label": "Ari Weinkle"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai10/03.jpg",
+        "source": "https://ariweinkle.com/wp-content/uploads/2018/06/Moodles_Cover.jpg",
+        "label": "Ari Weinkle"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai10/04.jpg",
+        "source": "https://ariweinkle.com/wp-content/uploads/2022/07/Untitled-Cover.jpg",
+        "label": "Ari Weinkle"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai10/05.jpg",
+        "source": "https://zhestkov.studio/wp-content/uploads/2023/04/computations_05_hd.jpg",
+        "label": "Maxim Zhestkov"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai10/06.jpg",
+        "source": "https://cdn.sanity.io/files/ulktiuek/production/3a7d172c769fea0e49660642f12194c13b841b78.pdf#page=19",
+        "label": "ElevenLabs"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai10/07.jpg",
+        "source": "https://zhestkov.studio/project/artificial-organisms/",
+        "label": "Maxim Zhestkov"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai10/08.jpg",
+        "source": "https://zhestkov.studio/project/volumes/",
+        "label": "Maxim Zhestkov"
+      }
+    ],
+    "originalPrompt": "照这个风格来：变形中的物体（Morphing Objects）。\n流动、变形、生成中的形体，不是在表现完成品，而是在表现持续学习和演化的状态\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Morphing Objects.\nForms that are flowing, deforming, still becoming. It shows a thing mid change rather than a finished object.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-ai11",
+    "name": "未来超现实",
+    "english": "Futuristic Surrealism",
+    "description": "用梦境般、异世界般的视觉宇宙，传达 AI 打开新可能世界的感觉",
+    "prompt": "将当前提供的主体与内容设计成未来超现实（Futuristic Surrealism）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n在可信的空间透视中加入一处超现实规则，例如尺度反转、漂浮结构或不可能的材质转换，其他物体仍遵循统一光线。以有限冷色配一处暖色焦点，场景保留空旷感和明确前中后景。主体具有真实材料细节，让奇异之处更有说服力。构图强调探索与发现。避免把所有科幻元素同时塞入、随机文字、没有层次的发光雾和缺乏尺度参照的场景。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Futuristic Surrealism visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nA believable spatial setting governed by one surreal exception: inverted scale, levitation or an impossible material transition. Consistent lighting elsewhere, a restrained cool palette and one warm focal accent, clear depth layers and a sense of discovery. Avoid piling on unrelated sci-fi motifs, random text and depthless glowing fog.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "AI 视觉",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/92/74/4f/92744f75d767d5fa9e2f175c1d8a61a1.jpg",
+        "source": "https://www.pinterest.com/pin/2462974792876876/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/e4/c3/e5/e4c3e5f748214174821be16fefbd0537.jpg",
+        "source": "https://www.pinterest.com/pin/1008736016562592103/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/5c/ea/58/5cea587c9797ae58dee43c840cc3ef25.jpg",
+        "source": "https://www.pinterest.com/pin/1086563847579297933/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：未来超现实（Futuristic Surrealism）。\n用梦境般、异世界般的视觉宇宙，传达 AI 打开新可能世界的感觉\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Futuristic Surrealism.\nDreamlike, other worldly imagery. It suggests a set of possibilities that just opened up.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-ai12",
+    "name": "太空意象",
+    "english": "Outer Space",
+    "description": "星空、银河、光束依然高频，虽然有点经典，但依旧是“探索未知”的高效隐喻",
+    "prompt": "将当前提供的主体与内容设计成太空意象（Outer Space）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n以深空的尺度与稀疏感表现探索主题，用暗蓝黑背景、少量星光和一处星体、轨道或光束形成主视线。星点大小、亮度和密度有明显变化，星云只在局部提供柔软层次。给主体留出负空间，用轮廓光或受光面说明天体的体积与光源方向。若出现飞行器，提供合理尺度。避免均匀星点壁纸、满屏紫色烟雾、过量镜头光晕和不合理的多重恒星照明。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Outer Space visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nDeep-space scale and sparsity: near-black navy, varied faint stars and one planet, orbit or beam as focal structure. Localized nebular depth, generous negative space and consistent illuminated hemispheres or rim light. Give spacecraft scale cues; avoid uniform star wallpaper, purple fog everywhere and excessive flares.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "AI 视觉",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/d2/3b/85/d23b85e0b606ee75548311c783df317a.jpg",
+        "source": "https://www.pinterest.com/pin/352828952080592092/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/49/93/d4/4993d4844e9d1d19ad9062db52a377f6.jpg",
+        "source": "https://www.pinterest.com/pin/1064608799441713773/"
+      },
+      {
+        "alt": "其中包括图片：Space",
+        "image": "https://i.pinimg.com/236x/e4/5a/5b/e45a5bfd32f23e45c8febd19e5c1eb8c.jpg",
+        "source": "https://www.pinterest.com/pin/819303357246271094/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：太空意象（Outer Space）。\n星空、银河、光束依然高频，虽然有点经典，但依旧是“探索未知”的高效隐喻\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Outer Space.\nStars, galaxies, beams of light. Familiar by now, still the fastest shorthand for exploring the unknown.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-ai13",
+    "name": "ASCII 与像素风",
+    "english": "ASCII and Pixels",
+    "description": "早期互联网风格回归，让 AI 看起来更友好，也更有nerd气质",
+    "prompt": "将当前提供的主体与内容设计成ASCII 与像素风（ASCII and Pixels）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n先选择字符画或像素块作为主要表达方式，再以有限网格构成主体。字符画使用等宽字和字符密度表现明暗，像素画使用清楚的阶梯轮廓与有限调色板。两种方式结合时分清主次，保持单元尺寸和基线一致。黑白、终端绿或少量早期网页色点缀即可。避免字符随机乱码、抗锯齿模糊边缘、不同像素密度混用和依靠不可读文字传达信息。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete ASCII and Pixels visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nChoose ASCII density or pixel blocks as the dominant system. Monospaced aligned characters describe values; pixel art uses crisp stepped edges and a limited palette. Keep cell sizes consistent and hierarchy clear when mixing them. Restrained monochrome or terminal accents; avoid random gibberish, blurred antialiasing and inconsistent grids.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "AI 视觉",
+    "references": [
+      {
+        "image": "https://lilian.world/styleguide/img/ai13/01.jpg",
+        "source": "",
+        "label": ""
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai13/02.jpg",
+        "source": "",
+        "label": ""
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai13/03.jpg",
+        "source": "",
+        "label": ""
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai13/04.jpg",
+        "source": "",
+        "label": ""
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai13/05.jpg",
+        "source": "",
+        "label": ""
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai13/06.jpg",
+        "source": "",
+        "label": ""
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai13/07.jpg",
+        "source": "",
+        "label": ""
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai13/08.jpg",
+        "source": "",
+        "label": ""
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai13/09.jpg",
+        "source": "",
+        "label": ""
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai13/10.jpg",
+        "source": "",
+        "label": ""
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai13/11.jpg",
+        "source": "",
+        "label": ""
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai13/12.jpg",
+        "source": "",
+        "label": ""
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai13/13.jpg",
+        "source": "",
+        "label": ""
+      }
+    ],
+    "originalPrompt": "照这个风格来：ASCII 与像素风（ASCII and Pixels）。\n早期互联网风格回归，让 AI 看起来更友好，也更有nerd气质\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: ASCII and Pixels.\nEarly internet texture brought back. Friendlier, and a little more nerdy.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-ai14",
+    "name": "生成艺术",
+    "english": "Generative Art",
+    "description": "算法图形、元胞自动机、规则驱动视觉，是很 AI 原生的一类方向，适合做成可生长的品牌系统。",
+    "prompt": "将当前提供的主体与内容设计成生成艺术（Generative Art）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n选定一种可说明的生成规则，例如粒子沿向量场运动、网格递归分裂或单元按邻居状态生长。在规则内通过密度、尺度或颜色的渐变建立焦点，保留重复与偶然之间的张力。使用两至四种颜色，细节密度从一处向外变化，给画面留出安静区域。系列延续同一规则，只改变少量参数。避免完全随机噪声、缺少层级的满铺花纹和无意义的科技装饰。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Generative Art visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nPick one legible generative rule: vector-field particles, recursive subdivision or neighborhood growth. Build hierarchy through density, scale or color variation within that rule, using two to four hues and a quiet region. Keep the rule consistent across a series; avoid undifferentiated noise and arbitrary tech ornament.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "AI 视觉",
+    "references": [
+      {
+        "image": "https://lilian.world/styleguide/img/ai14/01.jpg",
+        "source": "https://media.artblocks.io/78000041.png",
+        "label": "Tyler Hobbs · Fidenza (Art Blocks)"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai14/02.jpg",
+        "source": "https://media.artblocks.io/78000088.png",
+        "label": "Tyler Hobbs · Fidenza (Art Blocks)"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai14/03.jpg",
+        "source": "https://media.artblocks.io/13000041.png",
+        "label": "Dmitri Cherniak · Ringers (Art Blocks)"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai14/04.jpg",
+        "source": "https://media.artblocks.io/13000088.png",
+        "label": "Dmitri Cherniak · Ringers (Art Blocks)"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai14/05.jpg",
+        "source": "https://media.artblocks.io/23000007.png",
+        "label": "Kjetil Golid · Archetype (Art Blocks)"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai14/06.jpg",
+        "source": "https://media.artblocks.io/163000088.png",
+        "label": "Matt DesLauriers · Meridian (Art Blocks)"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai14/07.jpg",
+        "source": "https://media.artblocks.io/163000007.png",
+        "label": "Matt DesLauriers · Meridian (Art Blocks)"
+      },
+      {
+        "image": "https://lilian.world/styleguide/img/ai14/08.jpg",
+        "source": "https://cdn.sanity.io/images/6e7gp05s/production/08e5d57c0f1463ad267172736cab37492ce584af-1000x1250.png",
+        "label": "Tyler Hobbs"
+      }
+    ],
+    "originalPrompt": "照这个风格来：生成艺术（Generative Art）。\n算法图形、元胞自动机、规则驱动视觉，是很 AI 原生的一类方向，适合做成可生长的品牌系统。\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Generative Art.\nAlgorithmic form, cellular automata, rules making the image. Easy to grow into a whole system rather than one picture.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw01",
+    "name": "极光风",
+    "english": "Aurora",
+    "description": "流动的光影、低饱和度渐变、空灵氛围",
+    "prompt": "将当前提供的主体与内容设计成极光风（Aurora）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n让光带像高空极光幕一样沿纵向褶皱、弯折与缓缓流动，形成有方向的主弧线。暗靛蓝或深灰背景中使用低饱和青绿、蓝紫与少量粉色，亮部透明、边缘渐隐。主体若需承载信息，放在光带外的稳定暗部。光带疏密和明度有节奏。避免彩虹光圈、激光硬线和每一处都同样明亮。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Aurora visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nAurora curtains with vertical folds, directional arcs and translucent fading edges. Deep indigo with muted cyan, violet and a little pink; rhythmic density and luminance, quiet dark zones for information. Avoid rainbow rings, hard laser lines and evenly bright coverage.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "自然与抽象风格",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/64/46/0e/64460e78f99582f2d94e415e22da1121.jpg",
+        "source": "https://www.pinterest.com/pin/10414642883757845/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/4b/32/12/4b3212f0dc1a21ee262ad5a62d6892f1.jpg",
+        "source": "https://www.pinterest.com/pin/438256607513317045/"
+      },
+      {
+        "alt": "其中包括图片：Aurora Textures Digital Art",
+        "image": "https://i.pinimg.com/236x/7b/c9/7e/7bc97e61e42aeed43d7509d61d4df491.jpg",
+        "source": "https://www.pinterest.com/pin/758715868483119266/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：极光风（Aurora）。\n流动的光影、低饱和度渐变、空灵氛围\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Aurora.\nMoving light, low saturation gradients, an airy and weightless feel.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw02",
+    "name": "空灵风",
+    "english": "Ethereal",
+    "description": "柔焦、薄纱质感、珍珠光泽",
+    "prompt": "将当前提供的主体与内容设计成空灵风（Ethereal）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n营造轻盈、安静、近乎悬浮的空气感，以薄纱、雾气、半透明羽片或珍珠光泽中的一两种材质支撑主题。使用象牙白、雾蓝、淡薰衣草色，柔和逆光穿透薄层，边缘有细微亮线。构图以稀疏形体和轻微不对称留白为主，保留必要的轮廓清晰度。避免甜腻高饱和、强烈硬影和将所有细节磨成一片白雾。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Ethereal visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nAiry translucent gauze, mist, delicate feathers or pearlescence, choosing only a few coherent materials. Ivory, mist blue and lavender with soft transmitted backlight and delicate edge highlights. Sparse asymmetric composition with readable silhouettes; avoid sugary saturation, hard shadows and featureless white haze.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "自然与抽象风格",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/f9/3b/a0/f93ba028de1bfbaa15e2eb651621d4d0.jpg",
+        "source": "https://www.pinterest.com/pin/1091419290983252684/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/e9/39/07/e939071059c1e0db54397cc085c54886.jpg",
+        "source": "https://www.pinterest.com/pin/806777720772113492/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/ff/22/cc/ff22ccbbfc31371a7182b904f1dafe0b.jpg",
+        "source": "https://www.pinterest.com/pin/901916262887948015/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：空灵风（Ethereal）。\n柔焦、薄纱质感、珍珠光泽\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Ethereal.\nSoft focus, gauze-like texture, a pearl sheen.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw03",
+    "name": "莨苕叶风",
+    "english": "Acanthus",
+    "description": "古典卷叶纹样、巴洛克装饰",
+    "prompt": "将当前提供的主体与内容设计成莨苕叶风（Acanthus）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n以莨苕叶的裂片、卷曲叶尖和连续蔓枝构成古典纹样，纹样沿边框、轴线或器物曲面有逻辑地生长。象牙、石灰岩灰或暗绿为底，金色只用于少量凸起部位。叶脉线条和浮雕层次清楚，中心主体留出空白。选择雕刻、线描或织物提花的一种表现媒介。避免把所有植物混成通用花纹、无方向堆叠和廉价大面积亮金。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Acanthus visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nClassical acanthus lobes and curling tips growing along a frame, axis or object surface. Ivory, limestone gray or dark green with restrained gold relief accents. Choose carved relief, ink linework or woven pattern consistently, leaving a clear center. Avoid generic floral mixtures and indiscriminate shiny gold.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "艺术史",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/a6/8e/a6/a68ea614b3f5adf81e32ada4674e9cc6.jpg",
+        "source": "https://www.pinterest.com/pin/298011700362176212/"
+      },
+      {
+        "alt": "其中包括图片：Acanthus Leaf Design by Alexis Peyrotte",
+        "image": "https://i.pinimg.com/236x/6a/44/b4/6a44b49ef0d92302494dca903539580c.jpg",
+        "source": "https://www.pinterest.com/pin/854980310522762365/"
+      },
+      {
+        "alt": "Discover how to transform the classic Acanthus architectural style into striking poster designs.",
+        "image": "https://i.pinimg.com/474x/ec/4e/d4/ec4ed440967db98c1299737bd1f93f2b.jpg",
+        "source": "https://www.pinterest.com/pin/972496113298289895/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：莨苕叶风（Acanthus）。\n古典卷叶纹样、巴洛克装饰\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Acanthus.\nClassical scrolling leaf motifs, baroque ornament.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw04",
+    "name": "点彩画法风",
+    "english": "Pointillism",
+    "description": "通过密集的纯色小点构成画面",
+    "prompt": "将当前提供的主体与内容设计成点彩画法风（Pointillism）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n用可辨识的纯色小点并置成形，让颜色在观看距离中融合，近看仍能区分点的大小与颜色。亮面使用暖色点、阴影掺入冷色互补点，通过点密度而非模糊滤镜塑造体积。主体轮廓以色彩边界自然出现，保留纸面或画布呼吸。构图先有清晰明暗大块。避免机械网点、均匀彩噪和直接在照片上覆盖圆点纹理。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Pointillism visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nDistinct pure-color dots blend optically at a distance. Warm light dots and cooler complementary shadow notes build volume through density and color, with a clear large-scale value structure and breathing ground. Avoid mechanical halftone regularity, uniform noise and dots merely overlaid on a photograph.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "艺术史",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/97/37/81/9737814b021ced5fdcb6652f6129136e.jpg",
+        "source": "https://www.pinterest.com/pin/1142506999255558047/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/ff/5d/60/ff5d607ec10ee21026e1adfbde06ccb7.jpg",
+        "source": "https://www.pinterest.com/pin/603341681372367663/"
+      },
+      {
+        "alt": "其中包括图片：Paws and Ponder Pointillism Drawing",
+        "image": "https://i.pinimg.com/236x/5c/f7/b2/5cf7b2f0336b038003446417ba96c98d.jpg",
+        "source": "https://www.pinterest.com/pin/1086493478852527554/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：点彩画法风（Pointillism）。\n通过密集的纯色小点构成画面\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Pointillism.\nThe whole image built from dense dots of pure colour.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw05",
+    "name": "暗色调主义风",
+    "english": "Tenebrism",
+    "description": "强烈的明暗对比、强光照射",
+    "prompt": "将当前提供的主体与内容设计成暗色调主义风（Tenebrism）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n让单一强光从侧面或斜上方切入深暗背景，照亮面部、手部或物体的一处关键区域，其余部分逐渐沉入阴影。以黑褐、深酒红和暖肤色或象牙色构成受控色域，亮面有丰富细节，暗部保留少量轮廓线索。构图集中，光的方向必须一致。避免提亮全部阴影、彩色霓虹轮廓和没有主体关系的随意聚光。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Tenebrism visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nTenebrist darkness pierced by one strong lateral or high-side light, revealing a meaningful face, hand or object detail. Black-brown, oxblood and warm ivory or skin tones; detailed lights and sparse shadow cues. Maintain one lighting logic; avoid globally lifted shadows and neon outlines.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "艺术史",
+    "references": [
+      {
+        "alt": "其中包括图片：Tenebrism: Dramatic contrast and illuminated darkness",
+        "image": "https://i.pinimg.com/236x/a2/ff/c7/a2ffc7a07db624f9ab36a87c0956903d.jpg",
+        "source": "https://www.pinterest.com/pin/870602171734904732/"
+      },
+      {
+        "alt": "其中包括图片：Tenebrism - Wikiwand",
+        "image": "https://i.pinimg.com/236x/38/e5/08/38e5085864127425acfaba8400d62f1d.jpg",
+        "source": "https://www.pinterest.com/pin/307370743297715627/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/0d/60/41/0d60417b3d4faf8f9a6981ef1f51a5d8.jpg",
+        "source": "https://www.pinterest.com/pin/857583954087594649/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：暗色调主义风（Tenebrism）。\n强烈的明暗对比、强光照射\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Tenebrism.\nHard light against deep shadow, one strong source doing all the work.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw06",
+    "name": "Y2K",
+    "english": "Y2K",
+    "description": "荧光色、科技泡沫感、低多边形",
+    "prompt": "将当前提供的主体与内容设计成Y2K（Y2K）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n围绕千禧年数码乐观主义构建视觉，选择半透明塑料、充气字形、液态银与低多边形中的两种主元素。冰蓝、银色和糖果粉构成基调，少量荧光绿点缀。界面窗口、圆形按钮或贴纸形成有层次的构图，字形保持可读，表面反光清晰。避免把Y2K等同满屏霓虹赛博朋克、无序贴纸、重度噪声和所有材质同时混用。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Y2K visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nTurn-of-the-millennium digital optimism using two coherent motifs such as translucent plastic, inflated lettering, liquid silver or low-poly forms. Icy blue, silver and candy pink with a small lime accent. Layered windows or stickers and readable type; avoid indiscriminate cyberpunk neon and visual clutter.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "潮流与亚文化风格",
+    "references": [
+      {
+        "alt": "其中包括图片：Y2K graphic design",
+        "image": "https://i.pinimg.com/236x/15/b9/92/15b992a0c853a070600ba3a646584aab.jpg",
+        "source": "https://www.pinterest.com/pin/820147782185973846/"
+      },
+      {
+        "alt": "其中包括图片：Y2K ‘Effort Girl Era’ Poster Design by @urcxsha",
+        "image": "https://i.pinimg.com/236x/da/21/ed/da21eda3223a0cf15277a8e42289c80b.jpg",
+        "source": "https://www.pinterest.com/pin/803611127286861426/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/c5/db/d2/c5dbd2ff27140813a64e795468b9d028.jpg",
+        "source": "https://www.pinterest.com/pin/938437641135116966/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：Y2K（Y2K）。\n荧光色、科技泡沫感、低多边形\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Y2K.\nFluorescent colour, bubble era tech optimism, low poly shapes.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw07",
+    "name": "涂鸦",
+    "english": "Graffiti",
+    "description": "粗轮廓线、喷漆质感、街头感",
+    "prompt": "将当前提供的主体与内容设计成涂鸦（Graffiti）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n以喷漆的速度、粗轮廓和手势感建立街头表达，主图形先形成清晰可识别的轮廓，再加入喷雾边缘、滴落、模板痕迹和局部叠色。底材为混凝土、旧墙或纸张，强调色不超过三种。构图保留主标记与周围空白的对比。需要文字时使用用户给出的短语并保证可读。避免随机乱码、每处都滴漆和完全没有层级的满墙涂抹。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Graffiti visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nGestural graffiti with a recognizable primary silhouette, spray edges, selective drips and stencil traces on concrete, worn wall or paper. Up to three accent colors, strong focal-versus-empty contrast and legible supplied lettering. Avoid gibberish, dripping on every edge and hierarchy-free coverage.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "潮流与亚文化风格",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/9f/ee/cb/9feecb991b25d19a3cc5686f6bd92b1b.jpg",
+        "source": "https://www.pinterest.com/pin/1024920827736423497/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/84/9f/76/849f7634631512bf1860f410404b7589.jpg",
+        "source": "https://www.pinterest.com/pin/1104296771645519826/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/4a/8f/34/4a8f345052fa30f39812cbdb9500bf08.jpg",
+        "source": "https://www.pinterest.com/pin/908108712378344541/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：涂鸦（Graffiti）。\n粗轮廓线、喷漆质感、街头感\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Graffiti.\nThick outlines, spray paint texture, street surfaces.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw08",
+    "name": "卡哇伊",
+    "english": "Kawaii",
+    "description": "粉嫩色系、圆润",
+    "prompt": "将当前提供的主体与内容设计成卡哇伊（Kawaii）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n使用圆润、紧凑、易识别的形状与简洁表情建立温柔可爱感。奶油白、草莓粉、浅黄和薄荷色中选三色，轮廓线均匀，阴影柔软且少量。角色、物件和装饰统一比例，背景保留充足空白，一两个小配件表达故事即可。避免过多亮片腮红、塑料高光、五官拥挤和用杂乱贴纸代替构图。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Kawaii visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nGentle kawaii with compact rounded shapes, simple expressions and consistent proportions. Choose three hues from cream, strawberry pink, pale yellow and mint; even outlines, soft minimal shadows and generous blank space. A few storytelling accessories only; avoid excessive glitter, gloss and crowded faces.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "地域类文化类风格",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/7f/04/31/7f0431a598422c29d35464707e4207ee.jpg",
+        "source": "https://www.pinterest.com/pin/935341416389260975/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/12/a7/52/12a7521454089827e56250cbb8fe8fe1.jpg",
+        "source": "https://www.pinterest.com/pin/858850591503365874/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/80/dd/0d/80dd0d2d73bd25d5cd5114779fbd2faf.jpg",
+        "source": "https://www.pinterest.com/pin/891994270139438768/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：卡哇伊（Kawaii）。\n粉嫩色系、圆润\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Kawaii.\nPastel palette, everything rounded, nothing sharp.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw09",
+    "name": "少女风",
+    "english": "Coquette",
+    "description": "蝴蝶结、蕾丝、复古",
+    "prompt": "将当前提供的主体与内容设计成少女风（Coquette）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n以复古内衣织物、细蕾丝、缎带和珍珠中的两三种元素建立轻柔精致的少女感。奶油、淡粉、褪色玫瑰与少量酒红构成色域，材质的编织和缎面反光要有区分。使用细边框、对称或轻微偏心的静物构图，蝴蝶结只放在视觉转折处。避免廉价塑料粉、巨大重复蝴蝶结和与主题无关的性感化处理。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Coquette visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nDelicate coquette imagery with a restrained selection of lace, satin ribbons and pearls. Cream, blush, faded rose and a little burgundy; distinguish woven texture from satin sheen. Fine framing and balanced still-life composition, selective bows. Avoid plastic pink, oversized repeated ribbons and gratuitous sexualization.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "潮流与亚文化风格",
+    "references": [
+      {
+        "alt": "其中包括：Coquette sticker sheet of watercolor illustrations on a plain white background, including pearl necklaces and bracelets, pink ribbon bows, gold hoop earrings, rings, lockets, and a charm bracelet. Also a cameo brooch, a perfume bottle, lipstick, a brown leather watch, a hand mirror, macarons, a slice of strawberry cake, a floral teacup, a small gold key, and lavender.",
+        "image": "https://i.pinimg.com/236x/20/59/74/205974db662323776d6a2e5716e2e605.jpg",
+        "source": "https://www.pinterest.com/pin/271764158760847383/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/4b/08/ae/4b08ae750027463fdada2ed30a6389e0.jpg",
+        "source": "https://www.pinterest.com/pin/703194929365022247/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/5e/f3/62/5ef36277ce90fc6223c190d86e39debb.jpg",
+        "source": "https://www.pinterest.com/pin/1053068325392003777/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：少女风（Coquette）。\n蝴蝶结、蕾丝、复古\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Coquette.\nBows, lace, a vintage girlish softness.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw10",
+    "name": "媚俗",
+    "english": "Kitsch",
+    "description": "夸张、塑料感、广告",
+    "prompt": "将当前提供的主体与内容设计成媚俗（Kitsch）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n用有意识的夸张、甜俗色彩和廉价材质反差制造幽默，挑选塑料花、闪亮树脂、旅游纪念品或复古广告的一条视觉线索。高饱和粉红、红、绿与金色中控制主次，保留一个明确中心，再安排少量重复物件。光线可直接、略硬，强调物品的人工感。避免纯粹杂乱、完全失去主题和把所有复古元素毫无选择地堆满。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Kitsch visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nIntentional kitsch using exaggerated sweetness and humorous cheap-material contrasts: plastic flowers, shiny resin, souvenirs or vintage advertising. One focal object, controlled repetition and a dominant-versus-accent saturated palette. Direct light may emphasize artificiality; avoid indiscriminate retro clutter and loss of subject.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "潮流与亚文化风格",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/31/06/bc/3106bc1331ac7eb5b66b10ddb9996d9a.jpg",
+        "source": "https://www.pinterest.com/pin/545780048609215669/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/3b/2b/0e/3b2b0ed25dfb3a614446ccd4c676e3ab.jpg",
+        "source": "https://www.pinterest.com/pin/655766395778520627/"
+      },
+      {
+        "alt": "其中包括图片：Download Kitschy, Heart, Character. Royalty-Free Stock Illustration Image",
+        "image": "https://i.pinimg.com/236x/c3/a3/b4/c3a3b490845e950662ebcd91df652e71.jpg",
+        "source": "https://www.pinterest.com/pin/77546424829974382/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：媚俗（Kitsch）。\n夸张、塑料感、广告\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Kitsch.\nOverblown, plastic, unapologetically commercial.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw11",
+    "name": "金银丝细工",
+    "english": "Filigree",
+    "description": "金属丝卷曲线、极繁主义",
+    "prompt": "将当前提供的主体与内容设计成金银丝细工（Filigree）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n以极细金属丝的卷曲、焊接与交织构成花丝工艺，线条应有真实的前后关系与受力支撑。选择银或旧金为主材，用深蓝、墨绿或暖白背景衬托，微距侧光显露金属丝厚度和细微磨损。纹样可围绕中心宝石或边框生长，密集区域与透气孔隙交替。避免无厚度的平面金线、熔成一团的细节和假珠宝式过量闪光。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Filigree visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nFine metal filigree with believable curled wire, soldered junctions and over-under structure. Silver or aged gold on navy, green or warm white, macro side light revealing thickness and wear. Alternate dense ornament and open voids; avoid flat gold strokes, fused details and excessive sparkle.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "工艺类与技法风格",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/fe/5d/f0/fe5df0c82393f1ce3babad2cdcb44e7c.jpg",
+        "source": "https://www.pinterest.com/pin/735001601725661796/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/1c/72/a7/1c72a7d2a765767bdb4267b4a3539749.jpg",
+        "source": "https://www.pinterest.com/pin/422281212269557/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/ff/90/7d/ff907de12973b0b52b01e381fcd78675.jpg",
+        "source": "https://www.pinterest.com/pin/939282066063164231/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：金银丝细工（Filigree）。\n金属丝卷曲线、极繁主义\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Filigree.\nCurled metal thread, maximalist and intricate.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw12",
+    "name": "概念草图",
+    "english": "Concept Sketch",
+    "description": "速写线稿、设计推演",
+    "prompt": "将当前提供的主体与内容设计成概念草图（Concept Sketch）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n用设计师的推演草图呈现主题，主视图之外安排一至两个尺寸小得多的结构研究或轮廓变体。铅笔或淡灰记号笔保留辅助线与擦除痕迹，以少量深色线确认最终轮廓，局部淡彩表达材料。白纸或微黄纸背景，标注只写有意义的信息。构图有清楚的主次与对齐关系。避免把草稿做成脏乱涂鸦、随机公式和过度精修成商业渲染。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Concept Sketch visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nDesign-development sketch with a dominant study and one or two smaller structural variations. Light construction lines, selective dark contour decisions, erased traces and minimal material washes on white or warm paper. Meaningful annotations only; avoid arbitrary formulas, messy scribbling and polished final-render aesthetics.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "视觉风格",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/4e/6a/cb/4e6acb9c9ccd9f73fe5f10af9f5d4f7e.jpg",
+        "source": "https://www.pinterest.com/pin/12033123999897015/"
+      },
+      {
+        "alt": "其中包括图片：Stylized Fashion Illustration 🍧",
+        "image": "https://i.pinimg.com/236x/a7/39/ec/a739ec835b53bcfa1fe02c7e78df1d60.jpg",
+        "source": "https://www.pinterest.com/pin/508695720432851921/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/ef/d1/2d/efd12d3c4dcfd1bbdce10246185d0c32.jpg",
+        "source": "https://www.pinterest.com/pin/607211962296631146/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：概念草图（Concept Sketch）。\n速写线稿、设计推演\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Concept Sketch.\nQuick line sketches, the thinking shown rather than the result.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw13",
+    "name": "混合媒介",
+    "english": "Mixed Media",
+    "description": "拼贴质感、多材料叠加",
+    "prompt": "将当前提供的主体与内容设计成混合媒介（Mixed Media）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n选择纸张拼贴、摄影、蜡笔或扫描纹理中的两至三种媒介，明确一层主体、一层衬底和少量手工标记。撕边、剪切边与印刷颗粒保持各自材质特征，叠放处有轻微阴影。配色先从主体图提取两种主色，再添加一处跳色。元素之间通过尺度和形状呼应，而非随机拼接。避免十种媒介混用、统一假旧滤镜和覆盖重要信息的纹理。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Mixed Media visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nTwo or three distinct mixed media such as cut paper, photography, crayon or scanned texture. Clear subject and backing layers, real torn/cut edges and subtle overlap shadows. Derive a small palette from the subject and echo shapes across layers; avoid uniform fake aging and excessive media mixtures.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "工艺类与技法风格",
+    "references": [
+      {
+        "alt": "其中包括：An aesthetic editorial mixed media collage featuring torn pages from a Vogue magazine, layered typography with the words \"Vogue\" and \"Brands,\" striking blue and red color accents, and cut-out fashion details.",
+        "image": "https://i.pinimg.com/236x/43/cc/46/43cc465594c9cec883f3ea846388ed47.jpg",
+        "source": "https://www.pinterest.com/pin/836121487114231799/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/cf/61/b7/cf61b77a4ee4020d51d70deab60fdea5.jpg",
+        "source": "https://www.pinterest.com/pin/898257088205324056/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/7f/4e/d5/7f4ed56d43ac8f6c7f2d506fcb8d4d86.jpg",
+        "source": "https://www.pinterest.com/pin/923026886473086066/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：混合媒介（Mixed Media）。\n拼贴质感、多材料叠加\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Mixed Media.\nCollage texture, several materials layered on top of each other.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw14",
+    "name": "奢华排版",
+    "english": "Luxury Typography",
+    "description": "衬线字体、烫金",
+    "prompt": "将当前提供的主体与内容设计成奢华排版（Luxury Typography）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n让排版成为主视觉，以高对比衬线字体、精确字距和大面积留白建立安静的奢华感。使用象牙纸、炭黑与少量哑金，金色通过烫印或压凹的真实光影表达，不靠亮黄色渐变。标题、辅助信息和署名有清晰字号层级与对齐轴。若提供文案，只排实际文字。避免伪文字、过细到不可读的字、到处加金边以及过量大写与花体混搭。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Luxury Typography visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nQuiet luxury typography with high-contrast serif type, precise spacing, clear alignment and generous negative space. Ivory paper, charcoal and restrained matte-gold foil or debossing with realistic light. Strong typographic hierarchy and supplied copy only; avoid illegible hairlines, fake text and indiscriminate gold borders.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "视觉风格",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/fa/5b/6e/fa5b6ee57678fb31d4bfc810f61f96f2.jpg",
+        "source": "https://www.pinterest.com/pin/773071092319564170/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/c8/d2/38/c8d238a458f0e88aa1529c872f17a6a9.jpg",
+        "source": "https://www.pinterest.com/pin/17451517303732258/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/03/18/fb/0318fbfcb851e64b3766b4a478d53ce0.jpg",
+        "source": "https://www.pinterest.com/pin/1125968743799346/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：奢华排版（Luxury Typography）。\n衬线字体、烫金\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Luxury Typography.\nSerif type and gold foil doing the heavy lifting.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw15",
+    "name": "3×3网格",
+    "english": "3×3 Grid",
+    "description": "九宫格构图、模块化",
+    "prompt": "将当前提供的主体与内容设计成3×3网格（3×3 Grid）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n将画面组织成严格的三行三列九宫格，外边距与格间距一致，各格遵循共同的色彩、光线和视觉尺度。确定中心或一处角格为主视觉，用内容变化而非破坏网格形成节奏。图片裁切照顾主体完整，短文字遵循同一基线与对齐方式。系列中保持每格语法一致。避免格距不均、九张毫无关系的图和同等密度导致没有重点。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete 3×3 Grid visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nStrict three-by-three grid with consistent outer margins, gutters, color, lighting and visual scale. Establish one focal cell and vary content within a common system; crop carefully and align text consistently. Avoid uneven spacing, nine unrelated images and identical density without a focal point.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "视觉风格",
+    "references": [
+      {
+        "alt": "其中包括图片：3 by 3 Grid",
+        "image": "https://i.pinimg.com/236x/78/d3/a0/78d3a0d96f85d8eeac2351f7b39f5897.jpg",
+        "source": "https://www.pinterest.com/pin/356206651751533626/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/af/da/2e/afda2ed9bbee2d57c7254a93aa4869e5.jpg",
+        "source": "https://www.pinterest.com/pin/645211084094038935/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/1f/e2/b5/1fe2b5e3d597f1720d670e1479dbf38e.jpg",
+        "source": "https://www.pinterest.com/pin/811985007852972153/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：3×3网格（3×3 Grid）。\n九宫格构图、模块化\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: 3×3 Grid.\nA nine cell grid, modular and evenly weighted.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw16",
+    "name": "破旧别致风",
+    "english": "Shabby Chic",
+    "description": "做旧碎花布艺、杂货",
+    "prompt": "将当前提供的主体与内容设计成破旧别致风（Shabby Chic）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n使用褪色碎花、旧木、棉麻和陶瓷等有生活痕迹的材料，做旧集中在合理受磨损的边角。奶油白、淡玫瑰、雾绿为主，柔软日光从侧面进入，表面细节温和。以一个家具或静物组合为主体，布艺和小物形成少量层次。避免把温柔旧物做成破败废墟、全画面污渍和过于鲜亮崭新的塑料配件。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Shabby Chic visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nShabby chic with faded florals, worn wood, linen and ceramics; wear concentrated at believable edges. Cream, dusty rose and mist green in soft side daylight, one coherent furniture or still-life group with restrained accessories. Avoid ruined-interior grime and shiny new plastic accents.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "生活美学类风格",
+    "references": [
+      {
+        "alt": "其中包括图片：Shabby Chic Decor Quick Tips & Ideas",
+        "image": "https://i.pinimg.com/236x/94/b4/c3/94b4c3d683d3fa094c8f2ba2dafa2efe.jpg",
+        "source": "https://www.pinterest.com/pin/526076800241661882/"
+      },
+      {
+        "alt": "其中包括图片：Shabby Chic Style Interior Design That Tells Stories",
+        "image": "https://i.pinimg.com/236x/08/3c/d0/083cd06ef9e748ea5091a81030e2eb2c.jpg",
+        "source": "https://www.pinterest.com/pin/893823857330952869/"
+      },
+      {
+        "alt": "其中包括图片：Shabby Chic Interior Design: History, Key Elements...",
+        "image": "https://i.pinimg.com/236x/d6/2b/92/d62b92dc4cbc0905b0da4220102a1069.jpg",
+        "source": "https://www.pinterest.com/pin/4596416122101640256/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：破旧别致风（Shabby Chic）。\n做旧碎花布艺、杂货\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Shabby Chic.\nFaded florals, worn fabric, second hand objects.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion",
+    "originalReferences": [
+      {
+        "alt": "其中包括图片：Rococo Clipart",
+        "image": "https://i.pinimg.com/236x/cf/c7/04/cfc7041d6e0d757871972d00efe89f97.jpg",
+        "source": "https://www.pinterest.com/pin/23151385580018638/"
+      },
+      {
+        "alt": "其中包括图片：HOUSE OF CHANDELIERS PARIS - Note Card - Set of 6",
+        "image": "https://i.pinimg.com/236x/cf/8c/4d/cf8c4d59c4cc5c6e6a29a84e3277c5fd.jpg",
+        "source": "https://www.pinterest.com/pin/4600497475547158784/"
+      },
+      {
+        "alt": "Some sketches from the in-between. Not finished, not meant to be, just fragments of whatever’s passing through. 🩷",
+        "image": "https://i.pinimg.com/236x/ac/19/31/ac19311bf200d9a313e2afb80b95f40b.jpg",
+        "source": "https://www.pinterest.com/pin/646688827786518238/"
+      }
+    ],
+    "pinterestQuery": "Shabby Chic interior furniture"
+  },
+  {
+    "id": "lilian-kw17",
+    "name": "农舍风格",
+    "english": "Farmhouse",
+    "description": "谷仓门、粗麻布、黑板",
+    "prompt": "将当前提供的主体与内容设计成农舍风格（Farmhouse）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n以实用的乡村材料和朴素结构为中心，使用原木、粗麻、搪瓷和黑铁，保留木纹、接缝与手工感。暖白、浅棕和少量炭黑形成干净配色，自然窗光照亮可使用的桌面或生活场景。摆放强调功能、收纳与人使用过的痕迹。避免过量乡村标语、刻意堆放农具和像摄影棚布景一样没有生活逻辑。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Farmhouse visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nFunctional farmhouse setting with wood, burlap, enamel and black iron, visible joints and natural grain. Warm white, light brown and charcoal, honest window light on usable surfaces. Arrange for believable daily activity and storage; avoid excessive slogans, staged tools and implausible decorative clutter.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "生活美学类风格",
+    "references": [
+      {
+        "alt": "其中包括图片：Rustic Vintage Farm House Art Poster",
+        "image": "https://i.pinimg.com/236x/bc/f1/eb/bcf1eb592cac76f9ab67cd2c577f7460.jpg",
+        "source": "https://www.pinterest.com/pin/4607604743982897472/"
+      },
+      {
+        "alt": "其中包括图片：Vintage Farmhouse IV",
+        "image": "https://i.pinimg.com/236x/3d/56/a9/3d56a944f4263797d119b3079cc0121c.jpg",
+        "source": "https://www.pinterest.com/pin/4592968068749820928/"
+      },
+      {
+        "alt": "其中包括图片：Out West - 40x50",
+        "image": "https://i.pinimg.com/236x/ad/fa/91/adfa91ae563d37638faee5f182507def.jpg",
+        "source": "https://www.pinterest.com/pin/884464814332456322/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：农舍风格（Farmhouse）。\n谷仓门、粗麻布、黑板\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Farmhouse.\nBarn doors, burlap, chalkboard.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw19",
+    "name": "拟人化",
+    "english": "Anthropomorphism",
+    "description": "赋予物体五官和肢体",
+    "prompt": "将当前提供的主体与内容设计成拟人化（Anthropomorphism）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n保留物体的原始轮廓、材质和功能，再通过少量眼睛、手臂或姿态赋予性格。表情和动作与物体用途产生联系，例如杯子捧住自己的热气，而不是随意粘贴一张脸。比例简洁，五官尺度统一，光线与身体一致。背景只交代必要场景。避免人体肢体突兀、过多手脚、恐怖表情和为了可爱丢失物体识别特征。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Anthropomorphism visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nAnthropomorphism retaining the original object silhouette, material and purpose. Minimal features and gestures should relate to function rather than a pasted-on face; consistent proportions and lighting, a necessary but simple setting. Avoid uncanny human limbs, extra appendages and losing the object identity.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "视觉风格",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/e8/33/a6/e833a64fc56572ebe06a6517258e2e3c.jpg",
+        "source": "https://www.pinterest.com/pin/1759287348647297/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/a3/80/af/a380affcd62a969efec7855e35445e05.jpg",
+        "source": "https://www.pinterest.com/pin/658510776778931611/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/d7/0e/a1/d70ea11c19c93091728cfa2b75cfd842.jpg",
+        "source": "https://www.pinterest.com/pin/405324035209809540/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：拟人化（Anthropomorphism）。\n赋予物体五官和肢体\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Anthropomorphism.\nObjects given faces and limbs.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw20",
+    "name": "实用主义",
+    "english": "Utilitarian",
+    "description": "工业感、无装饰、功能性",
+    "prompt": "将当前提供的主体与内容设计成实用主义（Utilitarian）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n从使用目的和信息优先级决定每一个元素，采用稳定网格、清晰标签、编号、刻度和耐用材料的朴素表达。黑白灰为底，一种安全色或操作强调色提示关键状态。文字尺度、线条、按钮尺寸与间距遵循同一系统，边界清楚，装饰极少。可加入轻微工业纹理，但不能牺牲可读性。避免无功能装饰、故意难读的小字和仅为炫技而增加的动效。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Utilitarian visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nUtilitarian design led by function, stable grids, clear labels, numbering and durable materials. Monochrome with one functional safety or action accent, consistent type scales and control sizes. Optional restrained industrial texture must preserve readability; avoid nonfunctional ornament and motion for its own sake.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "设计史",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/f6/ce/63/f6ce63eae9f147053d4c06a28c1a17ce.jpg",
+        "source": "https://www.pinterest.com/pin/521573200617212766/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/f5/64/a4/f564a4ff0a9860f50c5096465d603f8b.jpg",
+        "source": "https://www.pinterest.com/pin/869265165574320708/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/38/fd/2d/38fd2d5810e408fefc3a0f399552d95b.jpg",
+        "source": "https://www.pinterest.com/pin/648307308904444156/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：实用主义（Utilitarian）。\n工业感、无装饰、功能性\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Utilitarian.\nIndustrial, undecorated, every element there for a reason.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw21",
+    "name": "像素艺术",
+    "english": "Pixel Art",
+    "description": "马赛克颗粒感、8-bit",
+    "prompt": "将当前提供的主体与内容设计成像素艺术（Pixel Art）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n以明确的像素网格绘制主体，先确定统一像素尺寸和有限调色板，再用成组色块塑造轮廓、受光面与阴影。对角线形成有规律的阶梯，不做模糊抗锯齿；必要时使用有节奏的抖色表现过渡。场景道具与人物保持同一分辨率和视角。放大采用整数倍。避免照片打马赛克、混乱的像素大小和用光滑渐变替代像素层次。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Pixel Art visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nTrue pixel art with one pixel scale, limited palette and intentional color clusters for silhouette, light and shadow. Regular stepped diagonals, selective ordered dithering and consistent perspective/resolution across the scene. Scale by integers; avoid mosaicked photography, mixed pixel sizes and smooth gradients.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "AI 视觉",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/75/be/31/75be31fddeca4ea52d813a74a016d8b0.jpg",
+        "source": "https://www.pinterest.com/pin/1084734260287550027/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/76/de/c3/76dec3428407f6bd1cf7a076989bab59.jpg",
+        "source": "https://www.pinterest.com/pin/880172320966338999/"
+      },
+      {
+        "alt": "其中包括图片：cozy home cafe things ☕ pixel art",
+        "image": "https://i.pinimg.com/236x/50/66/89/506689ae52a0bcdabac059791411bda5.jpg",
+        "source": "https://www.pinterest.com/pin/1102256077590730976/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：像素艺术（Pixel Art）。\n马赛克颗粒感、8-bit\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Pixel Art.\nMosaic grain, 8-bit.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw22",
+    "name": "赛博核",
+    "english": "Cybercore",
+    "description": "故障、霓虹网格、义肢",
+    "prompt": "将当前提供的主体与内容设计成赛博核（Cybercore）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n围绕人与数字系统的紧密联系设计画面，选择线路、机械接口、扫描网格或终端窗口的一条主线。深色底配电蓝或酸绿，局部白色小字和细线组织信息，故障只在边缘或短时出现。主体轮廓清楚，材质区分金属、皮肤与屏幕发光。避免把全部区域变成霓虹噪点、无意义代码、过多义肢和不可读取的界面。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Cybercore visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nCybercore built around one meaningful connection between people and digital systems: interfaces, circuitry, scan grids or terminals. Dark ground, electric blue or acid green, controlled fine data labels and localized glitches. Distinguish metal, skin and emissive screens; avoid unreadable neon noise and arbitrary code.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "AI 视觉",
+    "references": [
+      {
+        "alt": "其中包括图片：Cyber Angel",
+        "image": "https://i.pinimg.com/236x/b6/6e/c1/b66ec1c06e696714c1de5d9f61f2b410.jpg",
+        "source": "https://www.pinterest.com/pin/747175394475435604/"
+      },
+      {
+        "alt": "其中包括图片：TheNuLife - Etsy",
+        "image": "https://i.pinimg.com/236x/d2/43/11/d24311473873f139f05b1a4454c979ae.jpg",
+        "source": "https://www.pinterest.com/pin/654288652161769014/"
+      },
+      {
+        "alt": "其中包括图片：Female Muse Edit Cybercore Computer by @aleshalilianaa",
+        "image": "https://i.pinimg.com/236x/1b/49/0a/1b490a1e01aed5f0656eb3d7017ad963.jpg",
+        "source": "https://www.pinterest.com/pin/981221837572073793/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：赛博核（Cybercore）。\n故障、霓虹网格、义肢\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Cybercore.\nGlitch, neon grids, prosthetics.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw23",
+    "name": "合成器浪潮",
+    "english": "Synthwave",
+    "description": "紫粉色渐变、网格",
+    "prompt": "将当前提供的主体与内容设计成合成器浪潮（Synthwave）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n以80年代电子音乐封面的空间感组织视觉，地平线、透视网格或山脉剪影建立明确纵深。深紫与午夜蓝为底，洋红和青色控制在光线与边缘，太阳或主形体形成唯一焦点。渐变平顺，辉光集中而非到处发亮，排版简洁有力。避免蒸汽波式无序雕像拼贴、过量镜头眩光和把主体淹没在紫粉渐变中。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Synthwave visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nSynthwave depth with a horizon, perspective grid or mountain silhouette. Deep purple and midnight blue with selective magenta/cyan luminous edges and one sun or central focal form. Smooth gradients, localized bloom and bold restrained typography; avoid cluttered collage, excessive flares and a subject lost in color.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "AI 视觉",
+    "references": [
+      {
+        "alt": "其中包括图片：Vaporwave design elements pack",
+        "image": "https://i.pinimg.com/236x/57/b8/9a/57b89a322d8e50a5b456d3295aeb8dfb.jpg",
+        "source": "https://www.pinterest.com/pin/1020628334323626317/"
+      },
+      {
+        "alt": "其中包括图片：AI sound album art ideas for creative music cover designs",
+        "image": "https://i.pinimg.com/236x/12/c2/ac/12c2ac90943d4ac3658c84cb6ef1abf8.jpg",
+        "source": "https://www.pinterest.com/pin/1089237859979870901/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/56/8d/e6/568de6cb9a2f00e65454e0fd23e5e0ef.jpg",
+        "source": "https://www.pinterest.com/pin/21181060744053631/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：合成器浪潮（Synthwave）。\n紫粉色渐变、网格\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Synthwave.\nPurple to pink gradients over a horizon grid.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw24",
+    "name": "蒸汽波",
+    "english": "Vaporwave",
+    "description": "故障艺术、复古电脑界面",
+    "prompt": "将当前提供的主体与内容设计成蒸汽波（Vaporwave）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n以早期数码消费文化的怀旧与疏离感为主题，选择复古电脑窗口、古典雕像、商场空景或低清影像中的少量元素。淡紫、粉红、青绿与灰白保持褪色感，局部错位、扫描线或JPEG痕迹提示旧媒介。构图有明确主图与留白，文字只用真实给定内容。避免随机日文字、符号堆砌和将故障效果加到无法辨识图像。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Vaporwave visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nVaporwave nostalgia and estrangement using a restrained selection of vintage computer windows, classical busts, empty commercial spaces or low-resolution imagery. Faded lilac, pink, teal and gray-white with localized scanlines or compression traces. Clear focal composition and real supplied text; avoid random Japanese characters and excessive glitch.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "AI 视觉",
+    "references": [
+      {
+        "alt": "其中包括图片：Vaporwave design elements pack",
+        "image": "https://i.pinimg.com/236x/57/b8/9a/57b89a322d8e50a5b456d3295aeb8dfb.jpg",
+        "source": "https://www.pinterest.com/pin/1020628334323626317/"
+      },
+      {
+        "alt": "其中包括图片：Y2K :: Behance",
+        "image": "https://i.pinimg.com/236x/f3/0f/7d/f30f7d1fad2cfd83079b402b2926ac5f.jpg",
+        "source": "https://www.pinterest.com/pin/1110981801820266676/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/ce/5a/d7/ce5ad7bed8772675dd4578f935179d99.jpg",
+        "source": "https://www.pinterest.com/pin/836191855807025349/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：蒸汽波（Vaporwave）。\n故障艺术、复古电脑界面\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Vaporwave.\nGlitch art and the interface of an old computer.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw25",
+    "name": "蒸汽朋克",
+    "english": "Steampunk",
+    "description": "机械、维多利亚、齿轮",
+    "prompt": "将当前提供的主体与内容设计成蒸汽朋克（Steampunk）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n让蒸汽动力与维多利亚工艺形成可理解的机械结构，黄铜、铜管、旧钢与深棕皮革有不同磨损和反光。齿轮只出现在真实传动位置，管路有连接与去向，螺栓与关节尺寸合理。以暖侧光和少量蒸汽强化体积，背景节制。避免在所有表面乱贴齿轮、无动力逻辑的零件堆和现代塑料发光面板。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Steampunk visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nSteampunk machinery with understandable steam-power mechanics and Victorian craft. Brass, copper pipes, worn steel and brown leather have distinct wear and reflection. Functional gear placement, connected pipes and plausible fasteners, warm side light and a little steam; avoid decorative gears everywhere and modern glowing plastic panels.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "AI 视觉",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/06/82/cc/0682cc2a11903c7c7c09e55188920ef5.jpg",
+        "source": "https://www.pinterest.com/pin/472385448393771535/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/4e/f0/d5/4ef0d5d49ba946d531af4fb9a558ee7a.jpg",
+        "source": "https://www.pinterest.com/pin/245727723416505499/"
+      },
+      {
+        "alt": "其中包括图片：Brass Hummingbird — Steampunk Wall Art Print",
+        "image": "https://i.pinimg.com/236x/0e/2e/d5/0e2ed53c57988608c8f4234755358292.jpg",
+        "source": "https://www.pinterest.com/pin/688980443038300044/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：蒸汽朋克（Steampunk）。\n机械、维多利亚、齿轮\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Steampunk.\nMachinery, Victorian dress, gears.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw26",
+    "name": "日式北欧风",
+    "english": "Japandi",
+    "description": "原木留白、侘寂极简",
+    "prompt": "将当前提供的主体与内容设计成日式北欧风（Japandi）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n以日式节制和北欧生活功能相结合，使用浅木、亚麻、细腻灰泥与哑光陶瓷。米白、浅灰褐和自然木色占主导，用少量深色建立轮廓。自然光柔和进入，材质微小不完美保留真实触感。构图留白、低重心、家具和物件数量少，但用途明确。避免空到没有生活、过量禅意符号和亮面大理石金属拼成的酒店感。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Japandi visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nJapandi restraint with Nordic function: pale wood, linen, fine plaster and matte ceramics. Off-white, warm gray and natural timber with sparse dark contours, soft daylight and tactile imperfections. Low visual center, generous space and few useful objects; avoid sterile emptiness, token Zen symbols and hotel-like glossy luxury.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "地域类文化类风格",
+    "references": [
+      {
+        "alt": "其中包括：Japanese sakura wall art featuring delicate white cherry blossoms on dark branches against a textured ivory background with charcoal abstract shapes and vertical gold accents, in an elegant Japandi style.",
+        "image": "https://i.pinimg.com/236x/b9/34/6e/b9346e862f2147794e73053c66c93fb2.jpg",
+        "source": "https://www.pinterest.com/pin/1089097122427058301/"
+      },
+      {
+        "alt": "其中包括：Set of five printable Japanese-inspired art prints with crane, bamboo, cherry blossom, and wave patterns in indigo and earthy tones.",
+        "image": "https://i.pinimg.com/236x/73/dd/4a/73dd4aa6475c8f74a1d50c6d256c3de4.jpg",
+        "source": "https://www.pinterest.com/pin/504614333272823346/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/9b/ce/a0/9bcea027164e496d5ddef9c1de3c2dbb.jpg",
+        "source": "https://www.pinterest.com/pin/6473993212412013/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：日式北欧风（Japandi）。\n原木留白、侘寂极简\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Japandi.\nPale wood and empty space, wabi sabi minimalism.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw27",
+    "name": "波西米亚风",
+    "english": "Bohemian",
+    "description": "编织、流苏、民族",
+    "prompt": "将当前提供的主体与内容设计成波西米亚风（Bohemian）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n用天然编织、棉麻、流苏与有出处的几何纹样建立自由松弛的层次。以沙色、陶土红、赭黄、橄榄绿为主，局部深靛色压住画面。材料之间有粗细与软硬变化，窗光温暖但不过度偏黄。构图围绕一组可使用的家具、人物或静物，织物与植物只作呼应。纹样选择同一套节奏，避免混搭不相关文化符号、堆满装饰和统一套棕色滤镜。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Bohemian visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nRelaxed bohemian layering with natural weaving, linen, fringe and a coherent geometric pattern family. Sand, terracotta, ochre and olive balanced by deep indigo; varied tactile materials in warm but neutral daylight. Build around a usable scene, with restrained textiles and plants; avoid unrelated cultural-symbol mixtures and decorative overcrowding.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "地域类文化类风格",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/59/4c/f3/594cf3de24e1ebbf4086440de2eb27d9.jpg",
+        "source": "https://www.pinterest.com/pin/416794140520779902/"
+      },
+      {
+        "alt": "其中包括图片：‘Sun Worshipper’, Bohemian Sun Print, Wall Art | Illustration by Nima Nima Studio",
+        "image": "https://i.pinimg.com/236x/33/5f/d6/335fd6aa96d3e66539784aa7062f11ae.jpg",
+        "source": "https://www.pinterest.com/pin/675821487873640076/"
+      },
+      {
+        "alt": "其中包括图片：Solstice Sun - 8x10",
+        "image": "https://i.pinimg.com/236x/9a/b4/5c/9ab45cb1e83355f006fa5a1a4bb69d4f.jpg",
+        "source": "https://www.pinterest.com/pin/191332684164540723/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：波西米亚风（Bohemian）。\n编织、流苏、民族\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Bohemian.\nWeaving, fringe, folk pattern.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw28",
+    "name": "哥特式",
+    "english": "Gothic",
+    "description": "尖拱、玫瑰、暗黑",
+    "prompt": "将当前提供的主体与内容设计成哥特式（Gothic）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n以垂直向上的尖拱、细长比例、深色石材和克制花窗纹样形成庄严的暗色空间。炭黑、石灰灰、暗酒红与局部旧银构成配色，斜入光或烛光强调石面纹理与轮廓。画面有明确主轴和深度，玫瑰、织物等元素少量呼应。需要文字时优先可读。避免把哥特简化成恐怖骷髅堆、现代霓虹与全黑无层次。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Gothic visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nGothic verticality with pointed arches, slender proportions, dark stone and restrained tracery. Charcoal, limestone gray, oxblood and aged silver, angled daylight or candlelight revealing depth and texture. Clear axis and selective floral/textile details; avoid horror-symbol clutter, neon and featureless blackness.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "地域类文化类风格",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/fe/5d/f0/fe5df0c82393f1ce3babad2cdcb44e7c.jpg",
+        "source": "https://www.pinterest.com/pin/735001601725661796/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/08/fb/1e/08fb1eba4745699394bce599b6b5367a.jpg",
+        "source": "https://www.pinterest.com/pin/39125090510844455/"
+      },
+      {
+        "alt": "其中包括图片：22 Captivating Gothic Church Tattoo Ideas for Your...",
+        "image": "https://i.pinimg.com/236x/9b/62/b9/9b62b9d22733c6637237432d0fb8dbf2.jpg",
+        "source": "https://www.pinterest.com/pin/486318459784176984/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：哥特式（Gothic）。\n尖拱、玫瑰、暗黑\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Gothic.\nPointed arches, rose windows, darkness.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw29",
+    "name": "中世纪风",
+    "english": "Mid-Century",
+    "description": "几何、柚木色、时代感",
+    "prompt": "将当前提供的主体与内容设计成中世纪风（Mid-Century）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n采用20世纪中叶现代设计的有机几何、简洁线条与实用比例。柚木棕、奶油色、芥末黄、橄榄绿中选三种主色，木材、织物与哑光金属形成真实对比。家具或图形具有轻盈支腿、弧形轮廓或不对称平衡，用留白和清楚色块组织构图。光线温暖自然。避免欧洲中古城堡元素、过量仿旧颗粒和把所有复古年代混在一起。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Mid-Century visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nMid-century modern organic geometry, clean lines and useful proportions. Select three of teak brown, cream, mustard and olive; honest timber, textiles and matte metal, light legs, curves and asymmetric balance. Warm natural light and clear color blocks; avoid medieval motifs and indiscriminate retro-era mixtures.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "设计史",
+    "references": [
+      {
+        "alt": "其中包括图片：#retro #midcenturymodern",
+        "image": "https://i.pinimg.com/236x/a2/a8/f0/a2a8f0301cd90a27a0c600dc016e3340.jpg",
+        "source": "https://www.pinterest.com/pin/1104718983638920510/"
+      },
+      {
+        "alt": "其中包括图片：Mid century architecture ArchiLady.com",
+        "image": "https://i.pinimg.com/236x/b8/79/85/b87985ad99596c8566e4467c9e233925.jpg",
+        "source": "https://www.pinterest.com/pin/1134414593660139657/"
+      },
+      {
+        "alt": "其中包括：Mid-century modern living room collage: Arco floor lamp, olive glass vase on a walnut credenza, geometric wall art, cognac Eames lounge chair and a white tulip side table with a brown mushroom lamp.",
+        "image": "https://i.pinimg.com/236x/fe/dd/56/fedd56be43cfd2f2de10eb6ef01d72da.jpg",
+        "source": "https://www.pinterest.com/pin/1094726622069385450/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：中世纪风（Mid-Century）。\n几何、柚木色、时代感\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Mid-Century.\nGeometry, teak, a clear sense of period.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "lilian-kw30",
+    "name": "神秘西部",
+    "english": "Wild West",
+    "description": "做旧皮革、荒漠色调、木刻字",
+    "prompt": "将当前提供的主体与内容设计成神秘西部（Wild West）的完整视觉，保留主体身份、关键特征与任务要求。\n\n视觉语言\n以荒漠尺度、风化木、旧皮革和木刻招牌的触感构建神秘西部气氛。沙土、赭石、烟灰蓝和深棕形成低饱和配色，低角度阳光或暮色让长阴影指向同一方向。一个人物、旅途物件或孤立建筑作为主叙事，远景保留辽阔负空间。装饰围绕同一故事，避免通用牛仔贴纸堆、刻板文化符号和没有场景逻辑的枪械配件。\n\n构图与应用\n先确定一个视觉焦点，再安排辅助元素和负空间，按当前画幅与用途调整主体尺度。若有参考图，提取色彩关系、形态与材质特征，重新组织原创构图。用于网页或界面时，风格优先体现在配色、排版、材质和局部图像，正文与操作保持清楚，不让装饰覆盖内容。\n\n一致性与输出\n同一组作品统一调色板、光源方向、材质表现和细节密度。只使用任务提供的文案；没有文案就不要生成伪文字、水印或额外标志。避免无关风格混入，检查主体比例、边缘、接触关系与信息层级后输出成品。",
+    "promptEn": "Create a complete Wild West visual using the subject and content supplied in the current task. Preserve subject identity, key features and stated requirements.\n\nVISUAL DIRECTION\nAtmospheric western imagery with desert scale, weathered wood, worn leather and woodcut-sign texture. Muted sand, ochre, smoky blue and dark brown in low sun or dusk with coherent long shadows. One traveler, object or isolated building anchors expansive negative space; avoid generic cowboy-sticker clutter and unrelated weapons.\n\nCOMPOSITION AND APPLICATION\nEstablish one clear focal point, supporting elements and intentional negative space. Adapt scale to the requested aspect ratio and use. When references are supplied, extract their palette relationships, shapes and material qualities into an original composition. For websites and interfaces, apply the style to palette, typography, surfaces and selective imagery while keeping body text and controls clear.\n\nCONSISTENCY AND DELIVERY\nMaintain a coherent palette, lighting direction, material treatment and detail density across the series. Use only supplied copy; otherwise omit lettering, watermarks and additional logos. Check proportions, edges, contact relationships and hierarchy. Deliver the finished visual without unrelated stylistic additions.",
+    "source": "https://lilian.world/styleguide/room?v=10052132",
+    "sourceLabel": "Lilian · 设计风格",
+    "group": "地域类文化类风格",
+    "references": [
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/0b/40/4f/0b404f54029ecc2fe0f9c07c2ec53214.jpg",
+        "source": "https://www.pinterest.com/pin/998743654879491920/"
+      },
+      {
+        "alt": "其中包括图片：22 Cowboy Illustration Character Design Ideas for...",
+        "image": "https://i.pinimg.com/236x/5a/0e/78/5a0e78217fcbf56a6b9a4281a07f1198.jpg",
+        "source": "https://www.pinterest.com/pin/4598597565789056064/"
+      },
+      {
+        "alt": "其中包括图片：",
+        "image": "https://i.pinimg.com/236x/fd/5a/ed/fd5aed62d9ce39d4b72938f18a4d4b0e.jpg",
+        "source": "https://www.pinterest.com/pin/367324913336231857/"
+      }
+    ],
+    "originalPrompt": "照这个风格来：神秘西部（Wild West）。\n做旧皮革、荒漠色调、木刻字\n整套东西保持一致。生图的话对准它的质感、配色和构图，别往上加装饰。",
+    "originalPromptEn": "Make it look like this: Wild West.\nAged leather, desert palette, woodcut lettering.\nKeep it consistent across everything. If you're generating images, match the texture, colour and framing rather than adding decoration on top.",
+    "promptRevision": 2,
+    "promptAuthor": "Ilia collection editorial expansion"
+  },
+  {
+    "id": "history-rococo",
+    "name": "洛可可",
+    "english": "Rococo",
+    "group": "艺术史",
+    "pinterestQuery": "Rococo art design",
+    "prompt": "以洛可可艺术为核心语言创作画面。主体置于轻盈不对称的 S 形与 C 形构图中，加入贝壳纹、莨苕叶、卷草、花束、丝带和精细镀金边饰；人物与家具保持纤细、优雅、略带戏剧性的姿态。使用粉蓝、奶油白、淡粉、薄荷绿与香槟金，材质呈现丝绸、瓷器、镜面和手工雕花的细腻反光，光线柔和通透。画面应繁复但不拥挤，留出呼吸空间并维持清晰层级。避免巴洛克式沉重暗影、现代极简、塑料 3D、赛博霓虹、粗黑描边和廉价婚庆感。",
+    "promptEn": "Create an image rooted in Rococo art. Build a light asymmetrical S-curve and C-curve composition with shell motifs, acanthus scrolls, flowers, ribbons and fine gilded ornament; keep figures and furniture slender, graceful and slightly theatrical. Use powder blue, cream, blush pink, mint and champagne gold, with delicate reflections on silk, porcelain, mirrors and hand-carved surfaces. Keep the scene ornate but breathable with a clear hierarchy. Avoid heavy Baroque darkness, modern minimalism, plastic 3D, cyber neon, thick black outlines and generic wedding decoration.",
+    "references": [
+      {
+        "image": "https://i.pinimg.com/originals/57/0c/4e/570c4e0724463014e8194562c7260b8d.jpg",
+        "source": "https://www.pinterest.com/pin/484137028688366037/"
+      }
+    ]
+  },
+  {
+    "id": "history-baroque",
+    "name": "巴洛克",
+    "english": "Baroque",
+    "group": "艺术史",
+    "pinterestQuery": "Baroque art design",
+    "prompt": "以巴洛克艺术构建强烈戏剧场景。采用对角线构图、旋转姿态和前后景穿插，让动作在一个决定性瞬间凝固；使用聚光式明暗对照，人物从深黑背景中被金色侧光切出。材质强调厚重天鹅绒、金属盔甲、石材、深色木料与油画笔触，色彩以酒红、赭石、黑金和象牙白为主。画面要有重量、冲突与空间纵深。避免均匀平光、可爱卡通、粉彩甜美、扁平图标、现代产品摄影和无意义装饰。",
+    "promptEn": "Build a dramatic Baroque scene with diagonal composition, twisting poses and overlapping foreground and background, freezing action at a decisive moment. Use spotlight-like chiaroscuro so figures emerge from deep darkness in warm golden side light. Emphasize velvet, metal armor, stone, dark timber and tactile oil-paint texture; favor burgundy, umber, black-gold and ivory. The image needs weight, conflict and deep spatial layering. Avoid flat even lighting, cute cartoons, sugary pastels, flat icons, modern product photography and decorative clutter without narrative purpose.",
+    "references": [
+      {
+        "image": "https://storage.googleapis.com/site-images-programmatic/paintings/1772013047130-brtihr.jpg",
+        "source": "https://painting-meanings.com/artworks/caravaggio/judith-beheading-holofernes"
+      }
+    ]
+  },
+  {
+    "id": "history-romanticism",
+    "name": "浪漫主义",
+    "english": "Romanticism",
+    "group": "艺术史",
+    "pinterestQuery": "Romanticism art design",
+    "prompt": "以浪漫主义绘画表现自然的崇高感与人的渺小。使用广阔远景、低地平线、雾气、海浪、峭壁、风暴云或炽热夕照，把人物缩小为情绪锚点而非画面主角；构图从暗部引向远方高光。色彩采用深蓝绿、褐色、烟灰与突然出现的金橙光，保留可见笔触和空气透视。画面应有孤独、敬畏、冒险与未完成叙事。避免旅游明信片、甜美滤镜、干净商业摄影、规则网格、扁平矢量与科幻霓虹。",
+    "promptEn": "Use Romantic painting to express the sublime scale of nature and the smallness of the human figure. Compose a vast distance with a low horizon, mist, waves, cliffs, storm clouds or burning sunset; reduce people to emotional anchors rather than dominant subjects, leading the eye from shadow toward a distant highlight. Use deep blue-green, earth brown, smoke gray and sudden gold-orange light, with visible brushwork and atmospheric perspective. Preserve loneliness, awe, danger and an unfinished narrative. Avoid postcard scenery, sweet filters, clean commercial photography, rigid grids, flat vectors and sci-fi neon.",
+    "references": [
+      {
+        "image": "https://kuadros.com/cdn/shop/products/207friee.jpg?v=1687004324",
+        "source": "https://kuadros.com/ko-kr/products/%EB%B0%94%EB%8B%A4-%EC%98%86-%EB%91%90-%EC%82%AC%EB%9E%8C"
+      }
+    ]
+  },
+  {
+    "id": "history-impressionism",
+    "name": "印象主义",
+    "english": "Impressionism",
+    "group": "艺术史",
+    "pinterestQuery": "Impressionism art design",
+    "prompt": "以印象主义方法捕捉一个稍纵即逝的光线时刻。选择日常街景、花园、水面或室内人物，采用开放式裁切和非居中的自然构图；用短促并置的色点与断裂笔触描绘空气、反光和运动，而不是勾勒封闭轮廓。色彩保持高明度，以互补色制造振动，阴影也使用有色笔触。保留画布颗粒和未完全收束的边缘。避免摄影级锐度、黑色硬描边、塑料质感、过度平滑渐变、戏剧化暗黑照明与数字特效。",
+    "promptEn": "Use an Impressionist approach to capture a fleeting condition of light. Choose an everyday street, garden, water surface or interior figure, with open cropping and an off-center natural composition. Describe air, reflection and movement through short adjacent color marks and broken brushwork rather than closed outlines. Keep the palette high-key, use complementary colors for vibration, and build shadows from color instead of black. Preserve canvas grain and unresolved edges. Avoid photographic sharpness, hard black outlines, plastic surfaces, overly smooth gradients, theatrical darkness and digital effects.",
+    "references": [
+      {
+        "image": "https://images.ctfassets.net/j05yk38inose/5QTOWlRdbPYsAXQgNOvbKs/aa55976ab44513a6b29b2eafc5d47112/10_.jpg",
+        "source": "https://www.tokyoartbeat.com/articles/-/monet-questioning-nature-news-202508"
+      }
+    ]
+  },
+  {
+    "id": "history-bauhaus",
+    "name": "包豪斯",
+    "english": "Bauhaus",
+    "group": "设计史",
+    "pinterestQuery": "Bauhaus art design",
+    "prompt": "以包豪斯的功能主义和基础形态组织版面。使用圆、方、三角、直线、网格和非对称平衡，把信息拆成清楚的模块；让字体、色块与图形承担结构而非装饰。色彩限制为黑、白、红、黄、蓝及少量中性灰，材质保持纸张、金属、玻璃和工业印刷的直接感。层级明确、比例严谨、留白充足。避免拟物阴影、复古花纹、复杂纹章、手写装饰、柔焦滤镜、无目的渐变与拥挤元素。",
+    "promptEn": "Organize the layout through Bauhaus functionalism and elementary form. Use circles, squares, triangles, lines, grids and asymmetric balance to divide information into clear modules; typography, color blocks and geometry must carry structure rather than decoration. Limit the palette to black, white, red, yellow, blue and restrained gray, with the direct material character of paper, metal, glass and industrial print. Keep hierarchy explicit, proportions disciplined and negative space generous. Avoid skeuomorphic shadows, vintage florals, ornate crests, decorative handwriting, soft-focus filters, purposeless gradients and crowding.",
+    "references": [
+      {
+        "image": "https://designcartel.de/cdn/shop/products/bauhaus_baschant_gesamt_1080x.jpg?v=1623607410",
+        "source": "https://designcartel.de/products/bauhaus-poster-ausstellung-1923-rudolf-baschant"
+      }
+    ]
+  },
+  {
+    "id": "history-art-deco",
+    "name": "装饰艺术",
+    "english": "Art Deco",
+    "group": "设计史",
+    "pinterestQuery": "Art Deco art design",
+    "prompt": "以装饰艺术风格设计精确、奢华而现代的画面。采用强轴线、放射状日芒、阶梯形、扇形、细长几何边框与严格对称，把标题塑造成建筑般的中心。使用黑色、象牙白、祖母绿、深蓝与金属金，结合漆面、黄铜、磨砂玻璃和光洁石材。细节精致但轮廓必须清楚，整体像 1920–30 年代高级海报或酒店标识。避免洛可可卷草、乡村做旧、可爱卡通、随机手绘、霓虹赛博和廉价金色渐变。",
+    "promptEn": "Design a precise, luxurious and modern Art Deco composition. Use a strong axis, radiating sunbursts, stepped forms, fans, slender geometric borders and strict symmetry, treating the title like an architectural centerpiece. Combine black, ivory, emerald, deep blue and metallic gold with lacquer, brass, frosted glass and polished stone. Details may be refined, but silhouettes and hierarchy must remain crisp, like a premium 1920s–30s poster or hotel sign. Avoid Rococo scrolls, rustic distress, cute cartoons, random hand drawing, cyber neon and cheap gold gradients.",
+    "references": [
+      {
+        "image": "https://g123-media.sos-ch-gva-2.exoscale-cdn.com/filer_public_thumbnails/filer_public/a0/08/a008675e-31b3-4a52-acdd-f60eaa3f59b2/geneve-7eme-salon-international-de-lautomobile-et-du-cycle-mars-1930-34532-geneve-affiche-ancienne.jpg__600x0_q85_subsampling-2_upscale.jpg",
+        "source": "https://www.galerie123.com/en/selections/9/le-salon-de-lauto-geneve/"
+      }
+    ]
+  },
+  {
+    "id": "history-constructivism",
+    "name": "构成主义",
+    "english": "Constructivism",
+    "group": "设计史",
+    "pinterestQuery": "Constructivism art design",
+    "prompt": "以俄国构成主义建立具有宣传力度的视觉系统。使用斜向网格、锐利三角、圆形靶心、裁切照片、粗黑无衬线文字和强烈尺度对比，让画面从一个方向向外爆发。色彩严格控制为红、黑、米白与少量灰，加入粗颗粒网点、套印偏差与旧纸触感。文字和图像要像机械零件一样咬合。避免柔和粉彩、居中对称、精致奢华、圆润 3D、自然主义插画和大量装饰花纹。",
+    "promptEn": "Build a forceful visual system from Russian Constructivism. Use diagonal grids, sharp triangles, circular targets, cropped photography, heavy black sans-serif type and extreme scale contrast, making the composition burst in a clear direction. Restrict color to red, black, warm paper and limited gray, with coarse halftone, registration shifts and aged print texture. Typography and image should interlock like mechanical parts. Avoid soft pastels, centered symmetry, polished luxury, rounded 3D, naturalistic illustration and decorative patterning.",
+    "references": [
+      {
+        "image": "https://i.pinimg.com/736x/a7/24/58/a72458a9264f830fdf697e854eeb67d9.jpg",
+        "source": "https://uk.pinterest.com/pin/28991991327125928/"
+      }
+    ]
+  },
+  {
+    "id": "history-arts-crafts",
+    "name": "工艺美术运动",
+    "english": "Arts and Crafts",
+    "group": "设计史",
+    "pinterestQuery": "Arts and Crafts art design",
+    "prompt": "以工艺美术运动的手工伦理构建图案和空间。让缠绕植物、鸟、果实、花瓣与枝叶形成可重复但不机械的密集纹样，保留木刻和手工印刷的不规则边缘；家具或版面使用诚实的榫接、木材与纸张质感。色彩选取橄榄绿、靛蓝、砖红、芥末黄和自然米色，整体温暖克制。强调材料、劳动和结构。避免塑料高光、极简无纹理、数字霓虹、照片拼贴、品牌化图标与过度光滑的 AI 细节。",
+    "promptEn": "Build pattern and space through the handmade ethic of the Arts and Crafts movement. Interweave plants, birds, fruit, petals and branches into dense repeats that never feel mechanical, preserving the irregular edge of woodblock and hand printing; furniture or page structure should show honest joinery, timber and paper. Use olive, indigo, brick red, mustard and natural cream with a warm restrained mood. Emphasize material, labor and construction. Avoid plastic highlights, textureless minimalism, digital neon, photo collage, branded icons and over-smoothed AI detail.",
+    "references": [
+      {
+        "image": "https://hips.hearstapps.com/hmg-prod/images/morris-compton-fabric-1607858561.jpg?crop=0.901xw:0.778xh;0.0370xw,0.0215xh&resize=980:*",
+        "source": "https://www.elledecoration.co.uk/decorating/a34952566/william-morris-green/"
+      }
+    ]
+  },
+  {
+    "id": "history-swiss",
+    "name": "瑞士国际主义",
+    "english": "International Typographic Style",
+    "group": "设计史",
+    "pinterestQuery": "International Typographic Style art design",
+    "prompt": "以瑞士国际主义建立中性、精确、可扫描的信息版面。使用严格模数网格、左对齐参差右、无衬线字体、清楚字号层级和大量留白；照片采用客观裁切，色彩以黑白灰为主，只用一种高纯度强调色标记关系。所有间距、基线与列宽保持一致，装饰从属于信息。避免居中堆叠、手写字体、立体阴影、复古纹样、随意拼贴、过度圆角和无功能图形。",
+    "promptEn": "Create a neutral, precise and scannable layout in the International Typographic Style. Use a strict modular grid, flush-left ragged-right type, sans-serif typography, explicit scale hierarchy and generous whitespace; crop photography objectively and keep color mostly black, white and gray with one saturated accent to mark relationships. Maintain consistent spacing, baselines and column widths so decoration remains subordinate to information. Avoid centered stacking, handwriting, dimensional shadows, vintage ornament, random collage, excessive rounding and functionless graphics.",
+    "references": [
+      {
+        "image": "https://upload.wikimedia.org/wikipedia/commons/3/3c/HelveticaSpecimenCH.svg",
+        "source": "https://en.wikipedia.org/wiki/International_Typographic_Style"
+      }
+    ]
+  },
+  {
+    "id": "history-memphis",
+    "name": "孟菲斯设计",
+    "english": "Memphis Design",
+    "group": "设计史",
+    "pinterestQuery": "Memphis Design art design",
+    "prompt": "以孟菲斯设计创造大胆、玩乐、反功能主义的组合。把锯齿、波浪、圆点、三角、层压板纹理和不协调的几何家具放进故意失衡但仍可读的构图；采用珊瑚红、钴蓝、亮黄、薄荷绿、黑白棋盘等高饱和配色。允许廉价材料被诚实展示，让幽默和冲突成为视觉核心。避免低饱和北欧风、写实材质、古典对称、柔和自然主义、统一企业色和过度精致的奢华感。",
+    "promptEn": "Create a bold, playful and deliberately anti-functionalist Memphis composition. Combine zigzags, waves, dots, triangles, laminate textures and mismatched geometric furniture in an intentionally unstable but readable arrangement. Use saturated coral, cobalt, bright yellow, mint, and black-and-white checks. Let inexpensive materials remain visible and make humor and friction the visual center. Avoid muted Scandinavian palettes, realistic luxury materials, classical symmetry, soft naturalism, uniform corporate color and overly polished elegance.",
+    "references": [
+      {
+        "image": "https://1.bp.blogspot.com/-yiWsfDEYgBM/XkcxKf5ONsI/AAAAAAAAB0w/TmH01yx65yggT2V93r-a2Ihzw4Jm0dYiQCNcBGAsYHQ/s1600/E2395300-A6B6-4102-87CC-B84DFE01CCBF.jpeg",
+        "source": "https://www.kenbrush.com/2020/02/do-you-know-memphis-milano.html"
+      }
+    ]
+  }
+]
