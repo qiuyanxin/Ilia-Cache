@@ -10,6 +10,8 @@
 
 有争议、未确认和附加限制的许可已单独列在 [LICENSE_REVIEW.md](./LICENSE_REVIEW.md)。
 
+Agent 的项目操作规则见 [AGENTS.md](./AGENTS.md)；MCP 的返回字段、源码策略、隐私与版权边界见 [MCP_SPEC.md](./MCP_SPEC.md)。
+
 公开组件记录使用三种源码策略：
 
 - `bundled-source`：许可允许再分发，网页和未来 MCP 可以返回完整文件和许可。

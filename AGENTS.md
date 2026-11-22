@@ -36,3 +36,13 @@ Collection provenance and primary provenance are separate. `collectionSource` re
 Display component names/descriptions in Chinese and retain `originalName` for English search. Thumbnails use the actual official videos, sound recipes or isolated HTML/React previews. The original DesignBookmark copy-code files are in `references/designbookmark/code/`. React previews are built from those sources by `scripts/build-react-previews.mjs`; the main app remains native HTML/JS. Run `npm run build:previews` after changing those preview sources. Paper Shaders is installed and its sample source is indexed as `paper-shaders`.
 
 Website previews embed the original page directly and respect its frame restrictions. Do not proxy a restricted page to bypass X-Frame-Options or CSP. Website card mode shows three columns. Style folders use a blurred material cover; style detail opens materials first and links to Pinterest using the English style keywords.
+
+## MCP contract
+
+`MCP_SPEC.md` is the canonical contract for any Ilia Cache MCP server or tool. Keep its public/private boundary aligned with `README.md`, `LICENSE_REVIEW.md` and each component's `sourcePolicy`.
+
+- `bundled-source`: MCP may return the stored files together with licence and provenance.
+- `official-source-only`: MCP may return metadata, preview, prompt and the official component page, but never the archived source files.
+- `source-link-only`: MCP may return metadata, preview, prompt and the documented source link only.
+
+Never use MCP as a way to bypass an upstream download page, licence, paywall, login, CSP or frame restriction. Never expose `data/`, `references/`, local uploads, Pinterest imports, environment variables or private notes through a public MCP response. A missing first source must remain explicitly unresolved rather than being replaced with an invented attribution.
