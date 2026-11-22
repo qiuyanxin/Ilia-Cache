@@ -1,3 +1,19 @@
+export const SITE_CATEGORIES = ['网页参考','设计灵感','网页模板','UI 组件','动效','图标','字体','素材与工具'];
+
+const legacySiteCategories = new Map([
+ ['组件','UI 组件'],
+ ['网页动效','动效'],
+ ['设计参考','设计灵感'],
+ ['审美与视觉','设计灵感'],
+ ['模板与提示词','网页模板'],
+ ['页面模板','网页模板'],
+]);
+
+export function siteCategory(saved, curated) {
+ if (saved && !legacySiteCategories.has(saved)) return saved;
+ return curated || legacySiteCategories.get(saved) || '素材与工具';
+}
+
 export function domainOf(value){try{return new URL(value).hostname.toLowerCase().replace(/^www\./,'');}catch{return '';}}
 export function groupSites(resources){
  const groups=new Map();
@@ -10,6 +26,13 @@ export function groupSites(resources){
  });
 }
 export function validPublicWebUrl(value){try{const u=new URL(value);return ['http:','https:'].includes(u.protocol)&&!u.username&&!u.password?u.href:'';}catch{return '';}}
+
+export function sitePreviewRank(site){
+ if(site.domain==='100font.com')return 3;
+ if(site.previewable===true)return 0;
+ if(site.previewable===false)return 2;
+ return 1;
+}
 
 export function mediaType(media){
  const url=String(media?.url||'').split('#')[0].split('?')[0].toLowerCase();

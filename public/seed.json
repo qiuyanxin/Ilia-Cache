@@ -50244,5 +50244,77 @@
     "sourcePageUrl": "https://showheyohtaki.github.io/motion-prompt/#240",
     "sourcePageKind": "primary",
     "sourcePolicy": "bundled-source"
+  },
+  {
+    "id": "site-kokonut-ui",
+    "name": "Kokonut UI",
+    "url": "https://kokonutui.com/",
+    "category": "组件",
+    "description": "100+ 开源 React 动效组件，支持 shadcn Registry、MCP 和给编程 AI 的安装提示词。",
+    "gets": "源码、提示词、安装命令",
+    "cost": "部分免费",
+    "tags": [
+      "组件",
+      "React",
+      "动效",
+      "MCP",
+      "shadcn"
+    ],
+    "kind": "网站",
+    "source": "Ilia 补充收藏",
+    "sourceShort": "Kokonut UI",
+    "favorite": false,
+    "note": "",
+    "prompt": "",
+    "license": "核心组件 MIT；Pro 内容按原站许可",
+    "created": "2026-11-22T00:00:00.000Z"
+  },
+  {
+    "id": "site-smooth-ui",
+    "name": "SmoothUI",
+    "url": "https://smoothui.dev/",
+    "category": "组件",
+    "description": "可预览的 React 动效组件、区块和页面模板，支持 Registry、批量 CLI 与 MCP。",
+    "gets": "源码、预览、安装命令、MCP",
+    "cost": "部分免费",
+    "tags": [
+      "组件",
+      "React",
+      "动效",
+      "MCP",
+      "shadcn"
+    ],
+    "kind": "网站",
+    "source": "Ilia 补充收藏",
+    "sourceShort": "SmoothUI",
+    "favorite": false,
+    "note": "",
+    "prompt": "",
+    "license": "使用前按原站 Registry 条目核对",
+    "created": "2026-11-22T00:00:00.000Z"
+  },
+  {
+    "id": "site-cult-ui",
+    "name": "Cult UI",
+    "url": "https://www.cult-ui.com/",
+    "category": "组件",
+    "description": "面向 React 与 shadcn 的交互组件库，可查看源码、复制安装命令并通过 MCP 查找组件。",
+    "gets": "源码、预览、安装命令、MCP",
+    "cost": "免费组件",
+    "tags": [
+      "组件",
+      "React",
+      "交互",
+      "MCP",
+      "shadcn"
+    ],
+    "kind": "网站",
+    "source": "Ilia 补充收藏",
+    "sourceShort": "Cult UI",
+    "favorite": false,
+    "note": "",
+    "prompt": "",
+    "license": "使用前按具体组件与原站许可核对",
+    "created": "2026-11-22T00:00:00.000Z"
   }
 ]

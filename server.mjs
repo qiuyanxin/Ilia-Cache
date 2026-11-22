@@ -1,6 +1,6 @@
 import {inspectEmbed} from './embed-check.mjs';
 import http from 'node:http';
-import {componentPackage} from './component-packages.mjs';
+import {componentPackage,renderComponentPreview} from './component-packages.mjs';
 import {readPinterest} from './pinterest.mjs';
 import {uploadAsset,serveAsset} from './capture-store.mjs';
 import {loadLibrary,saveLibrary,zipFiles} from './library-store.mjs';
@@ -66,6 +66,17 @@ const server = http.createServer(async (req,res)=>{
    return send(res,200,{explanation});
   }
   if(req.method!=='GET') return send(res,405,{error:'不支持此操作'});
+  if(url.pathname==='/api/component-preview') {
+   const preview=await renderComponentPreview(url.searchParams.get('id')||'');
+   if(!preview)return send(res,404,{error:'预览不存在'});
+   res.writeHead(200,{'Content-Type':mime['.html'],'Cache-Control':'no-cache','X-Content-Type-Options':'nosniff',
+    'Content-Security-Policy':"sandbox allow-scripts; default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:"});
+   return res.end(preview);
+  }
+  if(/^\/(switches|buttons|loaders)(\/|$)/.test(url.pathname)) {
+   res.writeHead(302,{'Location':'/#/components','Cache-Control':'no-cache'});
+   return res.end();
+  }
   if(url.pathname.startsWith('/motion-prompt/')) {
    const relative=decodeURIComponent(url.pathname.slice('/motion-prompt/'.length))||'index.html';
    const target=path.resolve(motionPromptRoot,relative);
