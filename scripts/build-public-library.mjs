@@ -23,6 +23,29 @@ function isPublishedPreview(value) {
 function publicResource(resource) {
   const copy = structuredClone(resource);
   if (copy.license?.startsWith('MIT + Commons Clause')) copy.license = 'MIT + Commons Clause，保留原始许可；不对外再分发组件集合';
+  const component = copy.caseType === '组件' || copy.componentCategory || copy.builtin;
+  if (component) {
+    let host = '';
+    try { host = new URL(copy.url).hostname.replace(/^www\./, ''); } catch {}
+    if (host === 'reactbits.dev') {
+      copy.primarySourceAuthor = 'David Haz';
+      copy.sourceShort = 'React Bits';
+      copy.sourcePolicy = 'official-source-only';
+    } else if (host === 'transitions.dev') {
+      copy.primarySourceAuthor = 'Jakub Antalík';
+      copy.sourceShort = 'Transitions.dev';
+      copy.sourcePolicy = 'official-source-only';
+    }
+    copy.sourcePageUrl = copy.id === 'builtin-spinning-counter'
+      ? 'https://transitions.dev/detail.html?t=spinning-counter'
+      : host === 'transitions.dev'
+        ? copy.externalPreview || copy.url
+        : ['reactbits.dev', 'showheyohtaki.github.io'].includes(host) || copy.sourceLinkAvailable === false
+          ? copy.url
+          : copy.primarySourceUrl || copy.url;
+    copy.sourcePageKind = copy.sourceLinkAvailable === false ? 'collection' : 'primary';
+    if (!copy.sourcePolicy) copy.sourcePolicy = copy.filePackage ? 'bundled-source' : 'source-link-only';
+  }
   delete copy.files;
   delete copy.sourceFiles;
   delete copy.filePackage;

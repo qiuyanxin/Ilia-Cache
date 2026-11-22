@@ -10,6 +10,14 @@
 
 有争议、未确认和附加限制的许可已单独列在 [LICENSE_REVIEW.md](./LICENSE_REVIEW.md)。
 
+公开组件记录使用三种源码策略：
+
+- `bundled-source`：许可允许再分发，网页和未来 MCP 可以返回完整文件和许可。
+- `official-source-only`：例如 React Bits 和存在许可冲突的 Transitions.dev，只展示效果、提示词和官方组件页，由用户或 Agent 直接从官方来源获取。
+- `source-link-only`：许可未确认或只有参考实现，只提供来源链接，不转发源码。
+
+850 个公开组件每条都包含 `primarySourceAuthor`、`sourceShort`、`sourcePageUrl` 和 `sourcePolicy`。卡片的来源标签可直接打开对应组件页；没有作者原始链接的 6 条 LeiBox 记录会明确标为收录页，不伪造第一来源。
+
 ## 打开
 
 双击 `启动设计收藏.command`，或在本目录运行 `npm start`，打开 http://127.0.0.1:4317 。只在本机运行，Node.js 22+，不需要 npm install。
