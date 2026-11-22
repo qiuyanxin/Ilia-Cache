@@ -8,6 +8,7 @@ const packageDir = new URL('../public/component-packages/', import.meta.url);
 const localPreviewRoots = [
   '/component-posters/',
   '/motion/',
+  '/motion-prompt/',
   '/native-preview.html',
   '/previews/',
   '/sounds/'
@@ -21,6 +22,7 @@ function isPublishedPreview(value) {
 
 function publicResource(resource) {
   const copy = structuredClone(resource);
+  if (copy.license?.startsWith('MIT + Commons Clause')) copy.license = 'MIT + Commons Clause，保留原始许可；不对外再分发组件集合';
   delete copy.files;
   delete copy.sourceFiles;
   delete copy.filePackage;
