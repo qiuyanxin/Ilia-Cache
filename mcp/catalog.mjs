@@ -336,6 +336,7 @@ export function createCatalog({
           const seen = new Set();
           candidates = [];
           for (const record of [...exact, ...stored]) {
+            if (!request.kind && record.kind === 'sound') continue;
             const key = record.kind + '\0' + record.id;
             if (seen.has(key)) continue;
             seen.add(key);
