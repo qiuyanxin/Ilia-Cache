@@ -1,3 +1,4 @@
+import { isSoundLabPreview } from './official-component-previews.mjs';
 import { soundThumbnail } from './component-card.mjs';
 import { referenceAspectRatio } from './reference-media-model.mjs';
 
@@ -18,9 +19,10 @@ export function renderSoundSourcePreview(url) {
 
 export function renderOfficialFramePreview({ title, url }) {
   const link = `href="${escape(url)}" target="_blank" rel="noopener noreferrer"`;
-  return `<div class="component-live component-official-frame" data-preview-title="${escape(title)}">
+  const isSound = isSoundLabPreview(url);
+  return `<div class="component-live component-official-frame${isSound ? ' component-sound-frame' : ''}" data-preview-title="${escape(title)}">
     <div class="component-official-frame-canvas" tabindex="-1">
-      <a ${link} data-start-official-preview>打开交互预览</a>
+      <a ${link} data-start-official-preview>${isSound ? '打开官方音效播放器' : '打开交互预览'}</a>
     </div>
     <div class="component-official-frame-actions"><a ${link} data-open-official-preview>在新标签页打开预览 ↗</a></div>
   </div>`;
@@ -36,7 +38,7 @@ export function installOfficialFramePreview(dialog) {
     event.preventDefault();
     const frame = document.createElement('iframe');
     frame.title = stage.dataset.previewTitle + ' 交互预览';
-    frame.sandbox = 'allow-scripts';
+    frame.sandbox = isSoundLabPreview(launch.href) ? 'allow-scripts allow-same-origin' : 'allow-scripts';
     frame.referrerPolicy = 'no-referrer';
     frame.src = launch.href;
     canvas.replaceChildren(frame);

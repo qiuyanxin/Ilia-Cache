@@ -39,10 +39,48 @@ export function officialSourceForRecord(record) {
   return source === soundLab || source === exactSource ? exactSource : null;
 }
 
+export function isSoundLabPreview(value) {
+  if (value === soundLab) return true;
+  if (typeof value !== 'string' || !value.startsWith(soundLab + '#sound=')) return false;
+  return soundIds.has(value.slice((soundLab + '#sound=').length));
+}
+
+function savedTransitionPoster(record, source, sourceName) {
+  if (sourceName !== 'Transitions.dev') return null;
+  const slug = /^transitions-([a-z0-9-]+)$/.exec(record.id)?.[1];
+  if (!slug || source !== 'https://transitions.dev/detail.html?t=' + slug) return null;
+  const url = '/component-posters/transitions-' + slug + '.jpg';
+  return record.localPoster === url || (record.preview?.kind === 'image' && record.preview.url === url)
+    ? { kind: 'image', url } : null;
+}
+
+const canvasDemos = new Set([
+  'ascii-object', 'asciify', 'frost', 'glass', 'glass-object', 'glyph-rain',
+  'particle-object', 'particle-scroll', 'liquid-object',
+]);
+
+function canvasVideo(record, source, sourceName) {
+  if (sourceName !== 'Canvas UI') return null;
+  const slug = /^leibox-([a-z0-9-]+)$/.exec(record.id)?.[1];
+  if (!canvasDemos.has(slug) || source !== 'https://canvasui.dev/docs/components/' + slug) return null;
+  return { kind: 'video', url: 'https://canvasui.dev/assets/videos/' + slug + '.webm' };
+}
+
 export function officialPreviewForRecord(record) {
   if (!record) return null;
   const source = record.sourcePageUrl || record.url;
   const sourceName = record.sourceShort || record.sourceName;
+  const soundSource = officialSourceForRecord(record);
+  if (soundSource || (record.id === 'reactbits-sound-engine' && sourceName === 'React Bits' && source === soundLab)) {
+    return { kind: 'html', url: soundSource || soundLab };
+  }
+
+  const poster = savedTransitionPoster(record, source, sourceName);
+  if (poster) return poster;
+
+  const canvas = canvasVideo(record, source, sourceName);
+  if (canvas) return canvas;
+
   if (record.id === 'reactbits-shape-grid' && sourceName === 'React Bits' &&
       source === 'https://reactbits.dev/backgrounds/shape-grid') {
     return { kind: 'image', url: 'https://reactbits.dev/og/backgrounds/shape-grid.jpg', ratio: 1200 / 630 };

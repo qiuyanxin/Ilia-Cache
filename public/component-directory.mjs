@@ -41,7 +41,8 @@ function card(record, { readonly, hasInCart, thumbnail, getCollection, mode }) {
     category: mode === 'components' ? componentBrowseCategory(record) : componentCategory(record), source: sourceName(record), sourceHref: sourcePage(record),
     sourceAuthor: record.primarySourceAuthor, indexed: indexedPolicies.has(record.sourcePolicy),
     media: thumbnail(record),
-    previewHref: mode === 'sounds' ? componentWebUrl(sourcePage(record)) : undefined,
+    previewHref: mode === 'sounds' && (!record.catalogPreview || ['none', 'external'].includes(record.catalogPreview.kind))
+      ? componentWebUrl(sourcePage(record)) : undefined,
     collection: accountCollection ?? (readonly ? undefined : { inCart: hasInCart(record.id), usage: record.usage?.length || 0 }),
     workbench: Boolean(accountCollection),
   });

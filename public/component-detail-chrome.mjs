@@ -44,3 +44,7 @@ export function renderComponentDetailChrome({ title, category, description, head
     ${summary ? `<p class="component-detail-note">${escape(summary)}</p>` : ''}
     <div class="component-detail-actions"><div class="component-shared-actions">${origin}${back ? '' : '<button type="button" id="copy-agent">复制给 Agent</button>'}</div></div>`;
 }
+
+export function renderPreviewOrigin(source) {
+  return source ? `<p class="component-preview-origin"><a data-component-preview-origin href="${escape(source.href)}" target="_blank" rel="noopener noreferrer">${escape(source.label)}</a></p>` : '';
+}

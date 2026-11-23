@@ -9,7 +9,7 @@ import {componentMedia,installDetailMediaPlayback,installPreviewRecovery} from '
 import {installComponentDirectory} from './component-directory.mjs';
 import {installComponentDetailTabs} from './component-detail-tabs.mjs';
 import {componentDetailTabs} from './component-directory-url.mjs';
-import {renderComponentDetailChrome,renderComponentPrompt} from './component-detail-chrome.mjs';
+import {renderComponentDetailChrome,renderComponentPrompt,renderPreviewOrigin} from './component-detail-chrome.mjs';
 import {installMotionDetailPreview,installOfficialFramePreview,renderDetailMediaStage,renderOfficialFramePreview,renderSoundSourcePreview} from './component-detail-preview.mjs';
 import {createComponentPackageCache} from './component-package-cache.mjs';
 import {mountComponentSourceFiles,renderComponentSourceContent,renderComponentSourcePanel} from './component-source-panel.mjs';
@@ -181,7 +181,23 @@ export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pul
   body.removeAttribute('data-awaiting-source-preview');
   fileIndex=Math.min(fileIndex,Math.max(0,files.length-1));
   if(tab==='预览'){
-   const built=local?.generatedPreview(r),official=officialPreviewForRecord(r),src=sourceDocument(r);
+   if(readonly&&r.catalogPreview){
+    const approved=r.catalogPreview;
+    if(approved.kind==='html'&&approved.poster&&approved.ratio&&approved.url.includes('/motion-prompt-preview/')){
+     motionPreview.render(body,{title:r.name,...approved});
+    }else if(approved.kind==='html'){
+     body.innerHTML=renderOfficialFramePreview({title:r.name,url:approved.url});
+    }else{
+     const markup=referenceMedia(approved,r.name,{loop:true,autoplay:playback.canAutoplay(approved.url)});
+     body.innerHTML=markup?renderDetailMediaStage(markup,approved):componentMedia(r,{...mediaOptions,detail:true});
+    }
+    const url=componentWebUrl(sourcePage(r));
+    const label=r.sourcePageKind==='collection'?'打开收录页 ↗':'打开原组件 ↗';
+    if(url)body.insertAdjacentHTML('beforeend',renderPreviewOrigin({href:url,label}));
+    playback.restore(body);
+    return;
+   }
+   const built=local?.generatedPreview(r),official=r.soundRecipe?null:officialPreviewForRecord(r),src=sourceDocument(r);
    let reference=r.referencePreview;
    let referenceMarkup=referenceMedia(reference,r.name);
    if(!referenceMarkup){reference=official;referenceMarkup=referenceMedia(reference,r.name);}

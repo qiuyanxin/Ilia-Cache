@@ -395,3 +395,7 @@
   .component-manage-label { display: none; }
   .component-manage-icon { display: inline; font-size: 16px; line-height: 1; }
 }
+
+.component-preview-origin { margin: 12px 0 0; font-size: 13px; }
+.component-preview-origin a { text-decoration: underline; text-underline-offset: 2px; }
+.component-sound-frame .component-official-frame-canvas { min-height: 360px; }

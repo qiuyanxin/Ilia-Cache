@@ -22,13 +22,23 @@ function renderLegacyComponentMedia(previews, title, detail) {
     : staticPreview(markup);
 }
 
+function catalogThumbnail(record) {
+  const preview = record.catalogPreview;
+  if (preview.kind === 'html') {
+    if (preview.poster) return cardImage(preview.poster, record.name, preview.ratio);
+    return record.componentCategory === '音效' ? soundThumbnail('打开官方音效播放器') : cardPlaceholder('interaction');
+  }
+  return referenceMedia(preview, record.name, { card: true }) ||
+    cardPlaceholder(record.componentCategory === '音效' ? 'sound' : 'source');
+}
+
 function knownComponentThumbnail(record, motionAssetPrefix) {
   const { name, referencePreview, preview, soundRecipe, previewVideo, previewPoster,
     thumbnailFrame, localPoster, builtin, builtinNative } = record;
   const reference = referenceMedia(referencePreview, name, { card: true });
   if (reference) return reference;
   if (preview?.kind === 'html') return cardPlaceholder('interaction');
-  const official = officialPreviewForRecord(record);
+  const official = soundRecipe ? null : officialPreviewForRecord(record);
   if (official?.kind === 'image') return referenceMedia(official, name, { card: true });
   if (official?.kind === 'html') return cardPlaceholder('interaction');
   const motion = motionPreviewForRecord(record, { assetPrefix: motionAssetPrefix });
@@ -49,6 +59,10 @@ function knownComponentThumbnail(record, motionAssetPrefix) {
 }
 
 export function componentMedia(record, { motionAssetPrefix, legacyPreviews, detail = false, workbench = false, fallbackMedia } = {}) {
+  if (record.catalogPreview) {
+    const markup = catalogThumbnail(record);
+    return detail ? staticPreview(markup) : markup;
+  }
   const animation = workbench && !detail && motionPromptThumbnail(record);
   if (animation) {
     return `<iframe class="motion-prompt-thumb" tabindex="-1" title="${escape(record.name)}" sandbox="allow-scripts" data-src="${animation}" loading="lazy"></iframe>`;
