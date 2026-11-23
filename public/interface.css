@@ -647,7 +647,7 @@ dialog .dialog-heading{margin-bottom:20px}.dialog-heading h2{font-size:var(--fon
 .home-index > a{align-items:center;justify-content:center}
 .home-hero>div:not(.home-orbit)>a:not(.primary),.home-rights a{display:inline-flex;align-items:center;gap:7px;padding:1px 6px}
 /* The public website directory uses the same styles as the local library. */
-#website-library .filterbar [data-website-categories] { flex-basis: 100%; }
+#website-library .filterbar [data-website-categories] { flex-basis: 100%; min-width: 0; max-width: 100%; }
 #website-library [data-website-categories] nav { display: flex; gap: 6px; overflow-x: auto; }
 #website-library [data-website-categories] button { flex: none; }
 #website-library [data-website-categories] button.active { background: var(--raised); color: var(--ink); }
