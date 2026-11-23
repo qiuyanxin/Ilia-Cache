@@ -1,0 +1,224 @@
+import { installCardPreviews } from './component-media.mjs';
+import { renderComponentCard } from './component-card.mjs';
+import {
+  allComponentCategories as allCategories, allComponentSources as allSources,
+  describeComponentDirectoryResults, renderComponentDirectoryStatus, renderComponentFilterChoices, revealComponentFilterChoice,
+} from './component-directory-controls.mjs';
+import { COMPONENT_CATEGORIES, componentCategory, isComponentRecord, sourceName, sourcePage } from './component-taxonomy.mjs';
+import { installComponentLaneLayout } from './component-lane-layout.mjs';
+import { createComponentSearch } from './component-search.mjs';
+import { icon } from './icons.mjs';
+import { restoreInputValue } from './input-clear.mjs';
+
+export { splitComponentLanes } from './component-lanes.mjs';
+
+const categories = [allCategories, ...COMPONENT_CATEGORIES];
+const indexedPolicies = new Set(['bundled-source', 'official-source-only', 'source-link-only']);
+
+export function selectComponentRecords(records, { category = allCategories, query = '', source = '', readonly = false } = {}) {
+  return createDirectorySearch(records.filter(record => isComponentRecord(record)), readonly)({
+    category: category === allCategories ? '' : category, query, source,
+  });
+}
+
+function createDirectorySearch(records, readonly) {
+  return createComponentSearch(records, {
+    describe: record => ({
+      category: componentCategory(record), source: sourceName(record), url: sourcePage(record),
+      localMetadata: readonly ? undefined : [record.note, record.url].filter(Boolean).join(' '),
+    }),
+  });
+}
+
+function card(record, { readonly, hasInCart, thumbnail }) {
+  return renderComponentCard({
+    id: record.id, title: record.name,
+    description: record.note || (/leibox.*image-compare/.test(record.url) ? '拖动分隔线比较两张图片，松开时边界自然回弹。' : record.description),
+    category: componentCategory(record), source: sourceName(record), sourceHref: sourcePage(record),
+    sourceAuthor: record.primarySourceAuthor, indexed: indexedPolicies.has(record.sourcePolicy),
+    media: thumbnail(record),
+    collection: readonly ? undefined : { inCart: hasInCart(record.id), usage: record.usage?.length || 0 },
+  });
+}
+
+export function installComponentDirectory(sheet, options) {
+  const { getRecords, readonly, onAdd, onOpen, onRender, onFiltersChanged, playRecipe, toast } = options;
+  sheet.innerHTML = `<div class="page-heading"><h1 tabindex="-1">组件库</h1>${readonly ? '' : `<button class="primary" id="add-component">${icon('plus')}添加组件</button>`}</div>
+    <div class="component-layout"><nav class="component-categories" aria-label="组件分类"><small>组件</small>
+    ${renderComponentFilterChoices('category', COMPONENT_CATEGORIES)}</nav>
+    <section><input id="component-search" aria-label="搜索组件" placeholder="搜索组件、效果或提示词…">
+    <div class="component-source-filters" role="group" aria-label="来源"></div>
+    ${renderComponentDirectoryStatus(describeComponentDirectoryResults(0))}
+    <div class="component-grid"></div></section></div>`;
+
+  const search = sheet.querySelector('#component-search');
+  const categoryFilters = sheet.querySelector('.component-categories');
+  const categoryButtons = [...categoryFilters.querySelectorAll('[data-cc]')];
+  const sourceFilters = sheet.querySelector('.component-source-filters');
+  const status = sheet.querySelector('[data-directory-status]');
+  const resultMessage = status.querySelector('[role="status"]');
+  const resetFilters = status.querySelector('[data-clear-directory]');
+  const grid = sheet.querySelector('.component-grid');
+  const layout = installComponentLaneLayout(grid);
+  const previews = installCardPreviews(grid);
+  const cardTemplate = document.createElement('template');
+  let selectRecords = () => [];
+  let byId = new Map();
+  let visibleCards = new Map();
+  let renderedTiles;
+  let category = allCategories;
+  let source = '';
+  let sources = [];
+
+  function renderCards(refreshRecords = false) {
+    const filters = getFilters();
+    const results = selectRecords(filters);
+    const { kind, message, canClear } = describeComponentDirectoryResults(results.length, filters);
+    status.dataset.directoryStatus = kind;
+    status.classList.toggle('empty', kind === 'empty');
+    status.hidden = kind === 'all';
+    if (resultMessage.textContent !== message) resultMessage.textContent = message;
+    resetFilters.hidden = !canClear;
+    grid.hidden = !results.length;
+    const entries = results.map(record => {
+      const previous = visibleCards.get(record.id);
+      if (previous && !refreshRecords) return previous;
+      const markup = card(record, options);
+      return previous?.markup === markup ? previous : { id: record.id, markup };
+    });
+    const newCards = entries.filter(entry => !entry.tile);
+    if (newCards.length) {
+      cardTemplate.innerHTML = newCards.map(entry => entry.markup).join('');
+      [...cardTemplate.content.children].forEach((tile, index) => { newCards[index].tile = tile; });
+    }
+    const tiles = entries.map(({ tile }) => tile);
+    if (renderedTiles && tiles.length === renderedTiles.length && tiles.every((tile, index) => tile === renderedTiles[index])) return;
+    renderedTiles = tiles;
+    visibleCards = new Map(entries.map(entry => [entry.id, entry]));
+    layout(tiles);
+    previews.refresh();
+    onRender?.();
+  }
+
+  function markCategory(reveal = false) {
+    for (const button of categoryButtons) {
+      const active = category === button.dataset.cc;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-pressed', String(active));
+    }
+    if (reveal) revealComponentFilterChoice(categoryFilters, categoryFilters.querySelector('[aria-pressed="true"]'));
+  }
+
+  function markSource(reveal = false) {
+    for (const button of sourceFilters.querySelectorAll('[data-source-filter]')) {
+      button.setAttribute('aria-pressed', String(button.dataset.sourceFilter === (source || allSources)));
+    }
+    if (reveal) revealComponentFilterChoice(sourceFilters, sourceFilters.querySelector('[aria-pressed="true"]'));
+  }
+
+  function getFilters() {
+    return { query: search.value, category: category === allCategories ? '' : category, source };
+  }
+
+  function applyFilters(filters) {
+    if (!filters) return false;
+    const nextCategory = categories.includes(filters.category) ? filters.category : allCategories;
+    const nextSource = filters.source !== allSources && sources.includes(filters.source) ? filters.source : '';
+    const nextValue = filters.query || '';
+    if (category === nextCategory && source === nextSource && search.value === nextValue) return false;
+    category = nextCategory;
+    source = nextSource;
+    restoreInputValue(search, nextValue);
+    return true;
+  }
+
+  function setFilters(filters, { reveal = false } = {}) {
+    const before = { category, source };
+    const changed = applyFilters(filters);
+    if (!changed && !reveal) return;
+    markCategory(reveal || category !== before.category);
+    markSource(reveal || source !== before.source);
+    if (changed) renderCards();
+  }
+
+  function restoreFocus(id, { reveal = false, control = 'preview' } = {}) {
+    if (sheet.hidden || (!reveal && sheet.contains(document.activeElement))) return;
+    const tile = visibleCards.get(id)?.tile;
+    const selector = { preview: '.component-thumb', title: '.component-title-control', source: 'a.component-source-name' }[control];
+    const target = tile?.querySelector(selector) || sheet.querySelector('h1');
+    target.focus({ preventScroll: true });
+    if (reveal) target.scrollIntoView({ block: 'center', behavior: 'instant' });
+  }
+
+  function focusFilter(name, selection) {
+    const target = name === 'category' ? categoryButtons.find(button => button.dataset.cc === category) :
+      name === 'source' ? sourceFilters.querySelector('[aria-pressed="true"]') :
+        name === 'clear' ? (resetFilters.hidden ? sheet.querySelector('h1') : resetFilters) : search;
+    target?.focus({ preventScroll: true });
+    if (target === search && selection) search.setSelectionRange(...selection);
+  }
+
+  function refresh(filters) {
+    const records = getRecords().filter(record => isComponentRecord(record));
+    byId = new Map(records.map(record => [record.id, record]));
+    selectRecords = createDirectorySearch(records, readonly);
+    const counts = new Map([[allCategories, records.length]]);
+    for (const record of records) {
+      const name = componentCategory(record);
+      counts.set(name, (counts.get(name) || 0) + 1);
+    }
+    for (const button of categoryButtons) button.querySelector('small').textContent = counts.get(button.dataset.cc) || 0;
+    const nextSources = [allSources, ...new Set(records.map(sourceName))];
+    const sourcesChanged = sources.length !== nextSources.length || nextSources.some((source, index) => source !== sources[index]);
+    if (sourcesChanged) {
+      sources = nextSources;
+      sourceFilters.innerHTML = renderComponentFilterChoices('source', sources.slice(1));
+    }
+    const before = { category, source };
+    applyFilters(filters);
+    markCategory(category !== before.category);
+    markSource(sourcesChanged || source !== before.source);
+    renderCards(true);
+  }
+
+  function commitSearch() {
+    renderCards();
+    onFiltersChanged?.(getFilters());
+  }
+  search.addEventListener('compositionend', commitSearch);
+  search.addEventListener('input', event => {
+    if (!event.isComposing) commitSearch();
+  });
+  resetFilters.addEventListener('click', () => {
+    setFilters({}, { reveal: true });
+    onFiltersChanged?.(getFilters());
+    sheet.querySelector('h1').focus({ preventScroll: true });
+  });
+  sheet.addEventListener('click', event => {
+    const button = event.target.closest('[data-cc],[data-source-filter],[data-open-component],#add-component');
+    if (!button) return;
+    if (button.dataset.cc) {
+      category = button.dataset.cc;
+      markCategory(true);
+      renderCards();
+      onFiltersChanged?.(getFilters());
+    }
+    if (button.dataset.sourceFilter) {
+      source = button.dataset.sourceFilter === allSources ? '' : button.dataset.sourceFilter;
+      markSource(true);
+      renderCards();
+      onFiltersChanged?.(getFilters());
+    }
+    if (button.dataset.openComponent) {
+      const record = byId.get(button.dataset.openComponent);
+      if (!record) return;
+      if (playRecipe && record.soundRecipe && button.classList.contains('component-thumb')) {
+        playRecipe(record.soundRecipe).catch(() => toast('音效加载失败'));
+      } else {
+        onOpen(record.id);
+      }
+    }
+    if (button.id === 'add-component') onAdd?.();
+  });
+  return { refresh, getCategory: () => category, getFilters, setFilters, restoreFocus, focusFilter, pausePreviews: previews.pause };
+}

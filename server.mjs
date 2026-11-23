@@ -5,6 +5,11 @@ import {readPinterest} from './pinterest.mjs';
 import {uploadAsset,serveAsset} from './capture-store.mjs';
 import {loadLibrary,saveLibrary,zipFiles} from './library-store.mjs';
 import {readComponent} from './component-source.mjs';
+import {
+ addPreviewCandidate, ComponentRecordError, getComponentRecord, previewComponentInput,
+ readComponentPreview, saveComponentRecord, selectPreviewCandidate
+} from './component-records.mjs';
+import { timingSafeEqual } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
@@ -19,11 +24,58 @@ const system = `你是一位耐心的中文 UI 和前端老师。用户不懂编
 最后给适合直接交给编程AI的中文改写。使用中文Markdown，保持原意，标出推测，不宣称已运行或已核实授权。`;
 const mime = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.txt':'text/plain; charset=utf-8','.tsv':'text/tab-separated-values; charset=utf-8','.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png','.gif':'image/gif','.webp':'image/webp','.svg':'image/svg+xml'};
 function send(res, status, value) { res.writeHead(status, {'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'}); res.end(JSON.stringify(value)); }
+const previewHeaders = {
+ 'Content-Type':'text/html; charset=utf-8',
+ 'Cache-Control':'private, max-age=86400',
+ 'Content-Security-Policy':"sandbox allow-scripts; default-src 'none'; script-src 'unsafe-inline' blob:; style-src 'unsafe-inline'; img-src data: blob:; media-src data: blob:; font-src data:; base-uri 'none'; form-action 'none'; frame-ancestors 'self'",
+ 'Referrer-Policy':'no-referrer',
+ 'X-Content-Type-Options':'nosniff'
+};
+function authorisedAgent(req) {
+ const token = process.env.ILIA_MCP_WRITE_TOKEN;
+ if (req.headers.origin || !token || !req.headers.authorization) return false;
+ const expected = Buffer.from('Bearer '+token);
+ const supplied = Buffer.from(req.headers.authorization);
+ return expected.length === supplied.length && timingSafeEqual(expected, supplied);
+}
+async function componentCommand(req, res, url, host) {
+ if (req.method==='GET') return send(res,200,{record:await getComponentRecord(url.searchParams.get('id'))});
+ if (req.method!=='POST') return send(res,405,{error:'请使用 GET 或 POST'});
+ const browser = req.headers.origin === 'http://'+host;
+ const agent = authorisedAgent(req);
+ if (!browser && !agent) return send(res,403,{error:'请求来源不匹配或未配置本机 MCP 写入授权'});
+ if (!/^application\/json(?:\s*;|$)/i.test(req.headers['content-type'] || '')) {
+  return send(res,415,{error:'请使用 application/json'});
+ }
+ let length = 0;
+ const chunks = [];
+ for await (const chunk of req) {
+  length += chunk.length;
+  if (length > 4_500_000) return send(res,413,{error:'提交内容过大'});
+  chunks.push(chunk);
+ }
+ let input;
+ try { input = JSON.parse(Buffer.concat(chunks)); }
+ catch { return send(res,400,{error:'无法读取提交内容'}); }
+ if (!input || typeof input !== 'object') return send(res,400,{error:'提交内容需要是对象'});
+ if (input.action==='addCandidate') return send(res,200,{record:await addPreviewCandidate(input.id,input.candidate)});
+ if (!browser) return send(res,403,{error:'MCP 写入授权仅用于提交预览候选'});
+ if (input.action==='preview') return send(res,200,await previewComponentInput(input));
+ if (input.action==='save') return send(res,200,{record:await saveComponentRecord(input)});
+ if (input.action==='selectCandidate') return send(res,200,{record:await selectPreviewCandidate(input.id,input.candidateId)});
+ return send(res,400,{error:'不支持的组件操作'});
+}
 const server = http.createServer(async (req,res)=>{
  try {
   const host = req.headers.host;
   if (![`127.0.0.1:${port}`,`localhost:${port}`].includes(host)) return send(res,403,{error:'仅限本机访问'});
   const url = new URL(req.url, `http://${host}`);
+  if(url.pathname==='/api/component-records')return await componentCommand(req,res,url,host);
+  if(url.pathname.startsWith('/api/component-previews/')&&req.method==='GET'){
+   const document=await readComponentPreview(url.pathname.slice('/api/component-previews/'.length));
+   res.writeHead(200,previewHeaders);
+   return res.end(document);
+  }
   if(url.pathname==='/api/embed-check'&&req.method==='GET')return send(res,200,await inspectEmbed(url.searchParams.get('url')||''));
   if(url.pathname==='/api/component-package'&&req.method==='GET')return send(res,200,await componentPackage(url.searchParams.get('id')||''));
   if(url.pathname.startsWith('/api/assets/')&&req.method==='GET'){if(await serveAsset(req,res,url.pathname.slice(12)))return;return send(res,404,{error:'附件不存在'});}
@@ -86,6 +138,11 @@ const server = http.createServer(async (req,res)=>{
   const target = path.resolve(root,'.'+decodeURIComponent(url.pathname==='/'?'/index.html':url.pathname));
   if(!target.startsWith(root+path.sep)) return send(res,403,{error:'无法访问'});
   const data=await readFile(target); res.writeHead(200,{'Content-Type':mime[path.extname(target)]||'application/octet-stream','Cache-Control':'no-cache','X-Content-Type-Options':'nosniff'}); res.end(data);
- } catch(error) {send(res,error.code==='ENOENT'?404:500,{error:error.code==='ENOENT'?'页面不存在':'请求未完成，请稍后重试'});}
+ } catch(error) {
+  if(error instanceof ComponentRecordError)return send(res,error.status,{error:error.message});
+  if(error.code==='ENOENT')return send(res,404,{error:'页面不存在'});
+  console.warn('本机请求未完成：',error.code||error.message);
+  return send(res,500,{error:'请求未完成，请稍后重试'});
+ }
 });
 server.listen(port,'127.0.0.1',()=>console.log(`设计收藏已启动：http://127.0.0.1:${port}`));

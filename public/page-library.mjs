@@ -1,3 +1,8 @@
+import {
+  filterPageReferences, PAGE_CATEGORIES as CATEGORIES, pagePromptLabel as promptLabel,
+  renderPageLibrary, renderPageReferenceCards, sizePageReferences,
+} from './page-library-view.mjs';
+import { isPageRecord as isPage } from './page-taxonomy.mjs';
 import { uploadFile } from './native-controls.mjs';
 import { icon } from './icons.mjs';
 import { favoriteButton } from './favorite-button.mjs';
@@ -7,38 +12,8 @@ const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
 })[char]);
 
-const CATEGORIES = ['浏览全部', '作品集', 'Dashboard', 'SaaS', '电商与品牌', '品牌与机构', '实验与动效', '内容与行业'];
-const isPage = (item) => !item.archived && (item.caseType === '网页参考' || Boolean(item.pageCategory));
-const detect = (item) => item.pageCategory || '内容与行业';
-const promptLabel = (item) => item.promptKind === 'original' ? 'MCP 原始提示词' : item.promptKind === 'reference' ? '设计参考' : item.promptKind === 'user-edited' || item.promptKind === 'user' ? '我的提示词' : '复刻任务';
-const SOURCE_PRIORITY = ['21st.dev', 'Framer', 'MotionSites'];
-
-export const pageSource = (item) => item.sourceShort || item.collectionSource?.name || item.source || '其他来源';
-
-export function mixPageSources(items) {
-  const groups = new Map();
-  for (const item of items) {
-    const source = pageSource(item);
-    if (!groups.has(source)) groups.set(source, []);
-    groups.get(source).push(item);
-  }
-  for (const group of groups.values()) group.sort((a, b) =>
-    String(a.originalName || a.name || '').localeCompare(String(b.originalName || b.name || ''), 'en', { numeric: true, sensitivity: 'base' })
-  );
-  const sources = [...groups.keys()].sort((a, b) => {
-    const ai = SOURCE_PRIORITY.indexOf(a);
-    const bi = SOURCE_PRIORITY.indexOf(b);
-    return (ai < 0 ? SOURCE_PRIORITY.length : ai) - (bi < 0 ? SOURCE_PRIORITY.length : bi) || a.localeCompare(b, 'en');
-  });
-  const mixed = [];
-  for (let index = 0; mixed.length < items.length; index += 1) {
-    for (const source of sources) {
-      const item = groups.get(source)[index];
-      if (item) mixed.push(item);
-    }
-  }
-  return mixed;
-}
+export { isPage };
+export { mixPageSources, pageSource } from './page-library-view.mjs';
 
 export function installPageLibrary(h) {
   const page = document.createElement('main');
@@ -57,12 +32,7 @@ export function installPageLibrary(h) {
   let cardSizes;
 
   const rows = () => h.getState().resources.filter(isPage);
-  const filtered = () => mixPageSources(rows().filter((item) =>
-    (category === '浏览全部' || detect(item) === category) &&
-    (source === '全部来源' || pageSource(item) === source) &&
-    (!query || [item.name, item.originalName, item.sourceCategory, item.sourceShort, item.prompt]
-      .join(' ').toLowerCase().includes(query.toLowerCase()))
-  ));
+  const filtered = () => filterPageReferences(rows(), { category, source, query });
 
   function preview(item) {
     const html = h.cardMedia(item).replace(/<\/?a\b[^>]*>/g, '');
@@ -76,14 +46,9 @@ export function installPageLibrary(h) {
     return item.media?.find((media) => media.type === 'image')?.url || item.preview || '';
   }
 
-  function card(item) {
-    return `<article class="page-reference">
-      <div class="favorite-surface"><button class="page-reference-media" data-open-page="${esc(item.id)}">${preview(item)}</button>
-      ${favoriteButton('page', item, item.favorite)}
-      <button class="card-action card-action--cart" data-project-ref="${esc(item.id)}" aria-label="加入待选 ${esc(item.name)}">${icon('plus')}</button></div>
-      <h3><button data-open-page="${esc(item.id)}">${esc(item.name)}</button></h3>
-      <div class="page-reference-meta"><span>${esc(detect(item))}</span><span>${esc(item.sourceShort || item.source || '手动收藏')}</span><span>${esc(promptLabel(item))}</span></div>
-    </article>`;
+  function cardActions(item) {
+    return favoriteButton('page', item, item.favorite) +
+      `<button class="card-action card-action--cart" data-project-ref="${esc(item.id)}" aria-label="加入待选 ${esc(item.name)}">${icon('plus')}</button>`;
   }
 
   function wireCards(host = page) {
@@ -112,46 +77,13 @@ export function installPageLibrary(h) {
     if (!host) return;
     cardSizes?.disconnect();
     host.removeAttribute('data-masonry');
-    const list = filtered();
-    host.innerHTML = list.length ? list.map(card).join('') : '<div class="empty">这个分类还没有页面。</div>';
+    host.innerHTML = renderPageReferenceCards(filtered(), { preview, actions: cardActions });
     wireCards(host);
-    if (!list.length || !('ResizeObserver' in window)) return;
-
-    const cards = [...host.querySelectorAll('.page-reference')];
-    const track = 4;
-    const gap = 20;
-    const setSpan = (card, height) => {
-      const span = `span ${Math.ceil((height + gap) / track)}`;
-      if (card.style.gridRowEnd !== span) card.style.gridRowEnd = span;
-    };
-    const heights = cards.map(card => card.getBoundingClientRect().height);
-    cards.forEach((card, index) => setSpan(card, heights[index]));
-    host.style.setProperty('--page-grid-track', `${track}px`);
-    host.dataset.masonry = '';
-    cardSizes = new ResizeObserver(entries => {
-      for (const entry of entries) {
-        setSpan(entry.target, entry.borderBoxSize?.[0]?.blockSize ?? entry.contentRect.height);
-      }
-    });
-    cards.forEach(card => cardSizes.observe(card));
+    cardSizes = sizePageReferences(host);
   }
 
   function render() {
-    const sources = [...new Set(rows().map(pageSource))].sort((a, b) => {
-      const ai = SOURCE_PRIORITY.indexOf(a);
-      const bi = SOURCE_PRIORITY.indexOf(b);
-      return (ai < 0 ? SOURCE_PRIORITY.length : ai) - (bi < 0 ? SOURCE_PRIORITY.length : bi) || a.localeCompare(b, 'en');
-    });
-    page.innerHTML = `<div class="page-heading"><h1>页面库</h1><button class="primary" id="page-add">${icon('plus')}添加页面</button></div>
-      <div class="component-layout page-library-layout">
-        <nav class="component-categories" aria-label="页面分类">
-          ${CATEGORIES.map((name) => `<button data-page-cat="${name}" class="${category === name ? 'active' : ''}">${name}<small>${name === '浏览全部' ? rows().length : rows().filter((item) => detect(item) === name).length}</small></button>`).join('')}
-        </nav>
-        <section>
-          <div class="page-library-search"><input id="page-search" data-command-search aria-label="搜索页面" placeholder="搜索页面、来源或提示词" value="${esc(query)}"><label class="page-source-filter"><span>来源分类</span><select id="page-source" aria-label="按来源筛选页面"><option>${'全部来源'}</option>${sources.map((name) => `<option${source === name ? ' selected' : ''}>${esc(name)}</option>`).join('')}</select></label></div>
-          <div class="page-reference-grid"></div>
-        </section>
-      </div>`;
+    page.innerHTML = renderPageLibrary(rows(), { category, source, query, canAdd: true });
 
     page.querySelectorAll('[data-page-cat]').forEach((button) => {
       button.onclick = () => { category = button.dataset.pageCat; render(); };
@@ -286,5 +218,5 @@ export function installPageLibrary(h) {
     page.hidden = true;
   }
 
-  return { show, leave, open: openPage, count: () => rows().length, get showing() { return showing; } };
+  return { show, leave, open: openPage, openPage, count: () => rows().length, get showing() { return showing; } };
 }

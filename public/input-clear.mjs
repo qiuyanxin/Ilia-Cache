@@ -1,9 +1,16 @@
 // Adapted from transitions.dev; original source and license retained in references/upstream.
 // One clear routine per .t-clear. Reads timing/geometry from the
 // CSS variables each call so live tweaks apply without a reload.
-const root = document.documentElement;
+export const inputValueRestored = 'ilia:input-restored';
+
+export function restoreInputValue(input, value) {
+  if (input.value === value) return;
+  input.value = value;
+  input.dispatchEvent(new Event(inputValueRestored));
+}
+
 const num = (name, fb) => {
-  const v = parseFloat(getComputedStyle(root).getPropertyValue(name));
+  const v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
   return Number.isFinite(v) ? v : fb;
 };
 // Minimal cubic-bezier(x1,y1,x2,y2) sampler so JS easing matches CSS.
@@ -28,6 +35,7 @@ function bezier(str) {
 }
 
 export function decorateClearInputs(){
+ const root = document.documentElement;
  document.querySelectorAll('input[type="text"],input[type="url"],input[type="search"],input:not([type])').forEach(input=>{
  if(input.dataset.clearBound)return;input.dataset.clearBound='true';
  const wrap=document.createElement('span');wrap.className='t-clear';input.before(wrap);wrap.append(input);
@@ -42,11 +50,28 @@ export function decorateClearInputs(){
   const btn    = wrap.querySelector(".t-clear-btn");
   const canvas = document.createElement("canvas").getContext("2d");
   let clearing = false;
+  let frame = 0;
+
+  function finishAnimation() {
+    cancelAnimationFrame(frame);
+    frame = 0;
+    clearing = false;
+    wrap.classList.remove("is-clearing");
+    mirror.style.cssText = "";
+    mirror.textContent = "";
+    phold.style.cssText = "";
+    glow.style.opacity = "0";
+    glow.style.background = "";
+  }
 
   const sync = () => {
     const has = input.value.length > 0;
     wrap.classList.toggle("has-value", has);
-    if (has) mirror.textContent = input.value.replace(/ /g, "\u00a0");
+    btn.disabled = !has;
+    if (has) {
+      if (clearing) finishAnimation();
+      mirror.textContent = input.value.replace(/ /g, "\u00a0");
+    }
   };
 
   function buildGlow(text) {
@@ -79,9 +104,14 @@ export function decorateClearInputs(){
 
   function clearWithAnimation() {
     if (clearing || !input.value) return;
+    input.focus({ preventScroll: true });
+    const previousText = input.value.replace(/ /g, "\u00a0");
+    input.value = "";
+    input.dispatchEvent(new Event('input',{bubbles:true}));
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     clearing = true;
-    const keepFocus = document.activeElement === input;
-    mirror.textContent = input.value.replace(/ /g, "\u00a0");
+    mirror.textContent = previousText;
 
     const total = num("--clear-dur", 1000);
     const outDur = num("--clear-out-dur", 400);
@@ -95,11 +125,6 @@ export function decorateClearInputs(){
     const easeOut = bezier(getComputedStyle(root).getPropertyValue("--clear-out-ease").trim()||"cubic-bezier(0.22,1,0.36,1)");
     const easeIn  = bezier(getComputedStyle(root).getPropertyValue("--clear-in-ease").trim()||"cubic-bezier(0.22,1,0.36,1)");
 
-    input.value = "";
-    input.dispatchEvent(new Event('input',{bubbles:true}));
-    if(matchMedia('(prefers-reduced-motion: reduce)').matches){sync();clearing=false;return;}
-
-    wrap.classList.remove("has-value");
     wrap.classList.add("is-clearing");
     glow.style.background = buildGlow(mirror.textContent);
     glow.style.opacity = "0";
@@ -127,17 +152,8 @@ export function decorateClearInputs(){
       }
       glow.style.opacity = (g * gOp).toFixed(3);
 
-      if (el < total) {
-        requestAnimationFrame(tick);
-      } else {
-        wrap.classList.remove("is-clearing");
-        [mirror, phold].forEach((el) => (el.style.cssText = ""));
-        mirror.textContent = "";
-        glow.style.opacity = "0";
-        glow.style.background = "";
-        clearing = false;
-        if (keepFocus) requestAnimationFrame(() => input.focus({ preventScroll: true }));
-      }
+      if (el < total) frame = requestAnimationFrame(tick);
+      else finishAnimation();
     })(performance.now());
   }
 
@@ -146,6 +162,7 @@ export function decorateClearInputs(){
   btn.addEventListener("mousedown", keep);
   btn.addEventListener("click", clearWithAnimation);
   input.addEventListener("input", sync);
+  input.addEventListener(inputValueRestored, sync);
   sync();
 });
 

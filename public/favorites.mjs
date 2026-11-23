@@ -2,7 +2,7 @@ import { styleReferenceGroup } from './component-categories.mjs';
 import { favoriteButton, esc } from './favorite-button.mjs';
 import { validPublicWebUrl } from './catalog.mjs';
 import { isComponent, isSoundEffect, sourceName, componentCategory } from './extensions.js';
-import { bindPreviews } from './component-media.mjs';
+import { connectCollectionPreviews } from './component-media.mjs';
 
 const TYPES = {
   component: '组件',
@@ -70,7 +70,7 @@ export function installFavorites(h, fontLibrary, pageLibrary) {
         return `<button type="button" data-favorite-filter="${key}" class="${filter === key ? 'active' : ''}" aria-pressed="${filter === key}">${label} <small>${count}</small></button>`;
       }).join('')}</div>
       ${visible.length ? `<div class="favorites-grid">${visible.map(({ item, type }) => card(item, type)).join('')}</div>` : '<p class="empty">还没有收藏。点卡片上的爱心，就能在这里找到。</p>'}`;
-    bindPreviews(page);
+    connectCollectionPreviews(page);
   }
 
   page.onclick = event => {
@@ -90,7 +90,7 @@ export function installFavorites(h, fontLibrary, pageLibrary) {
     if (!button) return;
     const { favoriteOpen: type, favoriteId: id } = button.dataset;
     if (type === 'font') fontLibrary.open(id);
-    else if (type === 'page') pageLibrary.open(id);
+    else if (type === 'page') pageLibrary.openPage(id);
     else h.openComponent(id);
   };
 

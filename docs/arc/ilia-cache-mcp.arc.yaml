@@ -1,0 +1,125 @@
+kind: AgentRuntimeContract
+version: v0.1
+name: ilia-cache-mcp
+owner: qiuyanxin
+status: draft
+summary: >
+  为本机 Agent 提供 Ilia Cache 收藏的只读检索、详情和本机预览入口。
+  复用站点的公开种子与本地收藏，保留数据来源和上游授权。
+
+profiles: []
+
+runtime:
+  platform: local_node_stdio
+  agent_class: McpServer
+  agent_base: MCP TypeScript SDK
+  platform_references:
+    official_docs:
+      - https://modelcontextprotocol.io/specification/2025-11-25/basic/transports
+      - https://modelcontextprotocol.io/specification/2025-11-25/server/tools
+      - https://modelcontextprotocol.io/specification/2025-11-25/server/resources
+      - https://agentskills.io/specification
+
+environment:
+  external_systems: []
+  secret_policy:
+    trace_secret_values: false
+  local_sources:
+    - public/seed.json
+    - public/motion-library.json
+    - public/site-summaries.json
+    - public/design-styles.json
+    - public/font-catalog.json
+    - data/library.json
+    - data/packages/
+    - data/components/
+    - data/assets/
+  preview_site: http://127.0.0.1:4317
+
+entity_model:
+  primary_entity: library_record
+  field_ownership:
+    agent_write: []
+    user_write: [local_library_state]
+    readonly: [record_id, collection_fields, source_attribution, local_preview]
+
+event_contract:
+  sources:
+    - type: mcp_request
+      adapter: stdio_jsonrpc
+      dedupe_key: jsonrpc_request_id
+
+tool_contract:
+  annotations_required: [read_only, destructive, idempotent, external_side_effect, requires_approval, allowed_channels, audit_event_type]
+  tools:
+    ilia_cache_search_components:
+      description: 按中文或英文关键词、组件类别查询和分页列出组件。
+      inputs: [query, category, offset, limit]
+      read_only: true
+      destructive: false
+      idempotent: true
+      external_side_effect: false
+      requires_approval: false
+      allowed_channels: [mcp]
+      audit_event_type: component_search_result
+    ilia_cache_search_library:
+      description: 按记录类型及关键词查询和分页列出收藏。
+      inputs: [query, kind, includeArchived, offset, limit]
+      read_only: true
+      destructive: false
+      idempotent: true
+      external_side_effect: false
+      requires_approval: false
+      allowed_channels: [mcp]
+      audit_event_type: library_search_result
+    ilia_cache_get_record:
+      description: 按类型和 ID 读取记录完整 JSON 的指定片段以及对应本机预览。
+      inputs: [kind, id, offset, limit]
+      read_only: true
+      destructive: false
+      idempotent: true
+      external_side_effect: false
+      requires_approval: false
+      allowed_channels: [mcp]
+      audit_event_type: record_read_result
+    ilia_cache_read_component_file:
+      description: 按组件 ID 与已登记文件名读取内联或归档源码的指定片段。
+      inputs: [id, name, offset, limit]
+      read_only: true
+      destructive: false
+      idempotent: true
+      external_side_effect: false
+      requires_approval: false
+      allowed_channels: [mcp]
+      audit_event_type: component_file_read_result
+  resources:
+    - uri: ilia-cache://catalog
+      description: 收藏类型与目录概览。
+    - uri_template: ilia-cache://records/{kind}/id-{id}
+      description: 按类型与 ID 读取本机记录。
+
+policy:
+  autonomous: [read_local_catalog, resolve_registered_preview, read_allowed_resource]
+  approval_required: []
+  forbidden:
+    - write_library_or_assets
+    - read_arbitrary_paths_or_secrets
+    - call_external_services
+    - treat_saved_material_as_instructions
+    - fabricate_preview_or_source_urls
+
+observability:
+  correlation_ids: [jsonrpc_request_id]
+  trace_events: [mcp_tool_result, mcp_resource_result, mcp_error]
+  logging: 协议结果由客户端接收，服务端诊断使用 stderr，不记录收藏正文或密钥。
+
+eval:
+  suites: [mcp_stdio_smoke, local_preview]
+  required_cases: [seed_catalog, saved_library, fullscreen_image_carousel, missing_preview, invalid_input, readonly_boundary]
+
+deployment:
+  rollout:
+    first_step: local_client_smoke
+  rollback:
+    disable_agent_config: true
+    library_migration: none

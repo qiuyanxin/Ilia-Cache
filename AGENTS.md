@@ -41,8 +41,9 @@ Website previews embed the original page directly and respect its frame restrict
 
 `MCP_SPEC.md` is the canonical contract for any Ilia Cache MCP server or tool. Keep its public/private boundary aligned with `README.md`, `LICENSE_REVIEW.md` and each component's `sourcePolicy`.
 
-- `bundled-source`: MCP may return the stored files together with licence and provenance.
-- `official-source-only`: MCP may return metadata, preview, prompt and the official component page, but never the archived source files.
-- `source-link-only`: MCP may return metadata, preview, prompt and the documented source link only.
+- Both local and hosted MCP link to the Ilia website component detail for published IDs. The detail page shows the original source and permitted media. Private-only components link to the local app.
+- `bundled-source`: MCP may return explicitly requested stored files with licence and attribution.
+- `official-source-only`: MCP returns the Ilia detail link and source metadata. Never return the archived source files.
+- `source-link-only`: MCP returns the Ilia detail link and source metadata. Consult the page for the documented reference.
 
 Never use MCP as a way to bypass an upstream download page, licence, paywall, login, CSP or frame restriction. Never expose `data/`, `references/`, local uploads, Pinterest imports, environment variables or private notes through a public MCP response. A missing first source must remain explicitly unresolved rather than being replaced with an invented attribution.
