@@ -1,4 +1,5 @@
 import { installCardPreviews } from './component-media.mjs';
+import { componentWebUrl } from './component-workspace.mjs';
 import { renderComponentCard } from './component-card.mjs';
 import {
   allComponentCategories as allCategories, allComponentSources as allSources,
@@ -30,25 +31,32 @@ function createDirectorySearch(records, readonly) {
   });
 }
 
-function card(record, { readonly, hasInCart, thumbnail }) {
+function card(record, { readonly, hasInCart, thumbnail, getCollection, mode }) {
+  const accountCollection = getCollection?.(record);
   return renderComponentCard({
     id: record.id, title: record.name,
     description: record.note || (/leibox.*image-compare/.test(record.url) ? '拖动分隔线比较两张图片，松开时边界自然回弹。' : record.description),
     category: componentCategory(record), source: sourceName(record), sourceHref: sourcePage(record),
     sourceAuthor: record.primarySourceAuthor, indexed: indexedPolicies.has(record.sourcePolicy),
     media: thumbnail(record),
-    collection: readonly ? undefined : { inCart: hasInCart(record.id), usage: record.usage?.length || 0 },
+    previewHref: mode === 'sounds' ? componentWebUrl(sourcePage(record)) : undefined,
+    collection: accountCollection ?? (readonly ? undefined : { inCart: hasInCart(record.id), usage: record.usage?.length || 0 }),
+    workbench: Boolean(accountCollection),
   });
 }
 
 export function installComponentDirectory(sheet, options) {
-  const { getRecords, readonly, onAdd, onOpen, onRender, onFiltersChanged, playRecipe, toast } = options;
-  sheet.innerHTML = `<div class="page-heading"><h1 tabindex="-1">组件库</h1>${readonly ? '' : `<button class="primary" id="add-component">${icon('plus')}添加组件</button>`}</div>
-    <div class="component-layout"><nav class="component-categories" aria-label="组件分类"><small>组件</small>
-    ${renderComponentFilterChoices('category', COMPONENT_CATEGORIES)}</nav>
-    <section><input id="component-search" aria-label="搜索组件" placeholder="搜索组件、效果或提示词…">
+  const { getRecords, readonly, onAdd, onOpen, onRender, onFiltersChanged, playRecipe, toast, mode } = options;
+  const soundDirectory = mode === 'sounds';
+  const entity = soundDirectory ? '音效' : '组件';
+  const title = entity + '库';
+  const visibleCategories = mode === 'components' ? COMPONENT_CATEGORIES.filter(name => name !== '音效') : COMPONENT_CATEGORIES;
+  sheet.innerHTML = `<div class="page-heading"><h1 tabindex="-1">${title}</h1>${readonly || soundDirectory ? '' : `<button class="primary" id="add-component">${icon('plus')}添加组件</button>`}</div>
+    <div class="component-layout${soundDirectory ? ' sound-library-layout' : ''}"><nav class="component-categories" aria-label="组件分类"${soundDirectory ? ' hidden' : ''}><small>组件</small>
+    ${renderComponentFilterChoices('category', visibleCategories)}</nav>
+    <section><input id="component-search" aria-label="${soundDirectory ? '搜索音效' : '搜索组件'}" placeholder="${soundDirectory ? '搜索音效…' : '搜索组件、效果或提示词…'}">
     <div class="component-source-filters" role="group" aria-label="来源"></div>
-    ${renderComponentDirectoryStatus(describeComponentDirectoryResults(0))}
+    ${renderComponentDirectoryStatus(describeComponentDirectoryResults(0, { entity }))}
     <div class="component-grid"></div></section></div>`;
 
   const search = sheet.querySelector('#component-search');
@@ -73,7 +81,7 @@ export function installComponentDirectory(sheet, options) {
   function renderCards(refreshRecords = false) {
     const filters = getFilters();
     const results = selectRecords(filters);
-    const { kind, message, canClear } = describeComponentDirectoryResults(results.length, filters);
+    const { kind, message, canClear } = describeComponentDirectoryResults(results.length, { ...filters, entity });
     status.dataset.directoryStatus = kind;
     status.classList.toggle('empty', kind === 'empty');
     status.hidden = kind === 'all';

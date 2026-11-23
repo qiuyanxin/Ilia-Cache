@@ -646,3 +646,19 @@ dialog .dialog-heading{margin-bottom:20px}.dialog-heading h2{font-size:var(--fon
 
 .home-index > a{align-items:center;justify-content:center}
 .home-hero>div:not(.home-orbit)>a:not(.primary),.home-rights a{display:inline-flex;align-items:center;gap:7px;padding:1px 6px}
+/* The public website directory uses the same styles as the local library. */
+#website-library .filterbar [data-website-categories] { flex-basis: 100%; }
+#website-library [data-website-categories] nav { display: flex; gap: 6px; overflow-x: auto; }
+#website-library [data-website-categories] button { flex: none; }
+#website-library [data-website-categories] button.active { background: var(--raised); color: var(--ink); }
+#website-library .website-source-links { display: grid; gap: 12px; list-style: none; padding: 0; }
+#website-library .site-link:focus-visible,
+#website-library [data-web-preview]:focus-visible { outline-offset: 3px; }
+@media (max-width: 699px) {
+  #website-library .library-layout { grid-template-columns: minmax(0, 1fr); }
+  #website-library .site-row-actions { visibility: visible; opacity: 1; }
+  #website-library .site-preview-heading { flex-wrap: wrap; }
+}
+.style-library-tabs a{display:inline-flex;align-items:center;gap:6px;flex:none;padding:8px 12px;border:1px solid var(--line);border-radius:999px;color:var(--ink);font-size:12px;text-decoration:none}
+.style-library-tabs a.active{background:var(--raised)}
+#collection-pages .gf-key--more{visibility:hidden}

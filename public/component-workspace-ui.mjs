@@ -10,7 +10,7 @@ import {installComponentDirectory} from './component-directory.mjs';
 import {installComponentDetailTabs} from './component-detail-tabs.mjs';
 import {componentDetailTabs} from './component-directory-url.mjs';
 import {renderComponentDetailChrome,renderComponentPrompt} from './component-detail-chrome.mjs';
-import {installMotionDetailPreview,installOfficialFramePreview,renderDetailMediaStage,renderOfficialFramePreview} from './component-detail-preview.mjs';
+import {installMotionDetailPreview,installOfficialFramePreview,renderDetailMediaStage,renderOfficialFramePreview,renderSoundSourcePreview} from './component-detail-preview.mjs';
 import {createComponentPackageCache} from './component-package-cache.mjs';
 import {mountComponentSourceFiles,renderComponentSourceContent,renderComponentSourcePanel} from './component-source-panel.mjs';
 import {installWorkspaceTheme} from './workspace-theme.mjs';
@@ -59,6 +59,7 @@ export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pul
   getRecords:()=>getState().resources,
   readonly,thumbnail,toast,playRecipe:h.playRecipe,
   hasInCart:id=>h.projects?.has(id),
+  getCollection:h.componentCollection,
   onAdd:local ? addComponent : undefined,
   onOpen:id=>h.openComponentRoute?h.openComponentRoute(id):openComponent(id),
   onFiltersChanged:h.writeComponentFilters,
@@ -152,7 +153,7 @@ export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pul
    description:readonly&&typeof note==='string'?note:undefined,
    author:readonly?undefined:r.primarySourceAuthor,license:readonly?undefined:r.license,
    headingId:'component-dialog-title',
-   source:sourceUrl?{href:sourceUrl,label:(r.sourcePageKind==='collection'?'打开收录页':'打开组件来源')+' ↗'}:undefined,
+   source:sourceUrl?{href:sourceUrl,label:(readonly&&componentCategory(r)==='音效'?'打开音效来源':r.sourcePageKind==='collection'?'打开收录页':'打开组件来源')+' ↗'}:undefined,
   });
   if(preserveMedia)playback.remember();
   dialog.innerHTML=`${chrome}
@@ -207,6 +208,7 @@ export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pul
     body.innerHTML=thumbnail(r)+'<button class="primary" id="play-sound">试听音效</button>';
     body.querySelector('#play-sound').onclick=()=>h.playRecipe(r.soundRecipe).catch(()=>toast('音效加载失败'));
    }
+   else if(readonly&&componentCategory(r)==='音效'&&componentWebUrl(sourcePage(r)))body.innerHTML=renderSoundSourcePreview(componentWebUrl(sourcePage(r)));
    else if(videoMarkup)body.innerHTML=renderDetailMediaStage(videoMarkup,video);
    else if(r.externalPreview)body.innerHTML=`<iframe class="component-live" title="${esc(r.name)} 交互预览" src="${esc(r.externalPreview)}" sandbox="allow-scripts"></iframe>`;
    else if(src)appendSourceFrame(body,r,src);

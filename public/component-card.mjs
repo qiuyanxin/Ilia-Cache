@@ -44,7 +44,7 @@ function cardPlacement(id, slots) {
 
 /** Render the shared card. The host provides vetted URLs and locally rendered media markup. */
 export function renderComponentCard({
-  id, title, description, category, source, sourceHref, sourceAuthor, media, href, slots, indexed = Boolean(href), collection, workbench = false,
+  id, title, description, category, source, sourceHref, sourceAuthor, media, href, previewHref, slots, indexed = Boolean(href), collection, workbench = false,
 }) {
   const key = escape(id);
   const name = escape(title);
@@ -54,8 +54,10 @@ export function renderComponentCard({
   const placement = slots === undefined ? '' : cardPlacement(key, slots);
   const thumbnail = indexed ? `<span class="component-thumbnail-stage">${media}</span>` : media;
   const openAttributes = `data-open-component="${key}"`;
-  const thumbnailAttributes = `class="component-thumb" aria-label="预览 ${name}"`;
-  const trigger = href
+  const thumbnailAttributes = `class="component-thumb" aria-label="${previewHref ? '试听' : '预览'} ${name}"`;
+  const trigger = previewHref
+    ? `<a ${thumbnailAttributes} href="${escape(previewHref)}" target="_blank" rel="noopener noreferrer"${describedBy}>${thumbnail}</a>`
+    : href
     ? `<a ${thumbnailAttributes} href="${escape(href)}"${describedBy}>${thumbnail}</a>`
     : `<button ${thumbnailAttributes} ${openAttributes}>${thumbnail}<span class="preview-chip">点击预览 ↗</span></button>`;
   const titleAttributes = `class="component-title-control"${describedBy}`;
@@ -65,10 +67,10 @@ export function renderComponentCard({
   const sourceLink = sourceHref
     ? `<a class="component-source-name" href="${escape(sourceHref)}" target="_blank" rel="noopener noreferrer" title="${escape(sourceAuthor || source)}">${sourceLabel}</a>`
     : `<span class="component-source-name">${sourceLabel}</span>`;
-  const cart = collection ? `<button class="${workbench ? 'card-action card-action--cart' : 'component-cart-add'}" data-cart-add="${key}" aria-label="加入待选 ${name}" aria-pressed="${Boolean(collection.inCart)}">${workbench ? icon('plus') : '＋'}</button>` : '';
+  const cart = collection ? `<button type="button" class="${workbench ? 'card-action card-action--cart' : 'component-cart-add'}" data-cart-add="${key}" aria-label="${collection.inCart ? '移出待选' : '加入待选'} ${name}" aria-pressed="${Boolean(collection.inCart)}">${workbench ? icon(collection.inCart ? 'check' : 'plus') : '＋'}</button>` : '';
   const heart = collection?.favoriteType ? favoriteButton(collection.favoriteType, {id, name: title}, collection.favorite) : '';
   const preview = workbench ? `<div class="favorite-surface">${trigger}${heart}${cart}</div>` : trigger + cart;
-  const usage = collection ? `<span>使用 ${escape(collection.usage)} 次</span>` : '';
+  const usage = collection?.usage !== undefined ? `<span>使用 ${escape(collection.usage)} 次</span>` : '';
   return `<article class="component-tile"${indexed ? ' data-indexed' : ''}${placement}>
     ${preview}<h3>${titleControl}</h3><p class="component-summary" id="${noteId}">${escape(description)}</p>
     <div class="component-labels"><span>${escape(category)}</span>${sourceLink}${usage}</div>

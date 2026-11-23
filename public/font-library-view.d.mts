@@ -29,5 +29,6 @@ export function mountFontLibrary(page: HTMLElement, options: {
   isFavorite?: (font: FontRecord) => boolean;
   isCollected?: (font: FontRecord) => boolean;
   onCollect?: (font: FontRecord) => void;
+  canCollect?: boolean;
   hydrate?: boolean;
 }): { refresh: () => void; destroy: () => void; open: (id: string) => void };

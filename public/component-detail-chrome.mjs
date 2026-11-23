@@ -30,11 +30,11 @@ ${escape(value)}</textarea></label>
 }
 
 /** Render the detail heading and actions for an interactive dialog or a linked page. */
-export function renderComponentDetailChrome({ title, category, description, headingId, source, back, author, license }) {
+export function renderComponentDetailChrome({ title, category, description, headingId, source, back, backLabel = '返回组件库', author, license }) {
   const heading = back ? 'h1' : 'h2';
   const summary = description?.trim();
   const dismiss = back
-    ? `<a class="component-detail-dismiss" href="${escape(back)}" aria-label="返回组件库" title="返回组件库">×</a>`
+    ? `<a class="component-detail-dismiss" href="${escape(back)}" aria-label="${escape(backLabel)}" title="${escape(backLabel)}">×</a>`
     : '<button type="button" data-close aria-label="关闭组件详情">×</button>';
   const origin = source
     ? `<a data-component-origin href="${escape(source.href)}" target="_blank" rel="noopener noreferrer">${escape(source.label)}</a>`

@@ -1,3 +1,4 @@
+import { referencesByStyle, renderVisualReferenceTabs } from './visual-reference-view.mjs';
 import {STYLE_REFERENCE_SUBCATEGORIES,styleReferenceGroup,styleReferenceSubcategory} from './component-categories.mjs';
 import {isComponent} from './extensions.js';
 import {mountFileDrop,uploadFile,filesFromDataTransfer} from './native-controls.mjs';
@@ -16,17 +17,7 @@ export function installCollectionPages(h,styleSeed){
  const capture=document.createElement('dialog');capture.id='capture-dialog';document.body.append(capture);
  const detail=document.createElement('dialog');detail.id='collection-detail';document.body.append(detail);
  const allStyles=()=>{const map=new Map(styleSeed.map(s=>[s.id,s]));for(const s of getState().styles||[])map.set(s.id,{...map.get(s.id),...s,references:[...new Map([...(map.get(s.id)?.references||[]),...(s.references||[])].map(r=>[r.image,r])).values()]});return [...map.values()].map(s=>({...s,references:(s.references||[]).filter(r=>!(s.removedReferences||[]).includes(r.image))})).filter(s=>!s.archived);};
- const normalizeName=value=>String(value||'').trim().toLowerCase();
  const styleReferences=()=>getState().resources.filter(item=>isComponent(item)&&styleReferenceGroup(item));
- function referencesByStyle(styles,references){
-  const matches=new Map();
-  for(const item of references){
-   if(styleReferenceGroup(item)!=='摄影与画风'||!item.originalName)continue;
-   const style=styles.find(style=>normalizeName(style.english)===normalizeName(item.originalName));
-   if(style)matches.set(item.id,style.id);
-  }
-  return matches;
- }
  const styleCount=()=>{
   const styles=allStyles(),refs=styleReferences();
   return styles.length+refs.length-referencesByStyle(styles,refs).size;
@@ -42,12 +33,6 @@ export function installCollectionPages(h,styleSeed){
  function leave(){if(current==='styles')h.stopComponentCards?.();current='';pages.hidden=true;folderController?.destroy();folderController=null;}
  function show(kind){current=kind;document.querySelector('#library').hidden=true;document.querySelector('#learning').hidden=true;document.querySelector('#component-library').hidden=true;pages.hidden=false;document.querySelector('#breadcrumb').textContent=kind==='styles'?'视觉参考':'工作台';render();}
  function render(){if(!current)return;if(current==='styles')renderStyles();if(current==='inbox')renderInbox();if(current==='aesthetic')renderAesthetic();if(current==='accumulation')renderLearning();}
- function styleTabs(directoryCount,references){
-  return `<nav class="collection-chips style-library-tabs" aria-label="视觉参考分类">${['设计风格','动画与镜头','摄影与画风'].map(label=>{
-   const count=label==='设计风格'?directoryCount:references.filter(item=>styleReferenceGroup(item)===label).length;
-   return `<button type="button" data-style-tab="${label}" class="${label===styleTab?'active':''}" aria-pressed="${label===styleTab}">${label} <small>${count}</small></button>`;
-  }).join('')}</nav>`;
- }
  function bindStyleTabs(){
   pages.querySelectorAll('[data-style-tab]').forEach(button=>button.onclick=event=>{
    styleTab=button.dataset.styleTab;
@@ -63,7 +48,7 @@ export function installCollectionPages(h,styleSeed){
   const catalog=allStyles(),references=styleReferences();
   const matched=referencesByStyle(catalog,references);
   const standalone=references.filter(item=>!matched.has(item.id));
-  const tabs=styleTabs(catalog.length,standalone);
+  const tabs=renderVisualReferenceTabs(styleTab,catalog.length,standalone);
   if(styleTab!=='设计风格'){
    const referencesInTab=standalone.filter(item=>styleReferenceGroup(item)===styleTab)
     .map(item=>({item,category:styleReferenceSubcategory(item)}));

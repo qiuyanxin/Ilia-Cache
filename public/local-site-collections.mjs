@@ -1,30 +1,19 @@
 import { favoriteButton } from './favorite-button.mjs';
 import { icon } from './icons.mjs';
 import { bindButtonPress } from './springs.mjs';
+import { renderWebsiteCards, renderWebsiteLayoutSwitch } from './website-library-view.mjs';
 
 const escape = value => String(value ?? '').replace(/[&<>"']/g, character =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
-
-function siteCard(site, screenshot) {
-  const { id, name, url } = site;
-  return `<article class="website-card">
-    <div class="favorite-surface"><a href="${escape(url)}" target="_blank" rel="noopener noreferrer"><img loading="lazy" src="${escape(screenshot(site))}" alt="${escape(name)} 首页"></a>
-      ${favoriteButton('website', site, site.favorite)}<button type="button" class="card-action card-action--cart" data-website-card-cart="${escape(id)}">${icon('plus')}</button></div>
-    <div><h3><a href="${escape(url)}" target="_blank" rel="noopener noreferrer">${escape(name)}</a></h3>
-    <p>${escape(site.finds || site.description)}</p><span>${escape(site.category)}</span>
-<button data-web-preview="${escape(id)}">预览网站 ↗</button></div>
-  </article>`;
-}
 
 export function installLocalSiteCollections(h) {
   const { getState, save, toast, sites, choose, render, nav, screenshot } = h;
   const list = document.querySelector('#resource-list');
   const layout = document.querySelector('.library-layout');
   const inspector = document.querySelector('#inspector');
-  const viewSwitch = document.createElement('div');
-  viewSwitch.className = 'view-switch';
-  viewSwitch.innerHTML = '<button data-layout="list" aria-pressed="true">☷ 列表</button><button data-layout="deck" aria-pressed="false">▱ 卡片</button>';
-  document.querySelector('.list-head').after(viewSwitch);
+  const head = document.querySelector('.list-head');
+  head.insertAdjacentHTML('afterend', renderWebsiteLayoutSwitch('list'));
+  const viewSwitch = head.nextElementSibling;
 
   const deck = document.createElement('div');
   deck.id = 'website-deck';
@@ -67,7 +56,10 @@ export function installLocalSiteCollections(h) {
     }
     inspector.replaceChildren();
     const rows = h.filtered();
-    deck.innerHTML = `<div class="website-card-grid">${rows.map(site => siteCard(site, screenshot)).join('')}</div>`;
+    deck.innerHTML = renderWebsiteCards(rows, { screenshot, actions: site =>
+      favoriteButton('website', site, site.favorite) +
+      `<button type="button" class="card-action card-action--cart" data-website-card-cart="${escape(site.id)}">${icon('plus')}</button>`,
+    });
     for (const button of deck.querySelectorAll('[data-website-card-cart]')) {
       const site = findSite(button.dataset.websiteCardCart);
       if (site) h.bindWebsiteCart(button, site);

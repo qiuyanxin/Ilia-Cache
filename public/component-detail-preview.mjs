@@ -1,3 +1,4 @@
+import { soundThumbnail } from './component-card.mjs';
 import { referenceAspectRatio } from './reference-media-model.mjs';
 
 const escape = value => String(value ?? '').replace(/[&<>"']/g, character =>
@@ -9,6 +10,10 @@ export function renderMotionDetailPreview({ title, ratio, poster, url, pausedAt 
   return `<div class="component-motion-preview" style="--canvas-ratio:${ratio}"${frame ? ' data-motion-state="loading"' : ''}>
     ${frame}<div class="component-static-motion"><img data-preview-media src="${escape(poster)}" alt="${escape(title)}" referrerpolicy="no-referrer">
     ${frame ? '<p class="component-motion-status" role="status" hidden>动效暂时无法加载，可打开组件来源。</p>' : ''}</div></div>`;
+}
+
+export function renderSoundSourcePreview(url) {
+  return `<div class="component-static-preview"><a data-sound-source href="${escape(url)}" target="_blank" rel="noopener noreferrer">${soundThumbnail('在来源试听 ↗')}</a></div>`;
 }
 
 export function renderOfficialFramePreview({ title, url }) {

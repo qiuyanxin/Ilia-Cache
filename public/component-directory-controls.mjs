@@ -31,12 +31,12 @@ export function renderComponentFilterChoices(group, values, { selected = '', for
   }).join('');
 }
 
-export function describeComponentDirectoryResults(count, { query, category, source } = {}) {
+export function describeComponentDirectoryResults(count, { query, category, source, entity = '组件' } = {}) {
   const filtered = Boolean(query?.trim() || category || source);
   if (!count) {
-    return { kind: 'empty', message: filtered ? '找不到符合条件的组件。' : '这里还没有组件。', canClear: filtered };
+    return { kind: 'empty', message: filtered ? `找不到符合条件的${entity}。` : `这里还没有${entity}。`, canClear: filtered };
   }
-  return filtered ? { kind: 'filtered', message: `找到 ${count} 个组件。`, canClear: true } :
+  return filtered ? { kind: 'filtered', message: `找到 ${count} 个${entity}。`, canClear: true } :
     { kind: 'all', message: '', canClear: false };
 }
 

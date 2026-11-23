@@ -223,3 +223,45 @@ test('拒绝非普通选项、未知字段与不安全链接', () => {
     assert.throws(() => renderWorkspaceShell(source, options), TypeError);
   }
 });
+
+test('音效目录提供原站试听、独立详情和无脚本搜索', () => {
+  const audio = 'https://reactbits.dev/tools/sound-lab#sound=pebble';
+  const href = '/zh/components/reactbits-sound-pebble?q=pebble';
+  const card = {
+    id: 'reactbits-sound-pebble', href, title: '卵石音效', description: '用于点击反馈。',
+    category: '音效', source: 'React Bits', sourceHref: audio, previewHref: audio,
+    placeholder: 'sound', slots: { 1: { column: 1, row: 1 } },
+  };
+  const render = card => renderWorkspaceShell(source, {
+    fallback: {
+      title: '音效库', cards: [card], directoryResultCount: 1,
+      filters: {
+        action: '/zh/sounds', query: 'pebble', category: '', source: '',
+        categories: [], sources: ['React Bits'], hideCategories: true,
+      },
+    },
+  });
+  const output = render(card);
+  assert.match(output, /component-layout sound-library-layout/);
+  assert.doesNotMatch(output, /<nav class="component-categories"/);
+  assert.match(output, /<form[^>]*action="\/zh\/sounds"/);
+  assert.match(output, /value="pebble" aria-label="搜索音效"/);
+  assert.match(output, /找到 1 个音效。/);
+  assert.match(output, /aria-label="试听 卵石音效" href="https:\/\/reactbits\.dev\/tools\/sound-lab#sound=pebble" target="_blank"/);
+  assert.match(output, /href="\/zh\/components\/reactbits-sound-pebble\?q=pebble">卵石音效<\/a>/);
+  assert.throws(() => render({ ...card, previewHref: 'javascript:alert(1)' }), TypeError);
+
+  const detail = renderWorkspaceShell(source, {
+    fallback: {
+      title: '卵石音效',
+      detail: {
+        category: '音效', back: '/zh/sounds?q=pebble', backLabel: '返回音效库',
+        source: { href: audio, label: '打开音效来源' },
+        preview: { kind: 'sound', url: audio },
+      },
+    },
+  });
+  assert.match(detail, /href="\/zh\/sounds\?q=pebble" aria-label="返回音效库"/);
+  assert.match(detail, /data-sound-source href="https:\/\/reactbits\.dev\/tools\/sound-lab#sound=pebble"/);
+  assert.doesNotMatch(detail, /<audio|<iframe/);
+});

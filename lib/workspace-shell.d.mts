@@ -14,7 +14,7 @@ export type WorkspaceDetailPreview =
   | { kind: 'image'; url: string; ratio?: number }
   | { kind: 'video'; url: string; poster?: string }
   | { kind: 'frame'; url: string }
-  | { kind: 'sound' }
+  | { kind: 'sound'; url?: string }
   | { kind: 'source'; label: string };
 
 export interface WorkspaceShellFallback {
@@ -32,12 +32,14 @@ export interface WorkspaceShellFallback {
     categories: readonly string[];
     sources: readonly string[];
     categoryCounts?: Readonly<Record<string, number>>;
+    hideCategories?: boolean;
   };
   links?: readonly { href: string; label: string; external?: boolean }[];
   directoryResultCount?: number;
   detail?: {
     category: string;
     back: string;
+    backLabel?: string;
     source: { href: string; label: string };
     preview: WorkspaceDetailPreview;
     tabs?: readonly { name: string; href: string; active: boolean }[];
@@ -52,6 +54,7 @@ export interface WorkspaceShellFallback {
     category: string;
     source: string;
     sourceHref?: string;
+    previewHref?: string;
     sourceAuthor?: string;
     poster?: string;
     ratio?: number;

@@ -87,13 +87,13 @@ function fontDetail(record, canDelete) {
 }
 
 /** Mount onto the native directory and accept write actions from its local host. */
-export function mountFontLibrary(page, { getRecords, onAdd, onDelete, onCollect, isFavorite, isCollected, hydrate = false }) {
+export function mountFontLibrary(page, { getRecords, onAdd, onDelete, onCollect, canCollect = Boolean(onCollect), isFavorite, isCollected, hydrate = false }) {
   const document = page.ownerDocument;
   const dialog = document.createElement('dialog');
   dialog.id = 'font-dialog';
   document.body.append(dialog);
 
-  const permissions = { canAdd: Boolean(onAdd), canDelete: Boolean(onDelete), canCollect: Boolean(onCollect), isFavorite, isCollected };
+  const permissions = { canAdd: Boolean(onAdd), canDelete: Boolean(onDelete), canCollect, isFavorite, isCollected };
   const fontResources = new Map();
   let records = sortFonts(getRecords());
   let byId = new Map(records.map(record => [record.id, record]));
