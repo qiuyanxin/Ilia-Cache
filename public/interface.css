@@ -530,11 +530,11 @@ dialog .dialog-heading{margin-bottom:20px}.dialog-heading h2{font-size:var(--fon
 :root{--resize-dur:300ms;--resize-ease:cubic-bezier(.22,1,.36,1)}
 .capture-grid .saved-entry-media{position:relative}.capture-grid .inbox-edit-trigger{position:absolute;inset:0;width:100%;height:100%;padding:0;border:0;background:transparent;cursor:pointer}.capture-grid .inbox-edit-trigger:focus-visible{outline:2px solid var(--ink);outline-offset:-4px}#collection-detail.t-resize{transition:width var(--resize-dur) var(--resize-ease),height var(--resize-dur) var(--resize-ease);will-change:width,height}@media(prefers-reduced-motion:reduce){#collection-detail.t-resize{transition:none!important}}
 
-#component-library .component-layout {
+#component-library .component-layout, #ilia-ssr .component-layout.grouped-component-layout {
   display: block;
 }
 
-#component-library .component-categories {
+:is(#component-library,#ilia-ssr .grouped-component-layout) .component-categories {
   position: static;
   display: flex;
   flex-direction: row;
@@ -545,7 +545,7 @@ dialog .dialog-heading{margin-bottom:20px}.dialog-heading h2{font-size:var(--fon
   overflow: visible;
 }
 
-#component-library .component-categories button {
+:is(#component-library,#ilia-ssr .grouped-component-layout) .component-categories :is(button,.component-filter-choice) {
   gap: 7px;
   min-height: 34px;
   padding: 5px 9px;
@@ -553,14 +553,14 @@ dialog .dialog-heading{margin-bottom:20px}.dialog-heading h2{font-size:var(--fon
   white-space: nowrap;
 }
 
-#component-library .component-subcategories {
+:is(#component-library,#ilia-ssr .grouped-component-layout) .component-subcategories {
   margin-top: 8px;
   padding: 6px 8px;
   border-radius: 10px;
   background: var(--raised);
 }
 
-#component-library .component-subcategories button {
+:is(#component-library,#ilia-ssr .grouped-component-layout) .component-subcategories :is(button,.component-filter-choice) {
   min-height: 30px;
   font-size: 12px;
 }

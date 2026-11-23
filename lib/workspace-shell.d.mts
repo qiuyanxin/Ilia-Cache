@@ -28,10 +28,12 @@ export interface WorkspaceShellFallback {
     action: string;
     query: string;
     category: string;
+    subcategory?: string;
     source: string;
     categories: readonly string[];
     sources: readonly string[];
     categoryCounts?: Readonly<Record<string, number>>;
+    subcategoryCounts?: Readonly<Record<string, number>>;
     hideCategories?: boolean;
   };
   links?: readonly { href: string; label: string; external?: boolean }[];

@@ -1,29 +1,14 @@
 import { COMPONENT_BROWSE_GROUPS, componentBrowseCategory, styleReferenceGroup } from './component-categories.mjs';
 import { isLibraryComponent, isSoundEffect, sourceName, sourcePage } from './component-taxonomy.mjs';
-import { componentLoadRank, connectCollectionPreviews, pauseCollectionPreviews } from './component-media.mjs';
-import { compareComponentTitles } from './component-search.mjs';
+import { connectCollectionPreviews, pauseCollectionPreviews } from './component-media.mjs';
+import { browseComponentRecords, describeComponentBrowse } from './component-browse.mjs';
+import { renderGroupedComponentFilters } from './component-directory-controls.mjs';
 import { renderComponentCard } from './component-card.mjs';
 import { esc } from './favorite-button.mjs';
 import { icon } from './icons.mjs';
 
 const ALL_SOURCES = '全部来源';
 const BATCH_SIZE = 36;
-
-function browseRecords(records, { query, category, subcategory, source }) {
-  const accepted = subcategory ? [subcategory] : COMPONENT_BROWSE_GROUPS[category];
-  const keyword = query.toLowerCase();
-  return records.filter(record => {
-    const facet = componentBrowseCategory(record);
-    const origin = sourceName(record);
-    return (!accepted || accepted.includes(facet)) && (!source || source === origin) &&
-      (!keyword || [
-        record.name, record.originalName, record.note, record.prompt, record.url,
-        record.primarySourceAuthor, origin, facet, category, ...(record.tags || []),
-      ].join(' ').toLowerCase().includes(keyword));
-  }).sort((a, b) => Number(sourceName(a) === 'Motion Prompt') - Number(sourceName(b) === 'Motion Prompt') ||
-    (!category ? (b.usage?.length || 0) - (a.usage?.length || 0) : 0) ||
-    componentLoadRank(a) - componentLoadRank(b) || compareComponentTitles(a, b));
-}
 
 function directoryCard(record, { hasInCart, thumbnail }) {
   return renderComponentCard({
@@ -97,34 +82,18 @@ export function installWorkbenchDirectory(sheet, options) {
 
   function renderResults() {
     browseObserver?.disconnect();
-    browseObserver = fill(sheet.querySelector('.component-grid'), browseRecords(libraryItems(), getFilters()));
+    browseObserver = fill(sheet.querySelector('.component-grid'), browseComponentRecords(libraryItems(), getFilters(), { readSource: sourceName }));
   }
 
   function render() {
     const all = libraryItems();
-    const sourceCounts = new Map();
-    const categoryCounts = new Map();
-    for (const record of all) {
-      const facet = componentBrowseCategory(record);
-      const origin = sourceName(record);
-      sourceCounts.set(origin, (sourceCounts.get(origin) || 0) + 1);
-      categoryCounts.set(facet, (categoryCounts.get(facet) || 0) + 1);
-    }
-    const sources = [ALL_SOURCES, ...[...sourceCounts.keys()].sort((a, b) => sourceCounts.get(b) - sourceCounts.get(a))];
-    const countGroup = keys => keys.reduce((total, key) => total + (categoryCounts.get(key) || 0), 0);
-    const choice = (label, value, count, active, attribute) =>
-      `<button type="button" ${attribute}="${esc(value)}" class="${active ? 'active' : ''}" aria-pressed="${active}">${esc(label)}<small>${count}</small></button>`;
-    const choices = choice('全部', '', all.length, !category, 'data-cc') + Object.entries(COMPONENT_BROWSE_GROUPS).map(([name, keys]) =>
-      choice(name, name, countGroup(keys), category === name, 'data-cc')).join('');
-    const group = COMPONENT_BROWSE_GROUPS[category] || [];
-    const available = group.filter(key => categoryCounts.has(key));
-    const subchoices = group.length > 1 && available.length
-      ? `<nav class="component-categories component-subcategories" aria-label="${esc(category)}细分">${choice('全部' + category, '', countGroup(available), !subcategory, 'data-subcategory')}${available.map(key => choice(key, key, categoryCounts.get(key), subcategory === key, 'data-subcategory')).join('')}</nav>` : '';
+    const facets = describeComponentBrowse(all, sourceName);
+    const sources = [ALL_SOURCES, ...facets.sources];
     const previousGrid = sheet.querySelector('.component-grid');
     sheet.innerHTML = `<div class="page-heading"><h1 tabindex="-1">${soundMode ? '音效库' : '组件库'}</h1>${soundMode ? '' : `<button class="primary" id="add-component">${icon('plus')}添加组件</button>`}</div>
       <div class="component-layout${soundMode ? ' sound-library-layout' : ''}"><section>
       <input id="component-search" aria-label="${soundMode ? '搜索音效' : '搜索组件'}" placeholder="${soundMode ? '搜索音效…' : '搜索组件、效果或提示词…'}" value="${esc(query)}">
-      ${soundMode ? '' : `<nav class="component-categories" aria-label="组件分类">${choices}</nav>${subchoices}`}
+       ${soundMode ? '' : renderGroupedComponentFilters(facets, getFilters())}
       <div class="component-source-filters">${sources.map(name => `<button type="button" data-source-filter="${esc(name)}" aria-pressed="${(source || ALL_SOURCES) === name}">${esc(name)}</button>`).join('')}</div>
       <div class="component-grid"></div></section></div>`;
     if (previousGrid) sheet.querySelector('.component-grid').replaceWith(previousGrid);

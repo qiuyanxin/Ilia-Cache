@@ -3,6 +3,7 @@
   "catalog.mjs",
   "favorite-button.mjs",
   "component-categories.mjs",
+  "component-browse.mjs",
   "component-card.mjs",
   "component-detail-chrome.mjs",
   "component-detail-preview.mjs",

@@ -1,3 +1,5 @@
+import { COMPONENT_BROWSE_GROUPS } from './component-categories.mjs';
+
 export const allComponentCategories = '浏览全部';
 export const allComponentSources = '全部来源';
 
@@ -15,10 +17,10 @@ export function revealComponentFilterChoice(group, choice) {
 }
 
 /** Use live buttons or native GET inputs with the same option labels and sizes. */
-export function renderComponentFilterChoices(group, values, { selected = '', form, counts } = {}) {
-  const category = group === 'category';
-  const all = category ? allComponentCategories : allComponentSources;
-  const attribute = category ? 'data-cc' : 'data-source-filter';
+export function renderComponentFilterChoices(group, values, { selected = '', form, counts, allLabel } = {}) {
+  const category = group !== 'source';
+  const all = allLabel || (category ? allComponentCategories : allComponentSources);
+  const attribute = group === 'subcategory' ? 'data-subcategory' : category ? 'data-cc' : 'data-source-filter';
   return ['', ...values].map(value => {
     const label = escape(value || all);
     const active = selected === value;
@@ -27,8 +29,26 @@ export function renderComponentFilterChoices(group, values, { selected = '', for
       return `<label class="component-filter-choice">
         <input type="radio" name="${group}" value="${escape(value)}" form="${escape(form)}" aria-label="${label}"${active ? ' checked' : ''}>${label}${count}</label>`;
     }
-    return `<button type="button" ${attribute}="${label}" aria-pressed="${active}">${label}${count}</button>`;
+    const key = allLabel ? escape(value) : label;
+    return `<button type="button" ${attribute}="${key}"${allLabel && active ? ' class="active"' : ''} aria-pressed="${active}">${label}${count}</button>`;
   }).join('');
+}
+
+export function renderGroupedComponentFilters(facets, { category = '', subcategory = '' } = {}, { form } = {}) {
+  const groups = Object.keys(COMPONENT_BROWSE_GROUPS);
+  const selectedGroup = groups.includes(category) ? COMPONENT_BROWSE_GROUPS[category] : [];
+  if (category && !selectedGroup.length) groups.push(category);
+  const primary = renderComponentFilterChoices('category', groups, {
+    selected: category, form, counts: facets.categoryCounts, allLabel: '全部',
+  });
+  const available = selectedGroup.filter(name => facets.subcategoryCounts[name] > 0);
+  const children = selectedGroup.length > 1 && available.length ? renderComponentFilterChoices('subcategory', available, {
+    selected: subcategory, form, counts: { ...facets.subcategoryCounts, '': facets.categoryCounts[category] || 0 },
+    allLabel: '全部' + category,
+  }) : '';
+  return `<nav class="component-categories component-main-categories" aria-label="组件分类">${primary}</nav>${
+    children ? `<nav class="component-categories component-subcategories" aria-label="${escape(category)}细分">${children}</nav>` : ''
+  }`;
 }
 
 export function describeComponentDirectoryResults(count, { query, category, source, entity = '组件' } = {}) {

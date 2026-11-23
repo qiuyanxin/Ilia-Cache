@@ -72,6 +72,7 @@ npm start
 ## 修改一张卡片或一个动效
 
 - 要改组件卡片的来源标签，在 `public/component-card.mjs` 修改 `renderComponentCard` 的来源标记。用同一组件 ID 分别打开本机组件卡片和网站组件卡片，核对来源文案、实际链接和标题。通用样式放在 `public/component-workspace.css`，工作台快捷操作样式放在 `public/interface.css`。
+- 两版组件目录共用 `public/component-browse.mjs` 的筛选、计数和默认顺序，并从 `public/component-directory-controls.mjs` 渲染主类和细分项。网站继续兼容旧分类参数，用公开记录生成首屏和浏览器结果。
 - 要改页面库卡片、分类或顺序，修改 `public/page-library-view.mjs`。本机和网站共用卡片、筛选规则与瀑布流。本机预览和收藏动作由 `public/page-library.mjs` 接入。
 - 要调整表单保存按钮的按压反馈，在 `public/springs.mjs` 找到 `bindButtonPress` 和 `MOTION.commandPress`。用鼠标、键盘分别按下保存按钮，确认松开时能恢复原尺寸，并检查系统减少动态效果选项。
 - 要调整拉绳，在 `public/motion/pull-cord.html` 修改预览的触发或弹簧参数。两版用 `public/workspace-theme.mjs` 接入。通过实际拖动和 Enter 键验证黑白切换，确认刷新后主题一致。

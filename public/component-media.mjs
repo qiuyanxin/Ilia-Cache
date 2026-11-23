@@ -335,7 +335,7 @@ function motionPromptThumbnail(resource){
   const match=/^motion-prompt-(\d{3})$/.exec(resource.id);
   return match ? `/motion-prompt/thumbnail.html#${match[1]}` : '';
 }
-export function componentLoadRank(r){if(motionPromptThumbnail(r))return 1;if(r.soundRecipe||r.localPoster)return 0;if(r.builtin||r.builtinNative||String(r.thumbnailFrame||'').startsWith('/'))return 1;if(r.previewPoster)return 2;if(r.previewVideo||r.thumbnailFrame)return 3;return 4;}
+export { componentLoadRank } from './component-browse.mjs';
 
 let motionPreviewListenerBound = false;
 function bindMotionPreviewSizes(root) {

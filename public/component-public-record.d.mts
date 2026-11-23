@@ -15,7 +15,12 @@ export function publicBrowserRecord(entry: {
   collectionSource?: string;
   preview: { kind: string; url: string; poster?: string; ratio?: number };
   files: readonly string[];
-}, options?: { sourceRevision?: string }): Record<string, unknown>;
+}, options?: { sourceRevision?: string }): Record<string, unknown> & {
+  id: string;
+  name: string;
+  componentCategory: string;
+  sourceShort: string;
+};
 
 export function publicAssetUrl(path: string, revision?: string): string;
 export function publicComponentPackageUrl(id: string, revision?: string): string;
