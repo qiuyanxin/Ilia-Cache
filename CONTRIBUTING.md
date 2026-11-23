@@ -4,7 +4,7 @@ Ilia Cache 的开源仓库维护本机设计资料库、MCP 和公开目录的�
 
 ## 从干净检出开始
 
-需要 Node.js 22 或更新版本。验证使用仓库自带的公开目录和临时资料库。
+需要 Node.js 22.16 或更新版本。验证使用仓库自带的公开目录和临时资料库。
 
 ```sh
 npm ci
@@ -61,7 +61,8 @@ npm start
 | 提示词页签 | `public/component-detail-chrome.mjs` 共用文本框和操作区，网站启动交互时保留选区和阅读位置。本机保存与学习操作由 `public/local-component-actions.mjs` 接入 |
 | 首屏主题与拉绳换肤 | `public/index.html` 的共享首屏脚本从本机读取主题，在目录加载前就能随其他标签页切换黑白。交互预览由 `public/workspace-theme.mjs` 和 `public/motion/pull-cord.html` 接收页面主题 |
 | 本机保存与索引 | `library-store.mjs`、`library-index.mjs` |
-| MCP 搜索、详情和文件读取 | `mcp/catalog.mjs`、`mcp/tools.mjs` |
+| MCP 搜索、详情和文件读取 | `lib/catalog-search.mjs`、`mcp/catalog-tool-registry.mjs`、`mcp/catalog.mjs` |
+| 本机 SQLite 与迁移 | `lib/library-sqlite.mjs`、`scripts/library-db.mjs` |
 | 网站和 MCP 使用的公开目录规则 | `lib/public-catalog.mjs`、`MCP_SPEC.md` |
 | 网站直达详情的初始数据 | `public/component-public-record.mjs`。首屏仅带当前公开组件，后台目录使用同一个转换函数生成。网站同步时为目录和源码包记录发布版本，交互加载时核对版本再更新界面 |
 
@@ -103,4 +104,4 @@ node scripts/build-public-library.mjs --reviewed-input /path/to/reviewed.json --
 
 ## 修复派生索引
 
-本机资料的主文件是 `data/library.json`。如果组件索引缺失或损坏，关闭本机服务后运行 `npm run rebuild:index`。这条命令只重建组件索引、清单和派生文件。迁移或更换电脑前备份整个 `data/`。
+本机资料的主文件是 `data/library.sqlite`。如果组件索引缺失或损坏，关闭本机服务后运行 `npm run rebuild:index`。这条命令只重建组件索引、清单和派生文件。迁移或更换电脑前备份整个 `data/`。

@@ -108,6 +108,12 @@ export function registerCatalogTools(server, {
     reducedMotion: z.boolean().optional(),
   }).strict();
 
+  const candidate = z.object({
+    id, kind: resourceKind, title: z.string(), category: z.string(), description: z.string(),
+    detailPath: z.string(), sourcePolicy: z.string(),
+    evidence: z.record(z.string(), z.enum(['verified', 'not_met', 'unknown'])),
+    matchedTerms: z.array(z.string()),
+  });
   registerTool('search_resources', {
     title: '按用途查找资源',
     description: '传短用途和明确条件。返回少量候选。没有证据满足硬条件的条目在 nearMatches，随后用 get_resource 查看许可与详情。',
@@ -120,6 +126,7 @@ export function registerCatalogTools(server, {
       preferences: z.array(z.string().trim().min(1).max(60)).max(8).optional(),
       limit: z.number().int().min(1).max(30).default(5),
     }).strict(),
+    outputSchema: { releaseId: z.string(), eligible: z.array(candidate), nearMatches: z.array(candidate), total: z.number().int() },
     annotations,
   }, result(args => catalog.searchResources(args)));
 
@@ -127,6 +134,7 @@ export function registerCatalogTools(server, {
     title: '查看选中资源的详情',
     description: '从 search_resources 复制 kind 和 id，核对可用性、来源、许可和文件清单。',
     inputSchema: z.object({ kind: resourceKind, id, releaseId: z.string().max(128).optional() }).strict(),
+    outputSchema: z.object({ files: z.array(z.string()), detailUrl: z.string().optional(), releaseId: z.string().optional() }).passthrough(),
     annotations,
   }, result(async ({ kind, id, releaseId }) => {
     const detail = await catalog.record(kind, id, { releaseId });
@@ -139,6 +147,7 @@ export function registerCatalogTools(server, {
     title: '读资源的一个获准文件',
     description: '从 get_resource 的文件清单选择一个文件，按页读取。每次读取都会重查许可。',
     inputSchema: z.object({ id, name: z.string().min(1).max(512), releaseId: z.string().max(128).optional(), ...textInput }).strict(),
+    outputSchema: { id, name: z.string(), ...textSchema, detailUrl: z.string().optional(), sourceAuthor: z.string().nullable(), license: z.string().nullable() },
     annotations,
   }, result(async ({ id, name, releaseId, offset, limit }) => {
     const text = await catalog.file(id, name, { releaseId });

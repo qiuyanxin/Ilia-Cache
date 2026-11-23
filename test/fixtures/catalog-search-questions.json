@@ -1,0 +1,586 @@
+{
+  "tasks": [
+    {
+      "group": "exact-id",
+      "intent": "reactbits-squish-switch",
+      "relevantIds": [
+        "reactbits-squish-switch"
+      ]
+    },
+    {
+      "group": "exact-id",
+      "intent": "builtin-pull-cord",
+      "relevantIds": [
+        "builtin-pull-cord"
+      ]
+    },
+    {
+      "group": "exact-id",
+      "intent": "builtin-copy-button",
+      "relevantIds": [
+        "builtin-copy-button"
+      ]
+    },
+    {
+      "group": "exact-id",
+      "intent": "reactbits-circular-carousel",
+      "relevantIds": [
+        "reactbits-circular-carousel"
+      ]
+    },
+    {
+      "group": "exact-id",
+      "intent": "4cbfeca4-e4db-402e-8b1f-a1aa0aa96012",
+      "relevantIds": [
+        "4cbfeca4-e4db-402e-8b1f-a1aa0aa96012"
+      ]
+    },
+    {
+      "group": "exact-id",
+      "intent": "motion-prompt-087",
+      "relevantIds": [
+        "motion-prompt-087"
+      ]
+    },
+    {
+      "group": "exact-id",
+      "intent": "reactbits-card-swap",
+      "relevantIds": [
+        "reactbits-card-swap"
+      ]
+    },
+    {
+      "group": "exact-id",
+      "intent": "reactbits-masonry",
+      "relevantIds": [
+        "reactbits-masonry"
+      ]
+    },
+    {
+      "group": "exact-id",
+      "intent": "reactbits-folder",
+      "relevantIds": [
+        "reactbits-folder"
+      ]
+    },
+    {
+      "group": "exact-id",
+      "intent": "reactbits-fluid-glass",
+      "relevantIds": [
+        "reactbits-fluid-glass"
+      ]
+    },
+    {
+      "group": "exact-id",
+      "intent": "reactbits-sound-chime",
+      "relevantIds": [
+        "reactbits-sound-chime"
+      ]
+    },
+    {
+      "group": "exact-id",
+      "intent": "reactbits-count-up",
+      "relevantIds": [
+        "reactbits-count-up"
+      ]
+    },
+    {
+      "group": "exact-id",
+      "intent": "reactbits-ghost-cursor",
+      "relevantIds": [
+        "reactbits-ghost-cursor"
+      ]
+    },
+    {
+      "group": "exact-id",
+      "intent": "transitions-success-check",
+      "relevantIds": [
+        "transitions-success-check"
+      ]
+    },
+    {
+      "group": "exact-id",
+      "intent": "transitions-tabs-sliding",
+      "relevantIds": [
+        "transitions-tabs-sliding"
+      ]
+    },
+    {
+      "group": "exact-id",
+      "intent": "reactbits-card-nav",
+      "relevantIds": [
+        "reactbits-card-nav"
+      ]
+    },
+    {
+      "group": "exact-id",
+      "intent": "reactbits-gradient-text",
+      "relevantIds": [
+        "reactbits-gradient-text"
+      ]
+    },
+    {
+      "group": "exact-id",
+      "intent": "reactbits-pixel-transition",
+      "relevantIds": [
+        "reactbits-pixel-transition"
+      ]
+    },
+    {
+      "group": "exact-id",
+      "intent": "transitions-skeleton-reveal",
+      "relevantIds": [
+        "transitions-skeleton-reveal"
+      ]
+    },
+    {
+      "group": "exact-id",
+      "intent": "paper-shaders",
+      "relevantIds": [
+        "paper-shaders"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "挤压开关",
+      "relevantIds": [
+        "reactbits-squish-switch"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "pull cord",
+      "relevantIds": [
+        "builtin-pull-cord"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "scroll stack",
+      "relevantIds": [
+        "reactbits-scroll-stack"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "环形文字",
+      "relevantIds": [
+        "reactbits-circular-text"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "音效 风铃",
+      "relevantIds": [
+        "reactbits-sound-chime"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "手风琴 相册",
+      "relevantIds": [
+        "reactbits-accordion-gallery"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "fluid glass",
+      "relevantIds": [
+        "reactbits-fluid-glass"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "拉绳",
+      "relevantIds": [
+        "builtin-pull-cord"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "数字 递增",
+      "relevantIds": [
+        "reactbits-count-up"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "文件夹",
+      "relevantIds": [
+        "reactbits-folder",
+        "fae5e50c-9da3-4e6b-8db0-c6d811a693ea"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "holo card",
+      "relevantIds": [
+        "reactbits-holo-card"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "像素 转场",
+      "relevantIds": [
+        "reactbits-pixel-transition"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "curved text loop",
+      "relevantIds": [
+        "reactbits-curved-loop"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "gradient 渐变 文字",
+      "relevantIds": [
+        "reactbits-gradient-text"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "spring check",
+      "relevantIds": [
+        "reactbits-spring-check"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "拖动数值框",
+      "relevantIds": [
+        "reactbits-scrub-field"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "stepper",
+      "relevantIds": [
+        "reactbits-stepper"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "pin 点阵验证码",
+      "relevantIds": [
+        "reactbits-code-slots"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "spotlight card",
+      "relevantIds": [
+        "reactbits-spotlight-card"
+      ]
+    },
+    {
+      "group": "lexical",
+      "intent": "loading 网格",
+      "relevantIds": [
+        "reactbits-lattice-loader"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "页面中间有个圆点，拖动时画面左右切换，可以对比前后效果",
+      "relevantIds": [
+        "4cbfeca4-e4db-402e-8b1f-a1aa0aa96012",
+        "motion-prompt-087"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "给商品图找拖动分隔线的前后图对比，松手有回弹",
+      "relevantIds": [
+        "4cbfeca4-e4db-402e-8b1f-a1aa0aa96012",
+        "motion-prompt-087"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "像把灯开关的绳子往下拉那样切换网页主题",
+      "relevantIds": [
+        "builtin-pull-cord"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "我要点一下就复制，按钮有反馈",
+      "relevantIds": [
+        "builtin-copy-button"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "光标移过去时，后面留下一串残影",
+      "relevantIds": [
+        "reactbits-ghost-cursor"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "让几张图围绕中心转起来循环播放",
+      "relevantIds": [
+        "reactbits-circular-carousel",
+        "reactbits-orbit-images"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "收起工作区左侧菜单，腾出画面空间",
+      "relevantIds": [
+        "builtin-sidebar-collapse",
+        "reactbits-line-sidebar"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "有很多图片，高度不一样，希望交错铺在多列",
+      "relevantIds": [
+        "reactbits-masonry"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "往下滚动时让这些卡片一张叠到另一张上",
+      "relevantIds": [
+        "reactbits-scroll-stack"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "鼠标靠近时，卡片有聚光灯跟随的亮光",
+      "relevantIds": [
+        "reactbits-spotlight-card"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "翻开半透明文件夹后有几张卡片伸出来",
+      "relevantIds": [
+        "fae5e50c-9da3-4e6b-8db0-c6d811a693ea",
+        "reactbits-folder"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "导航栏需要一个像果冻的底色跟着选择滑过去",
+      "relevantIds": [
+        "reactbits-gooey-nav",
+        "transitions-tabs-sliding"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "用户点输入框以后，一格一格填验证码",
+      "relevantIds": [
+        "reactbits-code-slots"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "界面上常驻一枚快捷栏，鼠标经过图标时突出",
+      "relevantIds": [
+        "reactbits-dock",
+        "builtin-bottom-bar"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "打开弹窗时有出现过程，关闭时退回去",
+      "relevantIds": [
+        "transitions-modal"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "请求还没回来，用骨架占位等加载完后显现",
+      "relevantIds": [
+        "transitions-skeleton-reveal"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "表单报错时左右抖一下提醒",
+      "relevantIds": [
+        "transitions-error-state-shake"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "表单成功以后出现一个勾",
+      "relevantIds": [
+        "transitions-success-check",
+        "reactbits-spring-check"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "用风铃般的短声音给点击做反馈",
+      "relevantIds": [
+        "reactbits-sound-chime"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "我想用像矩阵像素出现的方式换页",
+      "relevantIds": [
+        "reactbits-pixel-transition",
+        "reactbits-pixel-swap"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "展示金额的时候数字从 0 慢慢涨上去",
+      "relevantIds": [
+        "reactbits-count-up"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "逐个字符进入页面，像把一句话拆开显示",
+      "relevantIds": [
+        "reactbits-split-text"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "文字绕着圆形路径排版",
+      "relevantIds": [
+        "reactbits-circular-text"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "标题从模糊变清楚地出现",
+      "relevantIds": [
+        "reactbits-blur-text"
+      ]
+    },
+    {
+      "group": "intent",
+      "intent": "很多头像叠起来，鼠标移上去时可以展开看",
+      "relevantIds": [
+        "transitions-avatar-group-hover"
+      ]
+    },
+    {
+      "group": "constraints",
+      "intent": "拖动分隔线的前后图对比",
+      "relevantIds": [],
+      "required": {
+        "keyboard": true
+      }
+    },
+    {
+      "group": "constraints",
+      "intent": "深色模式切换需要满足键盘访问",
+      "relevantIds": [],
+      "required": {
+        "keyboard": true
+      }
+    },
+    {
+      "group": "constraints",
+      "intent": "放进 Next.js 项目的弹性图片对比",
+      "relevantIds": [],
+      "required": {
+        "framework": "nextjs"
+      }
+    },
+    {
+      "group": "constraints",
+      "intent": "前后图对比，允许复制完整 React 实现",
+      "relevantIds": [],
+      "required": {
+        "reusableCode": true
+      }
+    },
+    {
+      "group": "constraints",
+      "intent": "滑块必须支持减少动效设置",
+      "relevantIds": [],
+      "required": {
+        "reducedMotion": true
+      }
+    },
+    {
+      "group": "constraints",
+      "intent": "弹窗展开收起，必须明确支持键盘访问",
+      "relevantIds": [],
+      "required": {
+        "keyboard": true
+      }
+    },
+    {
+      "group": "constraints",
+      "intent": "网页按钮 press，专门找 Vue 版本",
+      "relevantIds": [],
+      "required": {
+        "framework": "vue"
+      }
+    },
+    {
+      "group": "constraints",
+      "intent": "弹性滑块，能确定不需要键盘",
+      "relevantIds": [],
+      "required": {
+        "keyboard": false
+      }
+    },
+    {
+      "group": "constraints",
+      "intent": "像素转场，有低动态版本",
+      "relevantIds": [],
+      "required": {
+        "reducedMotion": true
+      }
+    },
+    {
+      "group": "constraints",
+      "intent": "暗色开关，本地离线可复用源码",
+      "relevantIds": [],
+      "required": {
+        "reusableCode": true
+      }
+    },
+    {
+      "group": "constraints",
+      "intent": "虚构资源 8d4be65f，完全没有合理候选",
+      "relevantIds": [],
+      "required": {}
+    },
+    {
+      "group": "constraints",
+      "intent": "外星轨道棉花糖玄武岩挖掘机接口",
+      "relevantIds": [],
+      "required": {}
+    },
+    {
+      "group": "constraints",
+      "intent": "React Bits 的挤压开关，必须有可下载的源码",
+      "relevantIds": [],
+      "required": {
+        "reusableCode": true
+      }
+    },
+    {
+      "group": "constraints",
+      "intent": "清脆的提示音，必须是 Svelte 成品",
+      "relevantIds": [],
+      "required": {
+        "framework": "svelte"
+      }
+    },
+    {
+      "group": "constraints",
+      "intent": "轮播图，必须验证 keyboard 和 reduced motion",
+      "relevantIds": [],
+      "required": {
+        "keyboard": true,
+        "reducedMotion": true
+      }
+    }
+  ]
+}

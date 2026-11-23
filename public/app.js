@@ -18,7 +18,8 @@ const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>'
 const safeUrl=(value,obsidian=false)=>{try{const u=new URL(value);return (['http:','https:'].includes(u.protocol)||(obsidian&&u.protocol==='obsidian:'))?u.href:'';}catch{return '';}};
 const NAV=[['home','⌂','首页'],['all','▦','网站'],['components','◫','组件库'],['sounds','♫','音效库'],['pages','▤','页面库'],['fonts','T','字体库'],['styles','◉','视觉参考'],['inbox','◩','工作台'],['sources','↗','来源说明']];
 const ACCUMULATION_VIEWS=new Set(['inbox','aesthetic','projects','accumulation','learn','favorites']);
-const STORAGE='ilia-design-library-v1';
+const STORAGE='ilia-design-library-sqlite-v1';
+const LEGACY_STORAGE='ilia-design-library-v1';
 $('theme-controls').onclick=e=>{const b=e.target.closest('[data-theme-choice]');if(b)setTheme(b.dataset.themeChoice);};
 let state={resources:[],lessons:[]},view='all',category='',filter='全部',selected='',editing=null,aiReady=false,activeLesson=null,lessonExample=false,learning=false,caseFilter='全部',summaries={},adding=false;
 let extensions;
@@ -176,14 +177,46 @@ function lessonMarkdown(l){return `# ${l.title}\n\n来源：${l.source||'未填�
 function exportLesson(l){download(l.title.replace(/[\\/:*?"<>|]/g,'-')+'.md',lessonMarkdown(l),'text/markdown');}
 $('export-lesson').onclick=()=>{if(!$('prompt-text').value.trim()){toast('请先粘贴提示词');return;}exportLesson(currentLesson());};
 $('lesson-list').onclick=e=>{if(learning)return;const b=e.target.closest('[data-lesson]');if(b){const l=state.lessons.find(l=>l.id===b.dataset.lesson);if(($('prompt-text').value.trim()||$('explanation').value.trim())&&activeLesson!==l.id&&!confirm('打开笔记将替换当前编辑区。未保存内容会丢失，继续吗？'))return;activeLesson=l.id;lessonExample=Boolean(l.example);$('lesson-title').value=l.title;$('lesson-source').value=l.source||'';$('prompt-text').value=l.prompt;setExplanation(l.explanation,l.example?'保存的示例讲解':'保存的学习笔记');updateCount();$('learning').scrollIntoView({block:'start'});}const d=e.target.closest('[data-download-lesson]');if(d)exportLesson(state.lessons.find(l=>l.id===d.dataset.downloadLesson));};
-async function init(){try{const seedResponse=await fetch('/seed.json');if(!seedResponse.ok)throw Error('资源加载失败');const seed=await seedResponse.json();try{summaries=await(await fetch('/site-summaries.json')).json();}catch{}let syncBaseline=null;const stored=localStorage.getItem(STORAGE);if(stored){try{state=validateImport({version:1,...JSON.parse(stored)});}catch{toast('本地备份暂时无法读取，已加载原始收藏。请先导出并保留现有数据。');state={resources:seed,lessons:[]};}}else state={resources:seed,lessons:[]};try{const disk=await(await fetch('/api/library')).json();if(disk?.resources){syncBaseline=structuredClone(disk);if(!stored||(disk.updatedAt||'')>(state.updatedAt||''))state={version:1,...disk,lessons:disk.lessons||[]};else{const diskResources=new Map(disk.resources.map(r=>[r.id,r]));state.resources=state.resources.map(r=>{const latest=diskResources.get(r.id);diskResources.delete(r.id);return latest?.componentRevision&&latest.componentRevision!==r.componentRevision?latest:r;});state.resources.push(...diskResources.values());}}}catch{}
- const existingIds=new Set(state.resources.map(r=>r.id));
- for(const record of seed){
-  if(existingIds.has(record.id))continue;
-  state.resources.push(record);
-  existingIds.add(record.id);
+function cachedLibrary(key) {
+ try {
+  const raw=localStorage.getItem(key);
+  return raw ? validateImport({version:1,...JSON.parse(raw)}) : null;
+ } catch {
+  return null;
  }
- const builtins=await builtinResources();for(const r of builtins){const existing=state.resources.find(x=>x.id===r.id);if(!existing)state.resources.push(r);else if(!existing.customFiles)existing.files=r.files;}
- extensions=installExtensions({getState:()=>state,syncBaseline,save:persist,openComponentRoute:id=>componentNavigation.open(id),readComponentFilters:readLocalComponentFilters,writeComponentFilters:writeLocalComponentFilters,playRecipe,toast,copy,sites,choose,render:renderList,nav,screenshot:homeScreenshot,filtered,cardMedia,readMetadata,queueMedia,setTheme,switchView,toggleWebsiteFavorite,learn:r=>{switchView('learn');$('lesson-title').value=r.name;$('lesson-source').value=r.url;$('prompt-text').value=r.prompt||'';updateCount();}});const styleSeed=await(await fetch('/design-styles.json')).json();const ui=installInterface(extensions,styleSeed);Object.assign(extensions,ui);persist();
+}
+async function fallbackLibrary() {
+ const legacy=cachedLibrary(LEGACY_STORAGE);
+ if(legacy)return legacy;
+ const response=await fetch('/seed.json');
+ if(!response.ok)throw Error('资源加载失败');
+ const resources=new Map();
+ for(const row of [...await response.json(),...await builtinResources()])if(!resources.has(row.id))resources.set(row.id,row);
+ return {resources:[...resources.values()],lessons:[]};
+}
+async function init(){try{
+ try{summaries=await(await fetch('/site-summaries.json')).json();}catch{}
+ let syncBaseline=null,needsSync=false;
+ const cached=cachedLibrary(STORAGE);
+ try {
+  const response=await fetch('/api/library');
+  const disk=response.ok ? await response.json() : null;
+  if(disk?.resources){
+   syncBaseline=structuredClone(disk);
+   if(cached&&(cached.updatedAt||'')>(disk.updatedAt||'')){
+    state=cached;
+    needsSync=true;
+    const diskResources=new Map(disk.resources.map(r=>[r.id,r]));
+    state.resources=state.resources.map(r=>{
+     const latest=diskResources.get(r.id);
+     diskResources.delete(r.id);
+     return latest?.componentRevision&&latest.componentRevision!==r.componentRevision?latest:r;
+    });
+    state.resources.push(...diskResources.values());
+   }else state={version:1,...disk};
+  }
+ }catch{}
+ if(!syncBaseline)state=cached||await fallbackLibrary();
+ extensions=installExtensions({getState:()=>state,syncBaseline,save:persist,openComponentRoute:id=>componentNavigation.open(id),readComponentFilters:readLocalComponentFilters,writeComponentFilters:writeLocalComponentFilters,playRecipe,toast,copy,sites,choose,render:renderList,nav,screenshot:homeScreenshot,filtered,cardMedia,readMetadata,queueMedia,setTheme,switchView,toggleWebsiteFavorite,learn:r=>{switchView('learn');$('lesson-title').value=r.name;$('lesson-source').value=r.url;$('prompt-text').value=r.prompt||'';updateCount();}});const styleSeed=await(await fetch('/design-styles.json')).json();const ui=installInterface(extensions,styleSeed);Object.assign(extensions,ui);if(needsSync)persist();
  try{const selection=JSON.parse(localStorage.getItem('ilia-library-selection')||'{}');selected=selection.site||'';$('search').value=selection.query||'';}catch{}nav();renderList();renderLessons();bindDetailRoutes();routeFromHash();try{const status=await(await fetch('/api/status')).json();aiReady=status.aiReady===true;}catch{}$('ai-status').textContent=aiReady?'AI 已连接':'AI 未连接';}catch(error){$('resource-list').innerHTML='<div class="empty">无法加载收藏，请刷新页面重试。</div>';toast(error.message);}}
 init();

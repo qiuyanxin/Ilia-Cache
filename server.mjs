@@ -3,7 +3,7 @@ import http from 'node:http';
 import {componentPackage,renderComponentPreview} from './component-packages.mjs';
 import {readPinterest} from './pinterest.mjs';
 import {uploadAsset,serveAsset} from './capture-store.mjs';
-import {loadLibrary,saveLibrary,zipFiles} from './library-store.mjs';
+import {initializeLibrary,loadLibrary,saveLibrary,zipFiles} from './library-store.mjs';
 import {readComponent} from './component-source.mjs';
 import {
  addPreviewCandidate, ComponentRecordError, getComponentRecord, previewComponentInput,
@@ -145,4 +145,5 @@ const server = http.createServer(async (req,res)=>{
   return send(res,500,{error:'请求未完成，请稍后重试'});
  }
 });
+await initializeLibrary();
 server.listen(port,'127.0.0.1',()=>console.log(`设计收藏已启动：http://127.0.0.1:${port}`));

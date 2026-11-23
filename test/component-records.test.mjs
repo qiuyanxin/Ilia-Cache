@@ -104,8 +104,8 @@ test('组件索引写到一半失败时，后续保存会补齐之前遗漏的�
   assert.notEqual(await readFile(marker, 'utf8'), previousRevision);
 
   await rm(manifest);
-  const original = await readFile(join(directory, 'library.json'), 'utf8');
+  const original = await readFile(join(directory, 'library.sqlite'));
   assert.equal(await rebuildComponentIndex(), true);
-  assert.equal(await readFile(join(directory, 'library.json'), 'utf8'), original);
+  assert.deepEqual(await readFile(join(directory, 'library.sqlite')), original);
   assert.equal(JSON.parse(await readFile(manifest, 'utf8')).prompt, '新原文');
 });
