@@ -39,12 +39,6 @@ export function officialSourceForRecord(record) {
   return source === soundLab || source === exactSource ? exactSource : null;
 }
 
-export function isSoundLabPreview(value) {
-  if (value === soundLab) return true;
-  if (typeof value !== 'string' || !value.startsWith(soundLab + '#sound=')) return false;
-  return soundIds.has(value.slice((soundLab + '#sound=').length));
-}
-
 function savedTransitionPoster(record, source, sourceName) {
   if (sourceName !== 'Transitions.dev') return null;
   const slug = /^transitions-([a-z0-9-]+)$/.exec(record.id)?.[1];
@@ -86,6 +80,15 @@ function canvasVideo(record, source, sourceName) {
   return { kind: 'video', url: 'https://canvasui.dev/assets/videos/' + slug + '.webm' };
 }
 
+const librariesPreviews = new Map([
+  ['distortion-waves', 'distortion-waves', 'posters/distortion-waves-main-card.jpg'],
+  ['border-beam', 'border-beam', 'beam-main-card.mp4'],
+  ['thinking-orbs', 'thinking-orbs', 'orb-main-card.mp4'],
+  ['voice-glow', 'voice-glow', 'voice-main-card.mp4'],
+  ['bot-avatars', 'bot-avatars', 'bots-main-card.mp4'],
+  ['liquid-metal', 'metal-fx', 'metal-main-card.mp4'],
+].map(([id, slug, asset]) => ['leibox-' + id, { slug, asset }]));
+
 export function officialPreviewForRecord(record) {
   if (!record) return null;
   const source = record.sourcePageUrl || record.url;
@@ -110,6 +113,14 @@ export function officialPreviewForRecord(record) {
 
   const canvas = canvasVideo(record, source, sourceName);
   if (canvas) return canvas;
+
+  const library = librariesPreviews.get(record.id);
+  if (library && sourceName === 'Libraries.dev' &&
+      source === 'https://github.com/Jakubantalik/Libraries.dev/tree/main/packages/' + library.slug) {
+    return { kind: library.asset.endsWith('.mp4') ? 'video' : 'image',
+      url: 'https://libraries.dev/assets/videos/' + library.asset };
+  }
+
 
   if (record.id === 'reactbits-shape-grid' && sourceName === 'React Bits' &&
       source === 'https://reactbits.dev/backgrounds/shape-grid') {

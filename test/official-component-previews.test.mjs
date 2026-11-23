@@ -11,9 +11,9 @@ const catalog = new Map(buildPublicCatalog(seed).components.map(row => [row.id, 
 test('官方图片和独立预览帧在原始记录与公开目录使用相同的精确地址', () => {
   const approved = seed.filter(officialPreviewForRecord);
   const previews = approved.map(officialPreviewForRecord);
-  assert.equal(previews.filter(item => item.kind === 'image').length, 70);
+  assert.equal(previews.filter(item => item.kind === 'image').length, 71);
   assert.equal(previews.filter(item => item.kind === 'html').length, 206);
-  assert.equal(previews.filter(item => item.kind === 'video').length, 9);
+  assert.equal(previews.filter(item => item.kind === 'video').length, 14);
   assert.equal(new Set(previews.map(item => item.url)).size, previews.length);
   for (const row of approved) {
     const publicRow = catalog.get(row.id);

@@ -1,6 +1,7 @@
-import { isSoundLabPreview } from './official-component-previews.mjs';
 import { soundThumbnail } from './component-card.mjs';
 import { referenceAspectRatio } from './reference-media-model.mjs';
+
+const isSoundLabPreview = url => /^https:\/\/reactbits\.dev\/tools\/sound-lab(?:#sound=[a-z-]+)?$/.test(url);
 
 const escape = value => String(value ?? '').replace(/[&<>"']/g, character =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
