@@ -16,8 +16,13 @@ export function websiteCategories(sites) {
 }
 
 function websiteHasCases(site) {
-  return site.cases ? site.cases.length > 0 : (site.links || []).some(link =>
-    validPublicWebUrl(link.url) && validPublicWebUrl(link.url) !== validPublicWebUrl(site.url));
+  if (site.cases) return site.cases.length > 0;
+  return (site.links || []).some(link => {
+    const href = validPublicWebUrl(link.url);
+    if (!href) return false;
+    const { pathname, search } = new URL(href);
+    return pathname !== '/' || Boolean(search);
+  });
 }
 
 export function readWebsiteFilters(params, sites) {

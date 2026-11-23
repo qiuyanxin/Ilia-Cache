@@ -10,6 +10,7 @@ export interface PublicWebsiteRecord {
   use: string;
   gets: string;
   cost: string;
+  created: string;
   verification: { sourceUrl: string; checkedAt: string; note: string } | null;
   links: { id: string; title: string; url: string }[];
 }
