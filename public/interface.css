@@ -418,6 +418,11 @@ dialog .dialog-heading{margin-bottom:20px}.dialog-heading h2{font-size:var(--fon
   padding: 0;
 }
 
+.favorite-surface > .card-action:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
 @media (hover: hover) {
   .favorite-surface > .card-action {
     opacity: 0;
