@@ -95,7 +95,8 @@
 .command-search.is-open .t-clear.has-value .t-clear-btn { opacity: 1; pointer-events: auto; }
 
 /* Published cards reserve the same space for local media and public fallbacks. */
-.component-tile[data-indexed] > .component-thumb { aspect-ratio: 16 / 9; }
+.component-tile[data-indexed] > .component-thumb,
+.component-tile[data-indexed] > .favorite-surface > .component-thumb { aspect-ratio: 16 / 9; }
 .component-thumbnail-stage {
   position: absolute;
   inset: 0;
