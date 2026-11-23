@@ -140,7 +140,11 @@ export function registerCatalogTools(server, {
     const detail = await catalog.record(kind, id, { releaseId });
     const { record, summary, files } = detail;
     const { files: discarded, ...metadata } = record;
-    return { ...metadata, detailUrl: summary.detailUrl, files, ...(detail.releaseId ? { releaseId: detail.releaseId } : {}) };
+    return {
+      ...metadata, detailUrl: summary.detailUrl, files,
+      ...(detail.evidence ? { evidence: detail.evidence } : {}),
+      ...(detail.releaseId ? { releaseId: detail.releaseId } : {}),
+    };
   }));
 
   registerTool('read_resource_file', {

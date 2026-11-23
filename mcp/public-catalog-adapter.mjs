@@ -103,18 +103,25 @@ export function createPublishedCatalog({ baseUrl, snapshot, retrieve, lookup, re
       const record = resource.record;
       if (kind === 'component' || kind === 'sound') {
         const summary = publishedSummary(record, origin);
-        return { summary, record: publishedMcpRecord(record, summary), files: record.files,
+        return { summary, record: publishedMcpRecord(record, summary), files: record.files, evidence: resource.document?.evidence,
           releaseId: String(version) };
       }
       const { document } = resource;
       const published = document || searchDocument({ ...record, kind });
       const detailUrl = published.detailPath && siteUrl(published.detailPath);
       // Non-component records are rebuilt from the DB projection, never local data.
-      return { summary: { detailUrl }, record: {
+      const summary = {
+        id, kind, source: 'public_catalog', archived: false, title: published.title,
+        description: published.description, category: published.category, tags: [], sourceAuthor: null,
+        upstreamUrl: null, preview: detailUrl ? { kind: 'website_url', url: detailUrl } : null,
+        ...(detailUrl ? { detailUrl } : {}),
+        resourceUri: 'ilia-cache://records/' + kind + '/id-' + encodeURIComponent(id),
+      };
+      return { summary, record: {
         id, kind, title: published.title, category: published.category, description: published.description,
         path: published.detailPath, sourcePolicy: published.sourcePolicy,
         sourcePageUrl: record.sourcePageUrl || record.sourceUrl || record.url || undefined,
-      }, files: [], releaseId: String(version) };
+      }, files: [], evidence: published.evidence, releaseId: String(version) };
     },
     async file(id, name, { releaseId } = {}) {
       const { resource } = await find('component', id, releaseId);
