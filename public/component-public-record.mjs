@@ -6,7 +6,7 @@ export function publicBrowserRecord(entry, { sourceRevision } = {}) {
     caseType: '组件', category: '组件', kind: '案例', prompt: entry.prompt,
     url: entry.sourcePageUrl, sourcePageUrl: entry.sourcePageUrl, sourcePageKind: entry.sourcePageKind,
     primarySourceAuthor: entry.sourceAuthor, sourceShort: entry.sourceName,
-    license: entry.license, sourcePolicy: entry.sourcePolicy,
+    license: entry.license, sourcePolicy: entry.sourcePolicy, catalogPreview: entry.preview,
     ...(entry.collectionSource ? { collectionSource: { name: entry.collectionSource } } : {}),
     ...(entry.preview.kind === 'video' ? { previewVideo: entry.preview.url, previewPoster: entry.preview.poster } : {}),
     ...(entry.preview.kind === 'image' ? {

@@ -1,8 +1,11 @@
 import { installCardPreviews } from './component-media.mjs';
+import { appearsInComponentBrowse, browseComponentRecords, describeComponentBrowse } from './component-browse.mjs';
+import { componentBrowseCategory } from './component-categories.mjs';
+import { componentWebUrl } from './component-workspace.mjs';
 import { renderComponentCard } from './component-card.mjs';
 import {
   allComponentCategories as allCategories, allComponentSources as allSources,
-  describeComponentDirectoryResults, renderComponentDirectoryStatus, renderComponentFilterChoices, revealComponentFilterChoice,
+  describeComponentDirectoryResults, renderComponentDirectoryStatus, renderComponentFilterChoices, renderGroupedComponentFilters, revealComponentFilterChoice,
 } from './component-directory-controls.mjs';
 import { COMPONENT_CATEGORIES, componentCategory, isComponentRecord, sourceName, sourcePage } from './component-taxonomy.mjs';
 import { installComponentLaneLayout } from './component-lane-layout.mjs';
@@ -30,30 +33,42 @@ function createDirectorySearch(records, readonly) {
   });
 }
 
-function card(record, { readonly, hasInCart, thumbnail }) {
+function card(record, { readonly, hasInCart, thumbnail, getCollection, mode }) {
+  const accountCollection = getCollection?.(record);
   return renderComponentCard({
     id: record.id, title: record.name,
     description: record.note || (/leibox.*image-compare/.test(record.url) ? '拖动分隔线比较两张图片，松开时边界自然回弹。' : record.description),
-    category: componentCategory(record), source: sourceName(record), sourceHref: sourcePage(record),
+    category: mode === 'components' ? componentBrowseCategory(record) : componentCategory(record), source: sourceName(record), sourceHref: sourcePage(record),
     sourceAuthor: record.primarySourceAuthor, indexed: indexedPolicies.has(record.sourcePolicy),
     media: thumbnail(record),
-    collection: readonly ? undefined : { inCart: hasInCart(record.id), usage: record.usage?.length || 0 },
+    previewHref: mode === 'sounds' && (!record.catalogPreview || ['none', 'external'].includes(record.catalogPreview.kind))
+      ? componentWebUrl(sourcePage(record)) : undefined,
+    collection: accountCollection ?? (readonly ? undefined : { inCart: hasInCart(record.id), usage: record.usage?.length || 0 }),
+    workbench: Boolean(accountCollection),
   });
 }
 
 export function installComponentDirectory(sheet, options) {
-  const { getRecords, readonly, onAdd, onOpen, onRender, onFiltersChanged, playRecipe, toast } = options;
-  sheet.innerHTML = `<div class="page-heading"><h1 tabindex="-1">组件库</h1>${readonly ? '' : `<button class="primary" id="add-component">${icon('plus')}添加组件</button>`}</div>
-    <div class="component-layout"><nav class="component-categories" aria-label="组件分类"><small>组件</small>
-    ${renderComponentFilterChoices('category', COMPONENT_CATEGORIES)}</nav>
-    <section><input id="component-search" aria-label="搜索组件" placeholder="搜索组件、效果或提示词…">
+  const { getRecords, readonly, onAdd, onOpen, onRender, onFiltersChanged, playRecipe, toast, mode } = options;
+  const soundDirectory = mode === 'sounds';
+  const grouped = mode === 'components';
+  const entity = soundDirectory ? '音效' : '组件';
+  const title = entity + '库';
+  const visibleCategories = mode === 'components' ? COMPONENT_CATEGORIES.filter(name => name !== '音效') : COMPONENT_CATEGORIES;
+  sheet.innerHTML = `<div class="page-heading"><h1 tabindex="-1">${title}</h1>${readonly || soundDirectory ? '' : `<button class="primary" id="add-component">${icon('plus')}添加组件</button>`}</div>
+    <div class="component-layout${soundDirectory ? ' sound-library-layout' : grouped ? ' grouped-component-layout' : ''}">${grouped ? '' :
+    `<nav class="component-categories" aria-label="组件分类"${soundDirectory ? ' hidden' : ''}><small>组件</small>
+    ${renderComponentFilterChoices('category', visibleCategories)}</nav>`}
+    <section><input id="component-search" aria-label="${soundDirectory ? '搜索音效' : '搜索组件'}" placeholder="${soundDirectory ? '搜索音效…' : '搜索组件、效果或提示词…'}">
+    ${grouped ? '<div data-grouped-component-filters></div>' : ''}
     <div class="component-source-filters" role="group" aria-label="来源"></div>
-    ${renderComponentDirectoryStatus(describeComponentDirectoryResults(0))}
+    ${renderComponentDirectoryStatus(describeComponentDirectoryResults(0, { entity }))}
     <div class="component-grid"></div></section></div>`;
 
   const search = sheet.querySelector('#component-search');
+  const groupedFilters = sheet.querySelector('[data-grouped-component-filters]');
   const categoryFilters = sheet.querySelector('.component-categories');
-  const categoryButtons = [...categoryFilters.querySelectorAll('[data-cc]')];
+  const categoryButtons = [...(categoryFilters?.querySelectorAll('[data-cc]') || [])];
   const sourceFilters = sheet.querySelector('.component-source-filters');
   const status = sheet.querySelector('[data-directory-status]');
   const resultMessage = status.querySelector('[role="status"]');
@@ -66,14 +81,17 @@ export function installComponentDirectory(sheet, options) {
   let byId = new Map();
   let visibleCards = new Map();
   let renderedTiles;
-  let category = allCategories;
+  let category = grouped ? '' : allCategories;
+  let subcategory = '';
+  let facets;
+  let renderedGroups;
   let source = '';
   let sources = [];
 
   function renderCards(refreshRecords = false) {
     const filters = getFilters();
     const results = selectRecords(filters);
-    const { kind, message, canClear } = describeComponentDirectoryResults(results.length, filters);
+    const { kind, message, canClear } = describeComponentDirectoryResults(results.length, { ...filters, entity });
     status.dataset.directoryStatus = kind;
     status.classList.toggle('empty', kind === 'empty');
     status.hidden = kind === 'all';
@@ -101,6 +119,18 @@ export function installComponentDirectory(sheet, options) {
   }
 
   function markCategory(reveal = false) {
+    if (grouped) {
+      if (!facets) return;
+      const markup = renderGroupedComponentFilters(facets, { category, subcategory });
+      if (renderedGroups !== markup) {
+        groupedFilters.innerHTML = markup;
+        renderedGroups = markup;
+      }
+      if (reveal) for (const group of groupedFilters.children) {
+        revealComponentFilterChoice(group, group.querySelector('[aria-pressed="true"]'));
+      }
+      return;
+    }
     for (const button of categoryButtons) {
       const active = category === button.dataset.cc;
       button.classList.toggle('active', active);
@@ -117,16 +147,18 @@ export function installComponentDirectory(sheet, options) {
   }
 
   function getFilters() {
-    return { query: search.value, category: category === allCategories ? '' : category, source };
+    return { query: search.value, category: category === allCategories ? '' : category, subcategory, source };
   }
 
   function applyFilters(filters) {
     if (!filters) return false;
-    const nextCategory = categories.includes(filters.category) ? filters.category : allCategories;
+    const nextCategory = grouped ? filters.category || '' : categories.includes(filters.category) ? filters.category : allCategories;
+    const nextSubcategory = grouped ? filters.subcategory || '' : '';
     const nextSource = filters.source !== allSources && sources.includes(filters.source) ? filters.source : '';
     const nextValue = filters.query || '';
-    if (category === nextCategory && source === nextSource && search.value === nextValue) return false;
+    if (category === nextCategory && subcategory === nextSubcategory && source === nextSource && search.value === nextValue) return false;
     category = nextCategory;
+    subcategory = nextSubcategory;
     source = nextSource;
     restoreInputValue(search, nextValue);
     return true;
@@ -151,7 +183,9 @@ export function installComponentDirectory(sheet, options) {
   }
 
   function focusFilter(name, selection) {
-    const target = name === 'category' ? categoryButtons.find(button => button.dataset.cc === category) :
+    const groupedAttribute = name === 'subcategory' ? 'data-subcategory' : name === 'category' ? 'data-cc' : '';
+    const target = grouped && groupedAttribute ? groupedFilters.querySelector(`[${groupedAttribute}][aria-pressed="true"]`) :
+      name === 'category' ? categoryButtons.find(button => button.dataset.cc === category) :
       name === 'source' ? sourceFilters.querySelector('[aria-pressed="true"]') :
         name === 'clear' ? (resetFilters.hidden ? sheet.querySelector('h1') : resetFilters) : search;
     target?.focus({ preventScroll: true });
@@ -159,16 +193,18 @@ export function installComponentDirectory(sheet, options) {
   }
 
   function refresh(filters) {
-    const records = getRecords().filter(record => isComponentRecord(record));
+    const records = getRecords().filter(record => isComponentRecord(record) && (!grouped || appearsInComponentBrowse(record)));
     byId = new Map(records.map(record => [record.id, record]));
-    selectRecords = createDirectorySearch(records, readonly);
+    facets = grouped ? describeComponentBrowse(records, sourceName) : undefined;
+    selectRecords = grouped ? filters => browseComponentRecords(records, filters, { readSource: sourceName, fuzzyFallback: true })
+      : createDirectorySearch(records, readonly);
     const counts = new Map([[allCategories, records.length]]);
     for (const record of records) {
       const name = componentCategory(record);
       counts.set(name, (counts.get(name) || 0) + 1);
     }
     for (const button of categoryButtons) button.querySelector('small').textContent = counts.get(button.dataset.cc) || 0;
-    const nextSources = [allSources, ...new Set(records.map(sourceName))];
+    const nextSources = [allSources, ...(facets?.sources || new Set(records.map(sourceName)))];
     const sourcesChanged = sources.length !== nextSources.length || nextSources.some((source, index) => source !== sources[index]);
     if (sourcesChanged) {
       sources = nextSources;
@@ -195,11 +231,14 @@ export function installComponentDirectory(sheet, options) {
     sheet.querySelector('h1').focus({ preventScroll: true });
   });
   sheet.addEventListener('click', event => {
-    const button = event.target.closest('[data-cc],[data-source-filter],[data-open-component],#add-component');
+    const button = event.target.closest('[data-cc],[data-subcategory],[data-source-filter],[data-open-component],#add-component');
     if (!button) return;
-    if (button.dataset.cc) {
-      category = button.dataset.cc;
+    if (button.hasAttribute('data-cc') || button.hasAttribute('data-subcategory')) {
+      const primary = button.hasAttribute('data-cc');
+      if (primary) category = button.dataset.cc;
+      subcategory = primary ? '' : button.dataset.subcategory;
       markCategory(true);
+      if (grouped && document.activeElement === document.body) focusFilter(primary ? 'category' : 'subcategory');
       renderCards();
       onFiltersChanged?.(getFilters());
     }

@@ -1,19 +1,22 @@
 import { libraryDirectory as dir } from './library-location.mjs';
-import { readLibraryFile, writeLibraryFile } from './library-files.mjs';
 import { updateComponentIndex } from './library-index.mjs';
+import { migrateLibrary } from './lib/library-migration.mjs';
+import { readStoredLibrary, withLibraryWrite } from './lib/library-sqlite.mjs';
 
 export { writeLibraryFile } from './library-files.mjs';
 
-const libraryFile = new URL('library.json', dir);
 const storedComponentFields = [
   'componentRevision', 'sourceRevision', 'captureMethod', 'framework', 'filePackage',
   'sourceFiles', 'files', 'preview', 'previewStatus', 'previewCandidates', 'referencePreview',
   'sourcePolicy', 'sourcePageUrl', 'sourcePageKind', 'promptHistory'
 ];
 
+export function initializeLibrary() {
+  return migrateLibrary(dir);
+}
+
 export async function loadLibrary() {
-  const content = await readLibraryFile(libraryFile);
-  return content === null ? null : JSON.parse(content);
+  return readStoredLibrary(dir) || (await initializeLibrary()).state;
 }
 
 function mergeRows(previous = [], incoming = [], changedIds, mergeRecord) {
@@ -54,16 +57,21 @@ function queueLibraryOperation(operation) {
 
 export function updateLibrary(change) {
   return queueLibraryOperation(async () => {
-    const previous = await loadLibrary();
-    const state = previous || { resources: [], lessons: [] };
-    const { next, result } = await change(state);
-    if (!next) return result;
-    next.updatedAt = new Date().toISOString();
-    await writeLibraryFile(libraryFile, JSON.stringify(next, null, 2));
-    try {
-      await updateComponentIndex(next, previous);
-    } catch (error) {
-      console.warn('资料已保存，组件索引更新失败：', error.code || error.message);
+    if (!readStoredLibrary(dir)) await initializeLibrary();
+    const { result, previous, changed } = await withLibraryWrite(dir, async (state, save) => {
+      const { next, result } = await change(state);
+      if (!next) return { result, changed: false };
+      next.updatedAt = new Date().toISOString();
+      save(next);
+      return { result, previous: state, changed: true };
+    });
+    if (changed) {
+      try {
+        // Index files are derived from the latest committed state under the same writer lock.
+        await withLibraryWrite(dir, current => updateComponentIndex(current, previous));
+      } catch (error) {
+        console.warn('资料已保存，组件索引更新失败：', error.code || error.message);
+      }
     }
     return result;
   });
@@ -71,9 +79,8 @@ export function updateLibrary(change) {
 
 export function rebuildComponentIndex() {
   return queueLibraryOperation(async () => {
-    const library = await loadLibrary();
-    if (!library) return false;
-    await updateComponentIndex(library, null, { rebuild: true });
+    if (!readStoredLibrary(dir)) await initializeLibrary();
+    await withLibraryWrite(dir, current => updateComponentIndex(current, null, { rebuild: true }));
     return true;
   });
 }
@@ -92,10 +99,6 @@ export function saveLibrary(incoming) {
         componentCart: incoming._cartChanged ? incoming.componentCart : previous.componentCart || [],
         siteOverrides: { ...previous.siteOverrides, ...incoming.siteOverrides }
       });
-      if (!previous.updatedAt) {
-        next.resources = incoming.resources;
-        next.lessons = incoming.lessons;
-      }
     } else {
       const rows = new Map(previous.resources.filter(row => row.componentRevision).map(row => [row.id, row]));
       next.resources = incoming.resources.map(row => {

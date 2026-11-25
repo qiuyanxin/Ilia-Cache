@@ -4,7 +4,7 @@
 
 ## 连接本机 MCP
 
-需要 Node.js 22 或更新版本。在 Ilia Cache 仓库根目录运行。
+需要 Node.js 22.16 或更新版本。在 Ilia Cache 仓库根目录运行。
 
 ```bash
 npm ci --prefix mcp

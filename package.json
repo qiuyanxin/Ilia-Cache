@@ -31,6 +31,6 @@
     "@tailwindcss/cli": "^4.3.5"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=22.16"
   }
 }

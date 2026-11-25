@@ -10,8 +10,8 @@ MCP 用来让 Agent 查找组件、理解用途、取得提示词，并在许可
 
 ## 权威数据
 
-- 公开目录：`public/seed.json`，通过 `lib/public-catalog.mjs` 生成独立网站与 MCP 共用的公开记录。
-- 私人本地资料：`data/library.json`
+- 公开目录：网站 PostgreSQL 的当前审核发布版。开源 `public/seed.json` 提供离线安装与公开投稿导入，公开投影由 `lib/public-catalog.mjs` 生成。
+- 私人本地资料：`data/library.sqlite`，附件和源码保存在同一资料目录。旧 `data/library.json` 保留用于迁移与回退。
 - 公开来源策略：`sourcePolicy`
 - 许可复核：`LICENSE_REVIEW.md`
 - Agent 操作规则：`AGENTS.md`
@@ -48,6 +48,14 @@ MCP 用来让 Agent 查找组件、理解用途、取得提示词，并在许可
 ### `ilia_cache_get_component_handoff`
 
 返回给编码 Agent 的 Ilia 详情 URL、适配信息、可用文件和许可。需要原版提示词、预览或来源时先查看 Ilia 详情。只有 `bundled-source` 可以交付源码。
+
+### 按用途分步读取
+
+1. `search_resources` 接受一句简短用途，也支持类型、分类、来源、偏好和硬条件。默认返回最多 5 条短卡。硬条件缺证据或确定不满足时，条目只会出现在 `nearMatches`。
+2. `get_resource` 根据候选的 `kind` 与 `id` 返回公开详情和文件清单。在线调用可带搜索返回的 `releaseId`，版本改变时先重新搜索。
+3. `read_resource_file` 根据 ID 和明确文件名分页读取。每次请求都核验许可，源码与作者署名一起返回。
+
+网站 HTTP MCP 使用 `/api/mcp`，旧地址的协议调用与现有 `ilia_cache_*` 工具继续可用。网页指南使用 `/mcp`。本机 stdio 可在网页未运行时对同一资料库执行只读查询。
 
 ## 已公开组件的链接
 

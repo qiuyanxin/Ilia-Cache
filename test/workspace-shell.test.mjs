@@ -1,3 +1,4 @@
+import { appearsInComponentBrowse, browseComponentRecords, describeComponentBrowse } from '../public/component-browse.mjs';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
@@ -222,4 +223,80 @@ test('拒绝非普通选项、未知字段与不安全链接', () => {
   ]) {
     assert.throws(() => renderWorkspaceShell(source, options), TypeError);
   }
+});
+
+test('音效目录提供原站试听、独立详情和无脚本搜索', () => {
+  const audio = 'https://reactbits.dev/tools/sound-lab#sound=pebble';
+  const href = '/zh/components/reactbits-sound-pebble?q=pebble';
+  const card = {
+    id: 'reactbits-sound-pebble', href, title: '卵石音效', description: '用于点击反馈。',
+    category: '音效', source: 'React Bits', sourceHref: audio, previewHref: audio,
+    placeholder: 'sound', slots: { 1: { column: 1, row: 1 } },
+  };
+  const render = card => renderWorkspaceShell(source, {
+    fallback: {
+      title: '音效库', cards: [card], directoryResultCount: 1,
+      filters: {
+        action: '/zh/sounds', query: 'pebble', category: '', source: '',
+        categories: [], sources: ['React Bits'], hideCategories: true,
+      },
+    },
+  });
+  const output = render(card);
+  assert.match(output, /component-layout sound-library-layout/);
+  assert.doesNotMatch(output, /<nav class="component-categories"/);
+  assert.match(output, /<form[^>]*action="\/zh\/sounds"/);
+  assert.match(output, /value="pebble" aria-label="搜索音效"/);
+  assert.match(output, /找到 1 个音效。/);
+  assert.match(output, /aria-label="试听 卵石音效" href="https:\/\/reactbits\.dev\/tools\/sound-lab#sound=pebble" target="_blank"/);
+  assert.match(output, /href="\/zh\/components\/reactbits-sound-pebble\?q=pebble">卵石音效<\/a>/);
+  assert.throws(() => render({ ...card, previewHref: 'javascript:alert(1)' }), TypeError);
+
+  const detail = renderWorkspaceShell(source, {
+    fallback: {
+      title: '卵石音效',
+      detail: {
+        category: '音效', back: '/zh/sounds?q=pebble', backLabel: '返回音效库',
+        source: { href: audio, label: '打开音效来源' },
+        preview: { kind: 'sound', url: audio },
+      },
+    },
+  });
+  assert.match(detail, /href="\/zh\/sounds\?q=pebble" aria-label="返回音效库"/);
+  assert.match(detail, /data-sound-source href="https:\/\/reactbits\.dev\/tools\/sound-lab#sound=pebble"/);
+  assert.doesNotMatch(detail, /<audio|<iframe/);
+});
+
+
+test('主类和子类共用计数、筛选和服务端首屏选项', () => {
+  const records = [
+    { id: 'theme-toggle', name: '像素日夜开关', componentCategory: '按钮与表单', sourceShort: 'A' },
+    { id: 'pull-cord', name: '拉绳开关', componentCategory: '按钮与输入', sourceShort: 'A', localPoster: '/cover.webp' },
+    { id: 'sample-upload', name: '文件上传', componentCategory: '按钮与表单', sourceShort: 'B' },
+    { id: 'sample-sound', name: '收藏音效', componentCategory: '音效', sourceShort: 'A' },
+    { id: 'motion-prompt-001', name: '摄影参考', componentCategory: '摄影与画风', sourceShort: 'Motion Prompt' },
+  ];
+  const directory = records.filter(appearsInComponentBrowse);
+  const facets = describeComponentBrowse(directory);
+  assert.deepEqual(facets.sources, ['A', 'B']);
+  assert.equal(facets.categoryCounts['开关'], 2);
+  assert.deepEqual(browseComponentRecords(directory, { category: '开关' }).map(item => item.id), ['pull-cord', 'theme-toggle']);
+  assert.deepEqual(browseComponentRecords(directory, { category: '开关', subcategory: '主题切换' }).map(item => item.id), ['theme-toggle']);
+  assert.deepEqual(browseComponentRecords(directory, { category: '按钮与输入' }).map(item => item.id), ['pull-cord']);
+
+  const markup = renderWorkspaceShell(source, {
+    fallback: {
+      title: '组件库',
+      cards: [],
+      directoryResultCount: 1,
+      filters: {
+        action: '/components', query: '', category: '开关', subcategory: '主题切换', source: '',
+        categories: [], sources: facets.sources, categoryCounts: facets.categoryCounts, subcategoryCounts: facets.subcategoryCounts,
+      },
+    },
+  });
+  assert.match(markup, /component-layout grouped-component-layout/);
+  assert.match(markup, /name="category" value="开关"[^>]* checked/);
+  assert.match(markup, /name="subcategory" value="主题切换"[^>]* checked/);
+  assert.match(markup, /aria-label="全部开关"/);
 });

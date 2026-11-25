@@ -4,7 +4,7 @@ Ilia Cache 的开源仓库维护本机设计资料库、MCP 和公开目录的�
 
 ## 从干净检出开始
 
-需要 Node.js 22 或更新版本。验证使用仓库自带的公开目录和临时资料库。
+需要 Node.js 22.16 或更新版本。验证使用仓库自带的公开目录和临时资料库。
 
 ```sh
 npm ci
@@ -23,7 +23,7 @@ npm start
 
 | 改动 | 入口 |
 | --- | --- |
-| 组件分类、来源和源码权限 | `public/component-taxonomy.mjs` |
+| 组件分类、来源和源码权限 | `public/component-categories.mjs` 定义工作台的主类、子类和视觉参考。本机与公开目录通过 `public/component-taxonomy.mjs` 读取记录和源码权限 |
 | 首页区块 | `public/home-page-view.mjs` 负责标题、动效装饰和入口卡片。宿主提供统计与跳转地址，本机页在 `public/home-page.mjs` 接入 |
 | 组件录入与预览 | `component-records.mjs`、`preview-builder.mjs`、`public/local-component-editor.mjs` |
 | 本机参考图、视频和封面 | `component-records.mjs` 保存候选，`public/reference-media-model.mjs` 供浏览器、服务端和 MCP 共用附件格式及尺寸换算 |
@@ -35,15 +35,15 @@ npm start
 | 详情预览的尺寸与加载状态 | `public/component-detail-preview.mjs`。图片和视频有固定的展示区，Motion Prompt 画出首帧后切走封面，审核过的原站交互预览由用户点击加载 |
 | Motion Prompt 播放器交互 | `public/component-detail-preview.mjs` 和 `public/motion-prompt-preview/player.js`。详情只处理当前播放器的消息，记住手动暂停的位置。播放器在五秒内未就绪时保留海报并显示来源提示，迟到首帧可以恢复预览 |
 | 视频的播放与暂停 | `public/component-media.mjs`。卡片离开视口时释放播放器。同一详情中的视频按地址记住位置、播放和静音状态。页面退到后台时暂停，关闭详情后清空播放记录 |
-| 本机保存、组件操作和网站收藏 | `public/extensions.js`、`public/local-component-actions.mjs`、`public/local-site-collections.mjs` |
+| 本机保存、组件操作和收藏 | `public/extensions.js`、`public/local-component-actions.mjs`、`public/local-site-collections.mjs`、`public/favorites.mjs` |
 | 本机保存的音效试听 | `public/local-component-audio.mjs`。公开目录的音效详情使用已审核的来源链接 |
-| 目录交互与响应式分列 | `public/component-directory.mjs` 管理结果，`public/component-lane-layout.mjs` 按首屏同一套 CSS 断点换列。换列时保留可见的焦点或卡片 |
+| 目录交互与响应式分列 | 本机的组件、音效与视觉参考目录使用 `public/workbench-directory.mjs`。网站目录使用 `public/component-directory.mjs` 和 `public/component-lane-layout.mjs`，以保留原有筛选链接和位置恢复 |
 | 网站首屏与交互目录的筛选项 | `public/component-directory-controls.mjs` 共用分类、来源选项。无脚本时通过原生表单应用筛选。切换或恢复筛选时，把选项移进滑动条的可见区域，接管时保留焦点和横向位置 |
 | 目录结果数量与无结果提示 | `public/component-directory-controls.mjs` 共用结果状态和清除筛选入口。有匹配时入口显示在结果数量旁，无结果时显示在提示下方，网站接管时保留焦点 |
 | 目录和服务端首屏共用的分列规则 | `public/component-lanes.mjs`。网站未筛选时显示每种宽度下排在各列开头的 24 张卡片 |
-| 公开组件卡片的预览和文字区域尺寸 | `public/component-workspace.css`。相同组件在两版预留相同的空间，预览内容按原比例显示 |
+| 组件卡片的预览和文字区域尺寸 | `public/component-workspace.css` 负责公开组件媒体预留区域，`public/interface.css` 负责工作台分列和卡片快捷操作。预览内容按原比例显示 |
 | 网站首屏与交互目录的卡片模板 | `public/component-card.mjs`。服务端使用已审核预览和普通链接，交互目录接入播放与详情按钮 |
-| 组件筛选与排序 | `public/component-search.mjs`。浏览器和网站服务端共用选择逻辑，MCP 共用检索字段与评分 |
+| 组件筛选与排序 | `public/component-search.mjs` 提供标题自然排序、检索字段和评分。网站与 MCP 使用该排序和检索逻辑，本机工作台按远端基准中的主类、子类和媒体加载优先级筛选 |
 | 目录筛选链接和恢复 | `public/component-directory-url.mjs`、`public/component-navigation.mjs`。网站的公开筛选使用 URL，本机使用浏览器历史状态。两版在输入法确认后更新结果，恢复输入值时由 `public/input-clear.mjs` 通知控件更新显示 |
 | 组件详情地址、页签与浏览器历史 | `public/component-navigation.mjs`、`public/component-directory-url.mjs`。两版用 `tab` 记录页签，切换沿用当前历史记录。关闭详情回到原筛选的目录。网站目录尚在加载时，先聚焦首屏的原卡片或搜索框，再沿用这处焦点 |
 | 公开组件路径与页面标题 | `public/component-document.mjs`。开源版、网站及公开目录生成器共用路径规则，网站首屏和站内导航共用标题与说明 |
@@ -61,13 +61,22 @@ npm start
 | 提示词页签 | `public/component-detail-chrome.mjs` 共用文本框和操作区，网站启动交互时保留选区和阅读位置。本机保存与学习操作由 `public/local-component-actions.mjs` 接入 |
 | 首屏主题与拉绳换肤 | `public/index.html` 的共享首屏脚本从本机读取主题，在目录加载前就能随其他标签页切换黑白。交互预览由 `public/workspace-theme.mjs` 和 `public/motion/pull-cord.html` 接收页面主题 |
 | 本机保存与索引 | `library-store.mjs`、`library-index.mjs` |
-| MCP 搜索、详情和文件读取 | `mcp/catalog.mjs`、`mcp/tools.mjs` |
+| MCP 搜索、详情和文件读取 | `lib/catalog-search.mjs`、`mcp/catalog-tool-registry.mjs`、`mcp/catalog.mjs` |
+| 本机 SQLite 与迁移 | `lib/library-sqlite.mjs`、`scripts/library-db.mjs` |
 | 网站和 MCP 使用的公开目录规则 | `lib/public-catalog.mjs`、`MCP_SPEC.md` |
 | 网站直达详情的初始数据 | `public/component-public-record.mjs`。首屏仅带当前公开组件，后台目录使用同一个转换函数生成。网站同步时为目录和源码包记录发布版本，交互加载时核对版本再更新界面 |
 
-组件目录、卡片及详情的现有交互是页面变更的回归基线。目录刷新时重建搜索索引，连续输入复用已规范化的检索字段。筛选结果未变时保留原卡片节点。改动界面时，说明受影响的页面、操作、手机宽度与减少动态效果设置。涉及数据的改动请验证旧格式读取，并说明迁移后用户要看到什么。
+组件目录、卡片及详情的产品基准是远端的 `4358902bc78e2ac4253bc756ee941fab06c9b9de`。改动界面时，在两种宽度核对受影响页面及操作，同时验证开启「减少动态效果」后的结果。涉及数据的改动请验证旧格式读取，并说明迁移后用户要看到什么。
 
 两版都通过 `installComponentWorkspace` 挂载目录和详情。只读宿主提供组件路由与公开源码包读取函数。本机入口额外接入收藏、编辑和同步。新增本机写入动作时，请放入本机模块。开源版测试会解析共享浏览器入口的导入链，检查它有没有引入本机代码。
+
+## 修改一张卡片或一个动效
+
+- 要改组件卡片的来源标签，在 `public/component-card.mjs` 修改 `renderComponentCard` 的来源标记。用同一组件 ID 分别打开本机组件卡片和网站组件卡片，核对来源文案、实际链接和标题。通用样式放在 `public/component-workspace.css`，工作台快捷操作样式放在 `public/interface.css`。
+- 两版组件目录共用 `public/component-browse.mjs` 的筛选、计数和默认顺序，并从 `public/component-directory-controls.mjs` 渲染主类和细分项。网站继续兼容旧分类参数，用公开记录生成首屏和浏览器结果。
+- 要改页面库卡片、分类或顺序，修改 `public/page-library-view.mjs`。本机和网站共用卡片、筛选规则与瀑布流。本机预览和收藏动作由 `public/page-library.mjs` 接入。
+- 要调整表单保存按钮的按压反馈，在 `public/springs.mjs` 找到 `bindButtonPress` 和 `MOTION.commandPress`。用鼠标、键盘分别按下保存按钮，确认松开时能恢复原尺寸，并检查系统减少动态效果选项。
+- 要调整拉绳，在 `public/motion/pull-cord.html` 修改预览的触发或弹簧参数。两版用 `public/workspace-theme.mjs` 接入。通过实际拖动和 Enter 键验证黑白切换，确认刷新后主题一致。
 
 ## 对照两版组件库
 
@@ -77,7 +86,7 @@ npm start
 python scripts/compare-component-library.py --oss http://127.0.0.1:4317 --website http://127.0.0.1:4320
 ```
 
-脚本会比对目录在 1440、900、390 和 320 像素下每张公开卡片的位置、高度和预览区域，并检查浅色主题、长说明和视频加载失败时的尺寸。它也会检查侧栏和预览动效、详情导航、手机参考素材布局，以及拉绳换肤、键盘、跨标签页主题和减少动态效果设置。网站关闭 JavaScript 后，脚本会提交目录筛选，核对结果顺序、详情链接和返回路径，并检查专题页可读。可选 `--screenshots` 会将两版截图写入指定目录。
+脚本包含目录在 1440、900、390 和 320 像素下的卡片位置、尺寸、媒体失败与浅色主题检查。脚本中的旧版单层分类、卡片排序和预览行为断言仍需随工作台主类与子类接入更新。它也会检查侧栏和预览动效、详情导航、手机参考素材布局，以及拉绳换肤、键盘、跨标签页主题和减少动态效果设置。网站关闭 JavaScript 后，脚本会提交目录筛选，核对结果顺序、详情链接和返回路径，并检查专题页可读。可选 `--screenshots` 会将两版截图写入指定目录。
 
 私人收藏、上传附件和带分发限制的第三方源码保存在本机。公开目录的新增条目请带可核对的具体来源、作者和许可。结构、来源政策或公开字段发生变化时，请更新相应测试和 `MCP_SPEC.md`。
 
@@ -91,6 +100,8 @@ node scripts/build-public-library.mjs --reviewed-input /path/to/reviewed.json --
 
 脚本先检查所有声明公开的包和来源许可，再一次生成新目录，里面有 `seed.json` 和对应的 `component-packages/`。省略 `--output` 会生成到脚本打印的临时路径。在开源仓库检视这两个产物的差异后，通过正常提交更新公开目录。网站从指定开源检出同步，公开 MCP 使用同一套源码包校验。
 
+有私有网站仓库访问权的维护者，可在网站仓库运行 `pnpm ilia:sync:oss /path/to/ilia-cache`。同步读取开源检出的 HEAD 提交，生成记录源提交和资源哈希的快照。先提交预期变更，再同步并执行带 `--check` 的同一命令。之后运行网站的 `pnpm build`，在两版打开对应页面验证。
+
 ## 修复派生索引
 
-本机资料的主文件是 `data/library.json`。如果组件索引缺失或损坏，关闭本机服务后运行 `npm run rebuild:index`。这条命令只重建组件索引、清单和派生文件。迁移或更换电脑前备份整个 `data/`。
+本机资料的主文件是 `data/library.sqlite`。如果组件索引缺失或损坏，关闭本机服务后运行 `npm run rebuild:index`。这条命令只重建组件索引、清单和派生文件。迁移或更换电脑前备份整个 `data/`。

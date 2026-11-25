@@ -1,7 +1,7 @@
 import { decorateClearInputs } from "./input-clear.mjs";
 import { decorateDropdowns } from "./native-controls.mjs";
 import { spring, MOTION } from "./springs.mjs";
-import { icon } from "./icons.mjs";
+import { icon, NAV_ICONS } from "./icons.mjs";
 import { installWorkspaceDock } from "./workspace-dock.mjs";
 import { installWorkspaceSearch } from "./workspace-search.mjs";
 
@@ -38,7 +38,7 @@ export function installWorkspaceChrome({
 } = {}) {
   let compact = localStorage.getItem("ilia-sidebar-compact") === "true",
     activeCopy = null;
-  const navigationIcons = { ...standardNavIcons, ...navIcons };
+  const navigationIcons = { ...standardNavIcons, ...NAV_ICONS, ...navIcons };
   $(".brand-sub")?.remove();
   const sidebar = $(".sidebar");
   sidebar.classList.toggle("is-compact", compact);

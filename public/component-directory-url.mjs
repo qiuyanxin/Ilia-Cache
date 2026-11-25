@@ -1,3 +1,4 @@
+import { COMPONENT_BROWSE_GROUPS } from './component-categories.mjs';
 import { COMPONENT_CATEGORIES } from './component-search.mjs';
 
 const detailTabs = { preview: '预览', references: '参考素材', prompt: '提示词', source: '源码' };
@@ -22,18 +23,24 @@ export function componentDetailTabQuery(tab, parameters = '') {
 /** Directory state carried by a website query or a local component route's fragment. */
 export function readComponentFilters(parameters = '', { sources } = {}) {
   const params = new URLSearchParams(parameters);
-  const category = params.get('category') || '';
+  const requestedCategory = params.get('category') || '';
+  const category = COMPONENT_CATEGORIES.includes(requestedCategory) || Object.hasOwn(COMPONENT_BROWSE_GROUPS, requestedCategory)
+    ? requestedCategory : '';
+  const requestedSubcategory = params.get('subcategory') || '';
+  const subcategory = Object.hasOwn(COMPONENT_BROWSE_GROUPS, category) &&
+    COMPONENT_BROWSE_GROUPS[category].includes(requestedSubcategory) ? requestedSubcategory : '';
   const source = params.get('source') || '';
   return {
     query: (params.get('q') || '').replace(/\0/g, ''),
-    category: COMPONENT_CATEGORIES.includes(category) ? category : '',
+    category,
+    ...(subcategory ? { subcategory } : {}),
     source: !sources || sources.has(source) ? source : '',
   };
 }
 
-export function componentFilterQuery({ query, category, source }, parameters = '') {
+export function componentFilterQuery({ query, category, subcategory, source }, parameters = '') {
   const params = new URLSearchParams(parameters);
-  for (const [key, value] of [['q', query], ['category', category], ['source', source]]) {
+  for (const [key, value] of [['q', query], ['category', category], ['subcategory', subcategory], ['source', source]]) {
     if (typeof value === 'string' && value.trim()) params.set(key, value);
     else params.delete(key);
   }

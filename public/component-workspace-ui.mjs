@@ -1,3 +1,4 @@
+import { componentBrowseCategory } from './component-categories.mjs';
 import { isMotionPromptRecord, motionPreviewForRecord } from './motion-prompt-preview/index.mjs';
 import { officialPreviewForRecord } from './official-component-previews.mjs';
 import {
@@ -8,8 +9,8 @@ import {componentMedia,installDetailMediaPlayback,installPreviewRecovery} from '
 import {installComponentDirectory} from './component-directory.mjs';
 import {installComponentDetailTabs} from './component-detail-tabs.mjs';
 import {componentDetailTabs} from './component-directory-url.mjs';
-import {renderComponentDetailChrome,renderComponentPrompt} from './component-detail-chrome.mjs';
-import {installMotionDetailPreview,installOfficialFramePreview,renderDetailMediaStage,renderOfficialFramePreview} from './component-detail-preview.mjs';
+import {renderComponentDetailChrome,renderComponentPrompt,renderPreviewOrigin} from './component-detail-chrome.mjs';
+import {installMotionDetailPreview,installOfficialFramePreview,renderDetailMediaStage,renderOfficialFramePreview,renderSoundSourcePreview} from './component-detail-preview.mjs';
 import {createComponentPackageCache} from './component-package-cache.mjs';
 import {mountComponentSourceFiles,renderComponentSourceContent,renderComponentSourcePanel} from './component-source-panel.mjs';
 import {installWorkspaceTheme} from './workspace-theme.mjs';
@@ -35,7 +36,7 @@ function originalMotionNotes(record, files) {
 }
 
 /** Mount the shared component directory, detail and theme controls for a host. */
-export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pull-cord.html', motionAssetPrefix } = {}){
+export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pull-cord.html', motionAssetPrefix, directoryInstaller = installComponentDirectory } = {}){
  const readonly=!local;
  const {getState,toast,copy}=h;
  const packages=createComponentPackageCache(local?.loadComponentPackage||h.loadComponentPackage);
@@ -61,13 +62,22 @@ export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pul
  });
  installWorkspaceTheme(pullCordUrl);
  h.leaveComponents=()=>{directory.pausePreviews();componentMode=false;sheet.hidden=true;};
- function showComponents(){componentMode=true;document.querySelector('#library').hidden=true;document.querySelector('#learning').hidden=true;sheet.hidden=false;document.querySelector('#breadcrumb').textContent='组件库';directory.refresh(h.readComponentFilters?.());}
- const mediaOptions={motionAssetPrefix,legacyPreviews:local?.legacyPreviews};
+ function showComponents(soundMode = false){
+  componentMode=true;
+  document.querySelector('#library').hidden=true;
+  document.querySelector('#learning').hidden=true;
+  sheet.hidden=false;
+  document.querySelector('#breadcrumb').textContent=soundMode?'音效库':'组件库';
+  directory.setSoundMode?.(soundMode);
+  directory.refresh(h.readComponentFilters?.());
+ }
+ const mediaOptions={motionAssetPrefix,legacyPreviews:local?.legacyPreviews, workbench: Boolean(local), fallbackMedia: h.cardMedia};
  function thumbnail(record){return componentMedia(record,mediaOptions);}
- const directory=installComponentDirectory(sheet,{
+ const directory=directoryInstaller(sheet,{
   getRecords:()=>getState().resources,
   readonly,thumbnail,toast,playRecipe:h.playRecipe,
   hasInCart:id=>h.projects?.has(id),
+  getCollection:h.componentCollection,
   onAdd:local ? addComponent : undefined,
   onOpen:id=>h.openComponentRoute?h.openComponentRoute(id):openComponent(id),
   onFiltersChanged:h.writeComponentFilters,
@@ -154,12 +164,15 @@ export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pul
  function renderDetail({preserveMedia=true}={}){
   const r=active,sourceUrl=componentWebUrl(sourcePage(r)),showSource=distributable(r);
   const note = readonly ? r.description : r.note || r.description;
-  const tabs=componentDetailTabs({references:Boolean(sourceUrl||r.previewCandidates?.length),source:showSource});
+  const hasLocalReference=Boolean(r.referencePreview||r.previewCandidates?.length||r.componentRevision);
+  const tabs=componentDetailTabs({references:readonly?Boolean(sourceUrl):hasLocalReference,source:showSource});
   if(!tabs.includes(tab))tab='预览';
   const chrome=renderComponentDetailChrome({
-   title:r.name,category:componentCategory(r),description:typeof note==='string'?note:undefined,
+   title:r.name,category:readonly?componentCategory(r):componentBrowseCategory(r),
+   description:readonly&&typeof note==='string'?note:undefined,
+   author:readonly?undefined:r.primarySourceAuthor,license:readonly?undefined:r.license,
    headingId:'component-dialog-title',
-   source:sourceUrl?{href:sourceUrl,label:(r.sourcePageKind==='collection'?'打开收录页':'打开组件来源')+' ↗'}:undefined,
+   source:sourceUrl?{href:sourceUrl,label:(readonly&&componentCategory(r)==='音效'?'打开音效来源':r.sourcePageKind==='collection'?'打开收录页':'打开组件来源')+' ↗'}:undefined,
   });
   if(preserveMedia)playback.remember();
   dialog.innerHTML=`${chrome}
@@ -187,7 +200,23 @@ export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pul
   body.removeAttribute('data-awaiting-source-preview');
   fileIndex=Math.min(fileIndex,Math.max(0,files.length-1));
   if(tab==='预览'){
-   const built=local?.generatedPreview(r),official=officialPreviewForRecord(r),src=sourceDocument(r);
+   if(readonly&&r.catalogPreview&&!hasOriginalMotionBundle(r)){
+    const approved=r.catalogPreview;
+    if(approved.kind==='html'&&approved.poster&&approved.ratio&&approved.url.includes('/motion-prompt-preview/')){
+     motionPreview.render(body,{title:r.name,...approved});
+    }else if(approved.kind==='html'){
+     body.innerHTML=renderOfficialFramePreview({title:r.name,url:approved.url});
+    }else{
+     const markup=referenceMedia(approved,r.name,{loop:true,autoplay:playback.canAutoplay(approved.url)});
+     body.innerHTML=markup?renderDetailMediaStage(markup,approved):componentMedia(r,{...mediaOptions,detail:true});
+    }
+    const url=componentWebUrl(sourcePage(r));
+    const label=r.sourcePageKind==='collection'?'打开收录页 ↗':'打开原组件 ↗';
+    if(url)body.insertAdjacentHTML('beforeend',renderPreviewOrigin({href:url,label}));
+    playback.restore(body);
+    return;
+   }
+   const built=local?.generatedPreview(r),official=r.soundRecipe?null:officialPreviewForRecord(r),src=sourceDocument(r);
    let reference=r.referencePreview;
    let referenceMarkup=referenceMedia(reference,r.name);
    if(!referenceMarkup){reference=official;referenceMarkup=referenceMedia(reference,r.name);}
@@ -232,6 +261,7 @@ export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pul
     body.innerHTML=thumbnail(r)+'<button class="primary" id="play-sound">试听音效</button>';
     body.querySelector('#play-sound').onclick=()=>h.playRecipe(r.soundRecipe).catch(()=>toast('音效加载失败'));
    }
+   else if(readonly&&componentCategory(r)==='音效'&&componentWebUrl(sourcePage(r)))body.innerHTML=renderSoundSourcePreview(componentWebUrl(sourcePage(r)));
    else if(videoMarkup)body.innerHTML=renderDetailMediaStage(videoMarkup,video);
    else if(r.externalPreview)body.innerHTML=`<iframe class="component-live" title="${esc(r.name)} 交互预览" src="${esc(r.externalPreview)}" sandbox="allow-scripts"></iframe>`;
    else if(src)appendSourceFrame(body,r,src);
@@ -299,6 +329,8 @@ export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pul
   if(buttons.length)selectDetailTab([...buttons].some(button=>button.dataset.tab===name)?name:'预览');
  };
  h.showComponents=showComponents;
+ h.renderComponentCards=directory.renderCollection;
+ h.stopComponentCards=directory.stopCollection;
  h.getComponentFilters=directory.getFilters;
  h.restoreDirectoryFocus=directory.restoreFocus;
  h.focusDirectoryFilter=directory.focusFilter;

@@ -28,16 +28,20 @@ export function installFontLibrary(h) {
     return [...(state.customFonts || []), ...catalog].filter(font => !removed.has(font.id));
   }
 
+  const favoriteIds = () => getState().favoriteFontIds || [];
+
   const view = mountFontLibrary(page, {
+    isFavorite: font => favoriteIds().includes(font.id),
+    isCollected: font => h.projects?.hasReference('font:' + font.id),
     getRecords: rows,
     onAdd: openAdd,
     onDelete(font) {
       if (!confirm(`删除字体 ${font.name}？`)) return false;
       const state = getState();
-      state.customFonts = (state.customFonts || []).filter(record => record.id !== font.id);
       state.removedFontIds = [...new Set([...(state.removedFontIds || []), font.id])];
       save();
       h.nav();
+      h.refreshFavorites?.();
       toast('已删除字体');
       return true;
     },
@@ -116,5 +120,19 @@ export function installFontLibrary(h) {
     page.hidden = true;
   }
 
-  return { show, leave, count: () => loaded ? rows().length : 204, get showing() { return showing; } };
+  return {
+    show, leave, ready: load,
+    open: id => view.open(id),
+    favoriteRows: () => rows().filter(font => favoriteIds().includes(font.id)),
+    toggleFavorite(id) {
+      if (!rows().some(font => font.id === id)) return;
+      const ids = new Set(favoriteIds());
+      const selected = !ids.has(id);
+      if (selected) ids.add(id);
+      else ids.delete(id);
+      getState().favoriteFontIds = [...ids];
+      save();
+      return selected;
+    },
+    count: () => loaded ? rows().length : 204, get showing() { return showing; } };
 }

@@ -2,12 +2,15 @@ import { createLibrarySync } from './library-sync.mjs';
 import { loadBuiltinComponents } from './builtin-components.mjs';
 import { installComponentWorkspace } from './component-workspace-ui.mjs';
 import { createLocalComponentActions } from './local-component-actions.mjs';
+import { installWorkbenchDirectory } from './workbench-directory.mjs';
 import { installLocalSiteCollections } from './local-site-collections.mjs';
 
 export {
-  COMPONENT_CATEGORIES, canDistributeSource, componentCategory,
-  isComponentRecord as isComponent, sourceName, sourcePage,
+  COMPONENT_CATEGORIES, canDistributeSource,
+  isComponentRecord as isComponent, isSoundEffect, isLibraryComponent, sourceName, sourcePage,
 } from './component-taxonomy.mjs';
+
+export { componentCategory } from './component-categories.mjs';
 
 export function builtinResources(read = async (url, format) => (await fetch(url))[format]()) {
   return loadBuiltinComponents(read);
@@ -32,6 +35,6 @@ export function installExtensions(host) {
     }), 350);
   };
   const local = createLocalComponentActions(host, sync.acknowledgeResource);
-  installComponentWorkspace(host, { local });
+  installComponentWorkspace(host, { local, directoryInstaller: installWorkbenchDirectory });
   return installLocalSiteCollections(host);
 }

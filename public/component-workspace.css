@@ -95,7 +95,8 @@
 .command-search.is-open .t-clear.has-value .t-clear-btn { opacity: 1; pointer-events: auto; }
 
 /* Published cards reserve the same space for local media and public fallbacks. */
-.component-tile[data-indexed] > .component-thumb { aspect-ratio: 16 / 9; }
+.component-tile[data-indexed] > .component-thumb,
+.component-tile[data-indexed] > .favorite-surface > .component-thumb { aspect-ratio: 16 / 9; }
 .component-thumbnail-stage {
   position: absolute;
   inset: 0;
@@ -394,6 +395,10 @@
   .component-manage-label { display: none; }
   .component-manage-icon { display: inline; font-size: 16px; line-height: 1; }
 }
+
+.component-preview-origin { margin: 12px 0 0; font-size: 13px; }
+.component-preview-origin a { text-decoration: underline; text-underline-offset: 2px; }
+.component-sound-frame .component-official-frame-canvas { min-height: 360px; }
 
 .component-motion-notes { margin-block-start: 16px; overflow-wrap: anywhere; }
 .component-motion-notes h3 { font-size: 1rem; margin: 16px 0 6px; }

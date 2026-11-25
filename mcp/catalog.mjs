@@ -1,3 +1,8 @@
+import { createPublishedCatalog, publishedMcpRecord, publishedSummary, websiteOrigin } from './public-catalog-adapter.mjs';
+import { readStoredLibrary, findStoredLibraryCandidates } from '../lib/library-sqlite.mjs';
+import { searchCatalog, searchDocument, searchTerms } from '../lib/catalog-search.mjs';
+import { kinds, localOrigin } from './catalog-tool-utils.mjs';
+export { kinds, localOrigin, textPage } from './catalog-tool-utils.mjs';
 import { lstat, readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -25,11 +30,6 @@ function allowsLocalSource(record, publishedRecord) {
     (!publishedRecord || allowsComponentSource(publishedRecord));
 }
 
-export const kinds = [
-  'component', 'website', 'page', 'resource', 'style', 'font', 'lesson',
-  'capture', 'project', 'site_summary', 'pinterest_board', 'library_settings', 'asset',
-];
-
 const readPublic = async (name, format = 'json') => {
   const text = await readFile(path.join(publicDir, name), 'utf8');
   return format === 'json' ? JSON.parse(text) : text;
@@ -47,15 +47,6 @@ function publishedSnapshot() {
     const catalog = buildPublicCatalog(seed);
     return { ...catalog, byId: new Map(catalog.components.map(record => [record.id, record])) };
   });
-}
-
-export function localOrigin(value) {
-  const url = new URL(value || 'http://127.0.0.1:4317');
-  if (url.protocol !== 'http:' || !['127.0.0.1', 'localhost'].includes(url.hostname) ||
-      url.username || url.password || url.pathname !== '/' || url.search || url.hash) {
-    throw new Error('ILIACACHE_PREVIEW_BASE_URL 必须是本机 Ilia-Cache 站点的 HTTP origin。');
-  }
-  return url.origin;
 }
 
 // All segments come from known layouts or validated record identifiers. Refuse symlinks
@@ -144,28 +135,11 @@ function rankLocal({ record, summary, publishedRecord }, query, category, source
   return createSearchRanker({ title: [summary.title, record.originalName].join(' '), metadata }, readBody)(query);
 }
 
-const publishedRankers = new WeakMap();
-function rankPublished(record, query) {
-  let rank = publishedRankers.get(record);
-  if (!rank) {
-    rank = createSearchRanker(componentSearchFields(record), () => record.prompt);
-    publishedRankers.set(record, rank);
-  }
-  return rank(query);
-}
-
 const sourceFilter = value => asText(value).normalize('NFKC').trim().toLowerCase();
 
 function resultPage(items, offset, limit) {
   const end = Math.min(offset + limit, items.length);
   return { items: items.slice(offset, end), total: items.length, nextOffset: end < items.length ? end : null };
-}
-
-export function textPage(text, offset, limit) {
-  let end = Math.min(offset + limit, text.length);
-  // Avoid splitting a UTF-16 surrogate pair between responses.
-  if (end > offset && /[\uD800-\uDBFF]/u.test(text[end - 1]) && end < text.length) end += 1;
-  return { text: text.slice(offset, end), total: text.length, nextOffset: end < text.length ? end : null };
 }
 
 export function createCatalog({
@@ -197,7 +171,8 @@ export function createCatalog({
 
   async function snapshot() {
     const [[seed, builtins, styleSeed, fontSeed, summaries], published, saved, assets] = await Promise.all([
-      seeds(), publishedSnapshot(), readLocal(root, ['library.json']), localEntry(root, ['assets']),
+      seeds(), publishedSnapshot(), readStoredLibrary(root) ?? readLocal(root, ['library.json']),
+      localEntry(root, ['assets']),
     ]);
     if (saved !== null && (!isObject(saved) || !Array.isArray(saved.resources))) {
       throw new Error('本机 library.json 缺少 resources 列表。请检查资料库备份。');
@@ -349,7 +324,59 @@ export function createCatalog({
         ) : 0));
       return { mode, ...resultPage(ranked.map(({ row }) => row.summary), offset, limit) };
     },
+    async searchResources(request) {
+      const published = await publishedSnapshot();
+      const terms = searchTerms(request.intent);
+      const filters = { kind: request.kind, category: request.category, source: request.source, limit: 250 };
+      const stored = terms.length ? findStoredLibraryCandidates(root, { ...filters, terms }) : [];
+      let candidates;
+      if (stored !== null) {
+        const exact = findStoredLibraryCandidates(root, { ...filters, id: request.intent });
+        if (exact !== null) {
+          const seen = new Set();
+          candidates = [];
+          for (const record of [...exact, ...stored]) {
+            if (!request.kind && record.kind === 'sound') continue;
+            const key = record.kind + '\0' + record.id;
+            if (seen.has(key)) continue;
+            seen.add(key);
+            const isComponent = record.kind === 'component' || record.kind === 'sound';
+            const publicEntry = isComponent && published.byId.get(record.id);
+            const localPath = isComponent ? '/#/' + (record.kind === 'sound' ? 'sounds' : 'components') :
+              record.kind === 'page' ? '/#/pages' : '';
+            candidates.push(searchDocument({
+              ...record, ...publicEntry, kind: record.kind,
+              detailPath: publicEntry ? new URL(publicEntry.path, publicOrigin).href :
+                localPath ? localUrl(localPath + '/' + encodeURIComponent(record.id.toWellFormed())).url : '',
+            }));
+          }
+        }
+      }
+      // Compatibility for unopened legacy libraries and generated types which
+      // do not have persistent user records (for example the built-in fonts).
+      const supplement = new Set(['font', 'style', 'asset', 'site_summary']);
+      if (!candidates || !request.kind || supplement.has(request.kind)) {
+        const { rows } = await snapshot();
+        const legacy = rows
+          .filter(({ summary }) => !summary.archived &&
+            (!request.kind || request.kind === summary.kind ||
+              (request.kind === 'sound' && summary.kind === 'component' && summary.category === '音效')) &&
+            (!candidates || supplement.has(summary.kind)))
+          .map(({ record, summary, publishedRecord }) => searchDocument({
+            ...record, ...publishedRecord, id: summary.id,
+            kind: request.kind === 'sound' ? 'sound' : summary.kind, title: summary.title, category: summary.category,
+            detailPath: summary.detailUrl || summary.preview?.url || '',
+          }));
+        if (!candidates) candidates = legacy;
+        else {
+          const seen = new Set(candidates.map(record => record.kind + '\0' + record.id));
+          for (const record of legacy) if (!seen.has(record.kind + '\0' + record.id)) candidates.push(record);
+        }
+      }
+      return searchCatalog({ version: 'local-' + published.version, candidates }, request);
+    },
     async record(kind, id, { includeLocalReference = false } = {}) {
+      if (kind === 'sound') kind = 'component';
       const { summary, record, publishedRecord, reference } = await find(kind, id);
       const files = kind === 'component' ? [...(await componentFiles(record, publishedRecord)).keys()] : [];
       if (publishedRecord) {
@@ -383,96 +410,30 @@ export function createCatalog({
   };
 }
 
-function websiteOrigin(value) {
-  const url = new URL(value || 'http://127.0.0.1:4318');
-  if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password ||
-      url.pathname !== '/' || url.search || url.hash) {
-    throw new Error('ILIACACHE_PUBLIC_BASE_URL 必须是公开站点的 HTTP(S) origin。');
-  }
-  return url.origin;
-}
-
-function publishedSummary(record, origin, source = 'public_catalog') {
-  const detailUrl = new URL(record.path, origin).href;
-  return {
-    id: record.id,
-    kind: 'component',
-    source,
-    archived: false,
-    title: record.title,
-    description: record.description,
-    category: record.category,
-    tags: record.tags,
-    sourceAuthor: record.sourceAuthor || null,
-    upstreamUrl: null,
-    detailUrl,
-    preview: { kind: 'website_url', url: detailUrl },
-    resourceUri: 'ilia-cache://records/component/id-' + encodeURIComponent(record.id),
-  };
-}
-
-function publishedMcpRecord(entry, { detailUrl, preview }) {
-  const {
-    id, title, originalName, description, category, tags, sourceAuthor, sourceName,
-    collectionSource, sourcePageKind, sourcePolicy, license, prompt, path, files,
-  } = entry;
-  return {
-    id, title, originalName, description, category, tags, sourceAuthor, sourceName,
-    collectionSource, sourcePageKind, sourcePolicy, path, files, detailUrl, preview,
-    license: containsWebLink.test(license) ? '详见 Ilia 组件详情的许可说明' : license,
-    ...(prompt && !containsWebLink.test(prompt) ? { prompt } : {}),
-  };
-}
-
 export function createPublicCatalog({ baseUrl = process.env.ILIACACHE_PUBLIC_BASE_URL } = {}) {
-  const origin = websiteOrigin(baseUrl);
-  const siteUrl = route => new URL(route, origin).href;
-  const mode = 'public_catalog';
-  async function find(kind, id) {
-    const { byId } = await publishedSnapshot();
-    const record = kind === 'component' && byId.get(id);
-    if (!record) throw new Error('not_found：公开目录中没有该组件。请先搜索并使用结果中的 id。');
-    return record;
-  }
-
-  return {
-    async search({ query, kind, category, source, offset, limit }) {
-      const { components } = await publishedSnapshot();
-      const prepared = prepareSearchQuery(query);
-      const categoryKey = normalizeSearchText(category);
-      const sourceKey = sourceFilter(source);
-      const ranked = !kind || kind === 'component' ? components
-        .filter(record => (!categoryKey || normalizeSearchText(record.category) === categoryKey) &&
-          (!sourceKey || sourceFilter(record.sourceName) === sourceKey))
-        .map(record => ({ record, score: rankPublished(record, prepared) }))
-        .filter(row => row.score >= 0)
-        .sort((a, b) => b.score - a.score || compareComponentTitles(a.record, b.record)) : [];
-      const page = resultPage(ranked, offset, limit);
-      return { mode, ...page, items: page.items.map(({ record }) => publishedSummary(record, origin)) };
-    },
-    async record(kind, id) {
-      const record = await find(kind, id);
-      const summary = publishedSummary(record, origin);
-      return { summary, record: publishedMcpRecord(record, summary), files: record.files };
-    },
-    async file(id, name) {
-      const record = await find('component', id);
-      if (!allowsComponentSource(record)) {
-        throw new Error(`source_restricted (${record.sourcePolicy})：请从 Ilia 组件详情查看来源和许可 ${siteUrl(record.path)}`);
-      }
-      if (!record.files.includes(name)) throw new Error('未找到该文件。请从组件详情中的 files 选择原始文件名。');
-      const bundle = await readLocal(publicDir, ['component-packages', record.id + '.json']);
-      return projectPublicComponentBundle(record, bundle).files.find(file => file.name === name).content;
-    },
-    async overview() {
+  let indexed;
+  return createPublishedCatalog({
+    baseUrl,
+    snapshot: publishedSnapshot,
+    async retrieve({ kind, category, terms, id }) {
       const { version, components } = await publishedSnapshot();
-      return { mode, version, counts: { component: components.length }, previewOrigin: origin };
+      indexed ??= components.map(record => searchDocument(record));
+      const candidates = indexed.filter(document => (!kind || document.kind === kind) &&
+        (!category || normalizeSearchText(document.category) === normalizeSearchText(category)) &&
+        (document.id === id || document.terms.some(term => terms.includes(term))));
+      return { version, candidates };
     },
-    async topics() {
-      const { topics } = await publishedSnapshot();
-      return topics.map(({ path, examples, ...topic }) => ({
-        ...topic, url: siteUrl(path), examples: examples.map(anchor => siteUrl(path + '#' + anchor)),
-      }));
+    async lookup(kind, id) {
+      const { version, byId } = await publishedSnapshot();
+      const record = kind === 'component' && byId.get(id);
+      return record ? { version, resource: { record } } : undefined;
     },
-  };
+    async readFile(_kind, id, name) {
+      const { version, byId } = await publishedSnapshot();
+      const entry = byId.get(id);
+      const bundle = await readLocal(publicDir, ['component-packages', entry.id + '.json']);
+      const file = projectPublicComponentBundle(entry, bundle).files.find(file => file.name === name);
+      return file ? { version, file } : undefined;
+    },
+  });
 }

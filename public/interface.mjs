@@ -1,3 +1,4 @@
+import { installFavorites } from "./favorites.mjs";
 import { installProjects } from "./projects.mjs";
 import { installCollectionPages } from "./collection-pages.mjs";
 import { installPageLibrary } from "./page-library.mjs";
@@ -7,7 +8,7 @@ import { installHomePage } from "./home-page.mjs";
 import { installWorkspaceChrome } from "./workspace-chrome.mjs";
 
 export function installInterface(h, styleSeed) {
-  let projects, pageLibrary, fontLibrary, sourcesPage, homePage;
+  let projects, pageLibrary, fontLibrary, sourcesPage, homePage, favorites;
   const collections = installCollectionPages(h, styleSeed);
   h.collections = collections;
   const oldLeave = h.leaveComponents;
@@ -18,6 +19,7 @@ export function installInterface(h, styleSeed) {
     fontLibrary?.leave();
     sourcesPage?.leave();
     homePage?.leave();
+    favorites?.leave();
     oldLeave();
   };
   h.route = (next) => {
@@ -26,6 +28,9 @@ export function installInterface(h, styleSeed) {
         "home",
         "projects",
         "components",
+        "sounds",
+        "inbox",
+        "favorites",
         "pages",
         "fonts",
         "sources",
@@ -43,8 +48,8 @@ export function installInterface(h, styleSeed) {
       projects.show();
       return true;
     }
-    if (next === "components") {
-      h.showComponents();
+    if (next === "components" || next === "sounds") {
+      h.showComponents(next === "sounds");
       return true;
     }
     if (next === "pages") {
@@ -59,7 +64,11 @@ export function installInterface(h, styleSeed) {
       sourcesPage.show();
       return true;
     }
-    if (["accumulation", "styles", "aesthetic"].includes(next)) {
+    if (next === "favorites") {
+      favorites.show();
+      return true;
+    }
+    if (["inbox", "accumulation", "styles", "aesthetic"].includes(next)) {
       collections.show(next);
       return true;
     }
@@ -70,7 +79,7 @@ export function installInterface(h, styleSeed) {
     .querySelector(".filterbar")
     .prepend(document.querySelector("#website-categories"));
   const openCapture = () => collections.openCapture();
-  const { refresh, setDockPage } = installWorkspaceChrome({
+  const { refresh } = installWorkspaceChrome({
     dockActions: [
       { id: "search", icon: "search", label: "搜索" },
       { id: "capture", icon: "plus", label: "随手收集", onSelect: openCapture },
@@ -98,7 +107,6 @@ export function installInterface(h, styleSeed) {
   });
   document.addEventListener("ilia:view", (e) => {
     const value = e.detail;
-    setDockPage(["accumulation", "learn"].includes(value) ? "learn" : value);
     document
       .querySelectorAll("#website-categories")
       .forEach(
@@ -110,6 +118,7 @@ export function installInterface(h, styleSeed) {
   fontLibrary = installFontLibrary(h);
   sourcesPage = installSourcesPage(h);
   homePage = installHomePage(h);
+  favorites = installFavorites(h, fontLibrary, pageLibrary);
   h.pageLibrary = pageLibrary;
   return {
     collections,

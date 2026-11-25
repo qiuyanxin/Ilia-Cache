@@ -162,13 +162,12 @@ export function createLocalComponentActions(host, acknowledgeResource) {
 
   function mountManage(root, record, { read, edit, getFiles, canDownload }) {
     const canRead = !record.sourcePolicy && !record.componentRevision && sourceUrl(record);
-    root.insertAdjacentHTML('beforeend', `<details class="component-manage"><summary aria-label="更多操作"><span class="component-manage-label">更多操作</span><span class="component-manage-icon" aria-hidden="true">⋯</span></summary>
-      <div class="component-local-actions">
+    root.querySelector("#copy-agent").insertAdjacentHTML('beforebegin', `
         <button id="fetch-source" ${canRead ? '' : 'hidden'}>读取原站源码与提示词</button>
         <button id="component-edit">编辑信息</button>
         <button id="mark-component-use">使用 ${record.usage?.length || 0} 次 ＋</button>
-        <button id="download-component">下载 ZIP</button>
-      </div></details>`);
+        `);
+    root.querySelector("#copy-agent").insertAdjacentHTML('afterend', '<button id="download-component">下载 ZIP</button>');
     const editButton = root.querySelector('#component-edit');
     const useButton = root.querySelector('#mark-component-use');
     const download = root.querySelector('#download-component');

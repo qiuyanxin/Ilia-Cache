@@ -11,9 +11,10 @@ const catalog = new Map(buildPublicCatalog(seed).components.map(row => [row.id, 
 test('官方图片和独立预览帧在原始记录与公开目录使用相同的精确地址', () => {
   const approved = seed.filter(officialPreviewForRecord);
   const previews = approved.map(officialPreviewForRecord);
-  assert.equal(previews.filter(item => item.kind === 'image').length, 25);
-  assert.equal(previews.filter(item => item.kind === 'html').length, 5);
-  assert.equal(new Set(previews.map(item => item.url)).size, 30);
+  assert.equal(previews.filter(item => item.kind === 'image').length, 71);
+  assert.equal(previews.filter(item => item.kind === 'html').length, 206);
+  assert.equal(previews.filter(item => item.kind === 'video').length, 14);
+  assert.equal(new Set(previews.map(item => item.url)).size, previews.length);
   for (const row of approved) {
     const publicRow = catalog.get(row.id);
     assert.deepEqual(officialPreviewForRecord(publicRow), publicRow.preview, row.id);
@@ -43,7 +44,7 @@ test('网址和组件记录必须吻合，沙箱中不可用的原站预览继�
   assert.deepEqual(catalog.get(siri.id).preview, {kind: 'external', url: siri.sourcePageUrl});
 });
 
-test('逐音色入口使用原站分享链接，音色在公开目录仍为来源链接', () => {
+test('逐音色入口使用原站分享链接，音色在公开目录使用原站播放器', () => {
   const lab = 'https://reactbits.dev/tools/sound-lab';
   const engine = byId.get('reactbits-sound-engine');
   const sounds = seed.filter(row => row.sourcePageUrl === lab && row !== engine);
@@ -54,12 +55,12 @@ test('逐音色入口使用原站分享链接，音色在公开目录仍为来�
     assert.equal(officialSourceForRecord(sound), url, sound.id);
     assert.equal(officialSourceForRecord(projected), url, sound.id);
     assert.equal(projected.sourcePageUrl, url, sound.id);
-    assert.deepEqual(projected.preview, {kind: 'external', url}, sound.id);
-    assert.equal(officialPreviewForRecord(sound), null, sound.id);
+    assert.deepEqual(projected.preview, {kind: 'html', url}, sound.id);
+    assert.deepEqual(officialPreviewForRecord(sound), {kind: 'html', url}, sound.id);
     assert.equal('soundRecipe' in projected, false, sound.id);
   }
   assert.equal(officialSourceForRecord(engine), null);
-  assert.deepEqual(catalog.get(engine.id).preview, {kind: 'external', url: lab});
+  assert.deepEqual(catalog.get(engine.id).preview, {kind: 'html', url: lab});
 
   const pebble = byId.get('reactbits-sound-pebble');
   assert.equal(officialSourceForRecord({...pebble, sourcePageUrl: lab + '#sound=halo'}), null);

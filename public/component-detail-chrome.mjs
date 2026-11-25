@@ -30,16 +30,21 @@ ${escape(value)}</textarea></label>
 }
 
 /** Render the detail heading and actions for an interactive dialog or a linked page. */
-export function renderComponentDetailChrome({ title, category, description, headingId, source, back }) {
+export function renderComponentDetailChrome({ title, category, description, headingId, source, back, backLabel = '返回组件库', author, license }) {
   const heading = back ? 'h1' : 'h2';
   const summary = description?.trim();
   const dismiss = back
-    ? `<a class="component-detail-dismiss" href="${escape(back)}" aria-label="返回组件库" title="返回组件库">×</a>`
+    ? `<a class="component-detail-dismiss" href="${escape(back)}" aria-label="${escape(backLabel)}" title="${escape(backLabel)}">×</a>`
     : '<button type="button" data-close aria-label="关闭组件详情">×</button>';
   const origin = source
     ? `<a data-component-origin href="${escape(source.href)}" target="_blank" rel="noopener noreferrer">${escape(source.label)}</a>`
     : '';
-  return `<div class="dialog-heading component-detail-heading"><div><small>${escape(category)}</small><${heading} id="${escape(headingId)}">${escape(title)}</${heading}></div>${dismiss}</div>
+  const credit = author && license ? `<small>${escape(author)} · ${escape(license)}</small>` : '';
+  return `<div class="dialog-heading component-detail-heading"><div><small>${escape(category)}</small><${heading} id="${escape(headingId)}">${escape(title)}</${heading}>${credit}</div>${dismiss}</div>
     ${summary ? `<p class="component-detail-note">${escape(summary)}</p>` : ''}
     <div class="component-detail-actions"><div class="component-shared-actions">${origin}${back ? '' : '<button type="button" id="copy-agent">复制给 Agent</button>'}</div></div>`;
+}
+
+export function renderPreviewOrigin(source) {
+  return source ? `<p class="component-preview-origin"><a data-component-preview-origin href="${escape(source.href)}" target="_blank" rel="noopener noreferrer">${escape(source.label)}</a></p>` : '';
 }

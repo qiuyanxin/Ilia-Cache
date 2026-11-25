@@ -4,6 +4,12 @@ export const componentGalleryPage = Object.freeze({
   description: 'Browse a free directory of UI components. Filter by category or source, view available previews, and open the original component page.',
 });
 
+export const soundGalleryPage = Object.freeze({
+  path: '/sounds',
+  title: '音效库 – 界面音效与来源 | Cache',
+  description: '搜索 React Bits 的界面与视频音效，打开原始 Sound Lab 试听。',
+});
+
 export function componentDetailPath(id) {
   return '/components/' + encodeURIComponent(id);
 }

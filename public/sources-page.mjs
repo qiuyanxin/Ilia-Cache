@@ -12,12 +12,50 @@ const SOURCES=[
  {name:'Transitions.dev',url:'https://github.com/Jakubantalik/transitions.dev',match:'transitions.dev',type:'转场与微交互',note:'33 个免费转场规范留在组件库，并保留原许可、来源和再分发限制。'},
  {name:'Paper Shaders',url:'https://github.com/paper-design/shaders',match:'paper-shaders',type:'背景与材质',note:'通过 @paper-design/shaders-react 安装的实时着色器。'},
  {name:'Kokonut UI',url:'https://kokonutui.com',match:'kokonutui.com',type:'React 组件',note:'按具体组件页标注的许可使用。'},
- {name:'SmoothUI',url:'https://smoothui.dev',match:'smoothui.dev',type:'React 组件',note:'按具体组件页标注的许可使用。'}
+ {name:'SmoothUI',url:'https://smoothui.dev',match:'smoothui.dev',type:'React 组件',note:'按具体组件页标注的许可使用。'},
+ {name:'Streamline Flex Line Free',url:'https://www.streamlinehq.com/icons/flex-line-free',match:'streamlinehq.com/icons/flex-line-free',type:'导航图标',credit:'https://www.streamlinehq.com/',note:'侧栏使用 11 枚 Flex Line Free 细线图标。依照 Streamline Free License 使用，并在本页提供可读署名链接；免费不等于开源，也不允许把整套资源重新分发成图标库。'}
 ];
-export function installSourcesPage(h){const page=document.createElement('main');page.id='sources-page';page.hidden=true;document.querySelector('#font-library').after(page);let showing=false;
- const count=s=>h.getState().resources.filter(r=>!r.archived&&[r.url,r.primarySourceUrl,r.collectionSource?.url,r.sourceShort].join(' ').includes(s.match)).length;
- function render(){page.innerHTML=`<div class="page-heading"><h1>来源说明</h1></div><section class="rights-note"><h2>仅供学习使用。</h2><p>第三方设计、代码与素材的权利归原权利人所有，使用须遵守其许可。</p><p>本站是个人学习与交互实验项目，不代表第三方作者或项目的背书。公开链接、免费提供或改写实现，都不等于获得复制、分发或商用权利。</p><p>代码许可不一定包含照片、插画、字体、商标与参考设计。对外发布前应替换为自有或已授权素材。</p></section><section class="source-list"><h2>组件与资源站</h2>${SOURCES.map(s=>`<article><div><h3>${esc(s.name)}</h3><p>${esc(s.type)} · ${count(s)} 项</p></div><p>${esc(s.note)}</p><div><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">打开来源 ↗</a>${s.secondary?`<a href="${esc(s.secondary)}" target="_blank" rel="noopener noreferrer">Bookmarks ↗</a>`:''}</div></article>`).join('')}</section><section class="connection-list"><h2>工具连接</h2><article><div><h3>MotionSites MCP</h3><p>让 Agent 查找动效参考。</p></div><code>codex mcp add motionsites --url https://motionsites.ai/api/mcp</code><button data-copy-command="codex mcp add motionsites --url https://motionsites.ai/api/mcp">${icon('copy')}复制命令</button></article><article><div><h3>LeiBox Skill</h3><p>让 Agent 查找已收录组件的源码、许可与来源。</p></div><code>npx skills add https://leibox.pantoria.cn --skill leibox</code><button data-copy-command="npx skills add https://leibox.pantoria.cn --skill leibox">${icon('copy')}复制命令</button></article></section>`;page.querySelectorAll('[data-copy-command]').forEach(b=>b.onclick=()=>h.copy(b.dataset.copyCommand));}
- function show(){showing=true;for(const id of ['library','learning','component-library','collection-pages','projects-page','page-library','font-library','home-page'])document.getElementById(id)?.setAttribute('hidden','');page.hidden=false;document.querySelector('#breadcrumb').textContent='来源说明';render();}
- function leave(){showing=false;page.hidden=true;}
- return {show,leave,get showing(){return showing;}};
+// The caller counts matches from its own catalog. The source notes and actions are shared.
+export function renderSourcesPage(count) {
+  return `<div class="page-heading"><h1>来源说明</h1></div>
+    <section class="rights-note"><h2>仅供学习使用。</h2><p>第三方设计、代码与素材的权利归原权利人所有，使用须遵守其许可。</p><p>本站是个人学习与交互实验项目，不代表第三方作者或项目的背书。公开链接、免费提供或改写实现，都不等于获得复制、分发或商用权利。</p><p>代码许可不一定包含照片、插画、字体、商标与参考设计。对外发布前应替换为自有或已授权素材。</p></section>
+    <section class="source-list"><h2>组件与资源站</h2>${SOURCES.map(s=>`<article><div><h3>${esc(s.name)}</h3><p>${esc(s.type)} · ${count(s.match)} 项</p></div><p>${esc(s.note)}</p><div><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">打开来源 ↗</a>${s.credit?`<a href="${esc(s.credit)}" target="_blank" rel="noopener noreferrer">导航图标由 Streamline 提供 ↗</a>`:''}${s.secondary?`<a href="${esc(s.secondary)}" target="_blank" rel="noopener noreferrer">Bookmarks ↗</a>`:''}</div></article>`).join('')}</section>
+    <section class="connection-list"><h2>工具连接</h2><article><div><h3>MotionSites MCP</h3><p>让 Agent 查找动效参考。</p></div><code>codex mcp add motionsites --url https://motionsites.ai/api/mcp</code><button data-copy-command="codex mcp add motionsites --url https://motionsites.ai/api/mcp">${icon('copy')}复制命令</button></article><article><div><h3>LeiBox Skill</h3><p>让 Agent 查找已收录组件的源码、许可与来源。</p></div><code>npx skills add https://leibox.pantoria.cn --skill leibox</code><button data-copy-command="npx skills add https://leibox.pantoria.cn --skill leibox">${icon('copy')}复制命令</button></article></section>`;
+}
+
+export function bindSourcesPage(page, copy) {
+  page.querySelectorAll('[data-copy-command]').forEach(button => {
+    button.onclick = () => copy(button.dataset.copyCommand);
+  });
+}
+
+export function installSourcesPage(h) {
+  const page = document.createElement('main');
+  page.id = 'sources-page';
+  page.hidden = true;
+  document.querySelector('#font-library').after(page);
+  let showing = false;
+
+  function count(match) {
+    return h.getState().resources.filter(record => !record.archived &&
+      [record.url, record.primarySourceUrl, record.collectionSource?.url, record.sourceShort].join(' ').includes(match)).length;
+  }
+
+  function show() {
+    showing = true;
+    for (const id of ['library', 'learning', 'component-library', 'collection-pages', 'projects-page', 'page-library', 'font-library', 'home-page']) {
+      document.getElementById(id)?.setAttribute('hidden', '');
+    }
+    page.hidden = false;
+    document.querySelector('#breadcrumb').textContent = '来源说明';
+    page.innerHTML = renderSourcesPage(count);
+    bindSourcesPage(page, h.copy);
+  }
+
+  function leave() {
+    showing = false;
+    page.hidden = true;
+  }
+
+  return { show, leave, get showing() { return showing; } };
 }

@@ -1,25 +1,19 @@
+import { favoriteButton } from './favorite-button.mjs';
+import { icon } from './icons.mjs';
+import { bindButtonPress } from './springs.mjs';
+import { renderWebsiteCards, renderWebsiteLayoutSwitch } from './website-library-view.mjs';
+
 const escape = value => String(value ?? '').replace(/[&<>"']/g, character =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
-
-function siteCard(site, screenshot) {
-  const { id, name, url } = site;
-  return `<article class="website-card">
-    <a href="${escape(url)}" target="_blank" rel="noopener noreferrer"><img loading="lazy" src="${escape(screenshot(site))}" alt="${escape(name)} 首页"></a>
-    <div><h3><a href="${escape(url)}" target="_blank" rel="noopener noreferrer">${escape(name)}</a></h3>
-    <p>${escape(site.finds || site.description)}</p><span>${escape(site.category)}</span>
-    <button data-site-cart="${escape(id)}" aria-label="加入待选 ${escape(name)}">＋</button><button data-web-preview="${escape(id)}">预览网站 ↗</button></div>
-  </article>`;
-}
 
 export function installLocalSiteCollections(h) {
   const { getState, save, toast, sites, choose, render, nav, screenshot } = h;
   const list = document.querySelector('#resource-list');
   const layout = document.querySelector('.library-layout');
   const inspector = document.querySelector('#inspector');
-  const viewSwitch = document.createElement('div');
-  viewSwitch.className = 'view-switch';
-  viewSwitch.innerHTML = '<button data-layout="list" aria-pressed="true">☷ 列表</button><button data-layout="deck" aria-pressed="false">▱ 卡片</button>';
-  document.querySelector('.list-head').after(viewSwitch);
+  const head = document.querySelector('.list-head');
+  head.insertAdjacentHTML('afterend', renderWebsiteLayoutSwitch('list'));
+  const viewSwitch = head.nextElementSibling;
 
   const deck = document.createElement('div');
   deck.id = 'website-deck';
@@ -36,6 +30,10 @@ export function installLocalSiteCollections(h) {
   function findSite(id) {
     return sites().find(site => site.id === id);
   }
+
+  h.bindWebsiteCart = (button, site) => h.projects?.bindReferenceButton(button, {
+    id: 'site:' + site.id, type: 'website', name: site.name, image: screenshot(site), url: site.url,
+  });
 
   function addToCart(site) {
     h.projects?.addReferenceToCart({
@@ -57,7 +55,15 @@ export function installLocalSiteCollections(h) {
       return;
     }
     inspector.replaceChildren();
-    deck.innerHTML = `<div class="website-card-grid">${h.filtered().map(site => siteCard(site, screenshot)).join('')}</div>`;
+    const rows = h.filtered();
+    deck.innerHTML = renderWebsiteCards(rows, { screenshot, actions: site =>
+      favoriteButton('website', site, site.favorite) +
+      `<button type="button" class="card-action card-action--cart" data-website-card-cart="${escape(site.id)}">${icon('plus')}</button>`,
+    });
+    for (const button of deck.querySelectorAll('[data-website-card-cart]')) {
+      const site = findSite(button.dataset.websiteCardCart);
+      if (site) h.bindWebsiteCart(button, site);
+    }
   }
 
   viewSwitch.addEventListener('click', event => {
@@ -108,9 +114,14 @@ export function installLocalSiteCollections(h) {
       <label>网站域名 / 首页<input name="url" type="url" required value="${escape(site.url)}"></label>
       <label>能找到什么<textarea name="finds">${escape(site.finds || site.description)}</textarea></label>
       <label>有什么用<textarea name="use">${escape(site.use || '')}</textarea></label>
-      <button class="primary">保存修改</button>
+      <div class="dialog-actions"><button type="button" data-site-delete>${icon('trash')}移除网站</button><button class="primary">保存修改</button></div>
     </form>`;
     dialog.querySelector('[data-close]').onclick = () => dialog.close();
+    bindButtonPress(dialog.querySelector('button.primary'));
+    dialog.querySelector('[data-site-delete]').onclick = () => {
+      dialog.close();
+      archiveSite(site);
+    };
     dialog.querySelector('form').onsubmit = event => {
       event.preventDefault();
       const fields = new FormData(event.currentTarget);
@@ -183,6 +194,7 @@ export function installLocalSiteCollections(h) {
     } catch {}
   }
 
+  h.openSiteEditor = id => { const site = findSite(id); if (site) editSite(site); };
   h.decorateRows = () => {
     list.querySelectorAll('.resource-row').forEach(row => {
       if (row.querySelector('.site-row-actions')) return;

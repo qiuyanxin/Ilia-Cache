@@ -9,8 +9,8 @@ import { hasOriginalMotionBundle } from './component-taxonomy.mjs';
 const escape = value => String(value ?? '').replace(/[&<>"']/g, character =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
 
-function iframeThumbnail(name, url, permissions = 'allow-scripts') {
-  return `<iframe tabindex="-1" title="${escape(name)}" sandbox="${permissions}" src="${escape(url)}" loading="lazy"></iframe>`;
+function iframeThumbnail(name, url, permissions = 'allow-scripts', deferred = false) {
+  return `<iframe tabindex="-1" title="${escape(name)}" sandbox="${permissions}" ${deferred ? 'data-src' : 'src'}="${escape(url)}" loading="lazy"></iframe>`;
 }
 
 function staticPreview(markup) {
@@ -24,13 +24,23 @@ function renderLegacyComponentMedia(previews, title, detail) {
     : staticPreview(markup);
 }
 
+function catalogThumbnail(record) {
+  const preview = record.catalogPreview;
+  if (preview.kind === 'html') {
+    if (preview.poster) return cardImage(preview.poster, record.name, preview.ratio);
+    return record.componentCategory === '音效' ? soundThumbnail('打开官方音效播放器') : cardPlaceholder('interaction');
+  }
+  return referenceMedia(preview, record.name, { card: true }) ||
+    cardPlaceholder(record.componentCategory === '音效' ? 'sound' : 'source');
+}
+
 function knownComponentThumbnail(record, motionAssetPrefix) {
   const { name, referencePreview, preview, soundRecipe, previewVideo, previewPoster,
     thumbnailFrame, localPoster, builtin, builtinNative } = record;
   const reference = referenceMedia(referencePreview, name, { card: true });
   if (reference) return reference;
   if (preview?.kind === 'html' || hasOriginalMotionBundle(record)) return cardPlaceholder('interaction');
-  const official = officialPreviewForRecord(record);
+  const official = soundRecipe ? null : officialPreviewForRecord(record);
   if (official?.kind === 'image') return referenceMedia(official, name, { card: true });
   if (official?.kind === 'html') return cardPlaceholder('interaction');
   const motion = motionPreviewForRecord(record, { assetPrefix: motionAssetPrefix });
@@ -50,13 +60,36 @@ function knownComponentThumbnail(record, motionAssetPrefix) {
   return '';
 }
 
-export function componentMedia(record, { motionAssetPrefix, legacyPreviews, detail = false } = {}) {
+export function componentMedia(record, { motionAssetPrefix, legacyPreviews, detail = false, workbench = false, fallbackMedia } = {}) {
+  if (record.catalogPreview && !hasOriginalMotionBundle(record)) {
+    const markup = catalogThumbnail(record);
+    return detail ? staticPreview(markup) : markup;
+  }
+  const animation = workbench && !detail && motionPromptThumbnail(record);
+  if (animation) {
+    return `<iframe class="motion-prompt-thumb" tabindex="-1" title="${escape(record.name)}" sandbox="allow-scripts" data-src="${animation}" loading="lazy"></iframe>`;
+  }
+  const poster = componentReferencePoster(record.id);
+  if (workbench && !detail && !record.referencePreview && !record.preview && !hasOriginalMotionBundle(record)) {
+    if (record.previewVideo) {
+      const poster = record.previewPoster ? ` poster="${escape(record.previewPoster)}"` : '';
+      return `<video class="component-video" muted loop playsinline preload="none"${poster} data-src="${escape(record.previewVideo)}" aria-label="${escape(record.name)} 动态预览"></video>`;
+    }
+    if (record.thumbnailFrame) {
+      const permissions = record.thumbnailFrame.startsWith('/native-preview.html') ? 'allow-scripts allow-same-origin' : 'allow-scripts';
+      return iframeThumbnail(record.name, record.thumbnailFrame, permissions, true);
+    }
+    if (record.localPoster) return cardImage(record.localPoster, record.name);
+    if (record.builtin || record.builtinNative) {
+      return iframeThumbnail(record.name, '/motion/' + (record.builtin || record.builtinNative) + '.html', 'allow-scripts', true);
+    }
+    if (!poster && !record.soundRecipe && fallbackMedia) return fallbackMedia(record).replace(/<\/?a\b[^>]*>/g, '');
+  }
   const known = knownComponentThumbnail(record, motionAssetPrefix);
   if (!known) {
     const legacy = renderLegacyComponentMedia(legacyPreviews?.(record), record.name, detail);
     if (legacy) return legacy;
   }
-  const poster = !known && componentReferencePoster(record.id);
   const thumbnail = known || (poster && cardImage(poster.url, `${record.name} · ${poster.label}`)) || cardPlaceholder();
   return detail ? staticPreview(thumbnail) : thumbnail;
 }
@@ -229,6 +262,10 @@ export function installCardPreviews(root) {
     const { video, stage, card } = active;
     active = undefined;
     intersection.unobserve(card);
+    if (!stage) {
+      video.pause();
+      return;
+    }
     if (video.currentTime > 0) positions.set(stage, video.currentTime);
     stage.removeAttribute('data-preview-playing');
     video.pause();
@@ -239,6 +276,15 @@ export function installCardPreviews(root) {
   root.addEventListener('pointerenter', event => {
     const card = event.target;
     if (!card.matches('.component-thumb') || event.pointerType === 'touch' || document.hidden || reduceMotion.matches) return;
+    const deferred = card.querySelector('video[data-src]');
+    if (deferred) {
+      pause();
+      if (!deferred.src) deferred.src = deferred.dataset.src;
+      active = { video: deferred, card };
+      intersection.observe(card);
+      deferred.play().catch(() => { if (active?.video === deferred) pause(); });
+      return;
+    }
     const stage = card.querySelector('[data-card-video]');
     if (!stage || active?.stage === stage) return;
     pause();
@@ -279,8 +325,68 @@ export function installCardPreviews(root) {
   function refresh() {
     if (active && !root.contains(active.card)) pause();
     resize.disconnect();
-    for (const box of root.querySelectorAll('.component-thumb:has(iframe)')) resize.observe(box);
+    for (const box of root.querySelectorAll('.component-thumb:has(iframe:not(.motion-prompt-thumb))')) resize.observe(box);
   }
   installPreviewRecovery(root);
   return { refresh, pause };
+}
+
+const collectionPreviewControllers = new WeakMap();
+
+export function pauseCollectionPreviews(root) {
+  collectionPreviewControllers.get(root)?.pause();
+  deferredWorkbenches.get(root)?.disconnect();
+}
+
+export function connectCollectionPreviews(root) {
+  let preview = collectionPreviewControllers.get(root);
+  if (!preview) {
+    preview = installCardPreviews(root);
+    collectionPreviewControllers.set(root, preview);
+  }
+  preview.refresh();
+  refreshDeferredWorkbenchMedia(root);
+}
+
+function motionPromptThumbnail(resource){
+  const match=/^motion-prompt-(\d{3})$/.exec(resource.id);
+  return match ? `/motion-prompt/thumbnail.html#${match[1]}` : '';
+}
+export { componentLoadRank } from './component-browse.mjs';
+
+let motionPreviewListenerBound = false;
+function bindMotionPreviewSizes(root) {
+  if (motionPreviewListenerBound || !root.querySelector('.motion-prompt-thumb')) return;
+  motionPreviewListenerBound = true;
+  window.addEventListener('message', event => {
+    if (event.origin !== 'null' || event.data?.type !== 'cache:motion-preview-size') return;
+    const { width, height } = event.data;
+    if (!Number.isInteger(width) || !Number.isInteger(height) || width < 1 || height < 1 || width > 4096 || height > 4096) return;
+    const frame = [...document.querySelectorAll('.motion-prompt-thumb')]
+      .find(candidate => candidate.contentWindow === event.source);
+    if (frame) frame.style.aspectRatio = `${width} / ${height}`;
+  });
+}
+
+
+const deferredWorkbenches = new WeakMap();
+
+export function refreshDeferredWorkbenchMedia(root) {
+  bindMotionPreviewSizes(root);
+  let observer = deferredWorkbenches.get(root);
+  if (!observer) {
+    observer = new IntersectionObserver(entries => {
+      for (const entry of entries) {
+        const frame = entry.target;
+        if (!entry.isIntersecting) continue;
+        observer.unobserve(frame);
+        if (frame.isConnected) frame.src = frame.dataset.src;
+      }
+    }, { rootMargin: '800px 0px' });
+    deferredWorkbenches.set(root, observer);
+  }
+  observer.disconnect();
+  for (const frame of root.querySelectorAll('[data-src]:not([src])')) {
+    observer.observe(frame);
+  }
 }

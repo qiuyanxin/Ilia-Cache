@@ -40,6 +40,7 @@ test('公开种子通过 stdio 暴露工具、资源和各类记录，组件搜�
   const { dir, client } = await setup(t);
   const { tools } = await client.listTools();
   assert.deepEqual(tools.map(tool => tool.name), [
+    'search_resources', 'get_resource', 'read_resource_file',
     'ilia_cache_search_components', 'ilia_cache_search_library',
     'ilia_cache_get_record', 'ilia_cache_read_component_file', 'ilia_cache_get_component_handoff',
   ]);

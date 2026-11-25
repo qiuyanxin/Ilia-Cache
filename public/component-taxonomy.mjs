@@ -1,5 +1,6 @@
 import { officialSourceForRecord } from './official-component-previews.mjs';
-import { COMPONENT_CATEGORIES } from './component-search.mjs';
+
+import { COMPONENT_CATEGORIES, componentCategory as browseOriginalCategory, styleReferenceGroup } from './component-categories.mjs';
 
 export { COMPONENT_CATEGORIES };
 
@@ -13,28 +14,43 @@ const sourceNames = new Map([
   ['smoothui.dev', 'SmoothUI'],
 ]);
 
-const motionCategories = {
-  enter: '页面与转场',
-  text: '文字',
-  hover: '按钮与输入',
-  scroll: '页面与转场',
-  feedback: '提示与状态',
-  loop: '文字',
-  layout: '卡片',
-};
+const originalMotionId = /^ilia-motion-[a-z]+$/;
+const originalMotionTag = /^Ilia\s*原创实现$/i;
+const motionCategories = new Map([
+  ['enter', '滚动与页面切换'],
+  ['text', '文字特效'],
+  ['hover', '悬停与按压'],
+  ['scroll', '滚动与页面切换'],
+  ['feedback', '加载与反馈'],
+  ['loop', '打字与滚动'],
+  ['layout', '内容卡片'],
+]);
+const legacyMotionCategories = new Map([
+  ['页面与转场', 'enter'],
+  ['文字', 'text'],
+  ['按钮与输入', 'hover'],
+  ['提示与状态', 'feedback'],
+  ['卡片', 'layout'],
+]);
 
 export function hasOriginalMotionBundle(record) {
-  return /^ilia-motion-[a-z]+$/.test(record.id) && record.primarySourceAuthor === 'Ilia' &&
+  return originalMotionId.test(record?.id) && record.primarySourceAuthor === 'Ilia' &&
     record.sourcePolicy === 'bundled-source' && record.filePackage === record.id;
 }
 
 export function normalizeOriginalMotionRecord(record) {
-  if (!/^ilia-motion-[a-z]+$/.test(record?.id) || record.primarySourceKind !== 'original') return record;
-  const category = record.motionPattern?.category;
-  const componentCategory = COMPONENT_CATEGORIES.includes(record.componentCategory) || !Object.hasOwn(motionCategories, category)
-    ? record.componentCategory : motionCategories[category];
-  const tags = Array.isArray(record.tags) ? record.tags.filter(tag => tag !== 'Ilia原创实现') : undefined;
-  return { ...record, componentCategory, sourceShort: '原创', ...(tags && { tags }) };
+  if (!originalMotionId.test(record?.id) || record.primarySourceKind !== 'original') return record;
+  const legacyGroup = legacyMotionCategories.get(record.componentCategory);
+  const group = record.id === 'ilia-motion-marquee' ? 'loop'
+    : record.motionPattern?.category;
+  const componentCategory = !record.componentCategory || legacyGroup
+    ? motionCategories.get(group) || motionCategories.get(legacyGroup) || record.componentCategory
+    : record.componentCategory;
+  const tags = Array.isArray(record.tags)
+    ? record.tags.filter(tag => typeof tag !== 'string' || !originalMotionTag.test(tag.trim())) : undefined;
+  if (record.sourceShort === '原创' && record.componentCategory === componentCategory &&
+      (!tags || tags.length === record.tags.length)) return record;
+  return { ...record, ...(componentCategory && { componentCategory }), sourceShort: '原创', ...(tags && { tags }) };
 }
 
 export function isComponentRecord(record, { includeArchived = false } = {}) {
@@ -75,4 +91,12 @@ export function allowsComponentSource(record, { allowUnclassified = false } = {}
 export function canDistributeSource(record) {
   if (!allowsComponentSource(record, { allowUnclassified: true })) return false;
   return record.sourcePolicy === 'bundled-source' || Boolean(record.customFiles || record.files?.length || record.filePackage);
+}
+
+export function isSoundEffect(record) {
+  return isComponentRecord(record) && (Boolean(record.soundRecipe) || browseOriginalCategory(record) === '音效');
+}
+
+export function isLibraryComponent(record) {
+  return isComponentRecord(record) && !isSoundEffect(record) && !styleReferenceGroup(record);
 }

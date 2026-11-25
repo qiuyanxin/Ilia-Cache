@@ -7,9 +7,11 @@ const escape = value => String(value ?? '').replace(/[&<>"']/g, character =>
 export function renderHomePage(sections, { linkFor, secondary = { id: 'pages', label: '打开页面库' } } = {}) {
   function action(id, content, className = '') {
     const style = className ? ` class="${className}"` : '';
-    return linkFor
-      ? `<a${style} href="${escape(linkFor(id))}">${content}</a>`
-      : `<button type="button"${style} data-home-go="${escape(id)}">${content}</button>`;
+    if (!linkFor) return `<button type="button"${style} data-home-go="${escape(id)}">${content}</button>`;
+    const href = linkFor(id);
+    return href
+      ? `<a${style} href="${escape(href)}">${content}</a>`
+      : `<button type="button"${style} disabled>${content}</button>`;
   }
 
   const index = sections.map(({ id, name, description, count }) => action(id,

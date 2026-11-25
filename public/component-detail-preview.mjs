@@ -1,4 +1,7 @@
+import { soundThumbnail } from './component-card.mjs';
 import { referenceAspectRatio } from './reference-media-model.mjs';
+
+const isSoundLabPreview = url => /^https:\/\/reactbits\.dev\/tools\/sound-lab(?:#sound=[a-z-]+)?$/.test(url);
 
 const escape = value => String(value ?? '').replace(/[&<>"']/g, character =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
@@ -11,11 +14,16 @@ export function renderMotionDetailPreview({ title, ratio, poster, url, pausedAt 
     ${frame ? '<p class="component-motion-status" role="status" hidden>动效暂时无法加载，可打开组件来源。</p>' : ''}</div></div>`;
 }
 
+export function renderSoundSourcePreview(url) {
+  return `<div class="component-static-preview"><a data-sound-source href="${escape(url)}" target="_blank" rel="noopener noreferrer">${soundThumbnail('在来源试听 ↗')}</a></div>`;
+}
+
 export function renderOfficialFramePreview({ title, url }) {
   const link = `href="${escape(url)}" target="_blank" rel="noopener noreferrer"`;
-  return `<div class="component-live component-official-frame" data-preview-title="${escape(title)}">
+  const isSound = isSoundLabPreview(url);
+  return `<div class="component-live component-official-frame${isSound ? ' component-sound-frame' : ''}" data-preview-title="${escape(title)}">
     <div class="component-official-frame-canvas" tabindex="-1">
-      <a ${link} data-start-official-preview>打开交互预览</a>
+      <a ${link} data-start-official-preview>${isSound ? '打开官方音效播放器' : '打开交互预览'}</a>
     </div>
     <div class="component-official-frame-actions"><a ${link} data-open-official-preview>在新标签页打开预览 ↗</a></div>
   </div>`;
@@ -31,7 +39,7 @@ export function installOfficialFramePreview(dialog) {
     event.preventDefault();
     const frame = document.createElement('iframe');
     frame.title = stage.dataset.previewTitle + ' 交互预览';
-    frame.sandbox = 'allow-scripts';
+    frame.sandbox = isSoundLabPreview(launch.href) ? 'allow-scripts allow-same-origin' : 'allow-scripts';
     frame.referrerPolicy = 'no-referrer';
     frame.src = launch.href;
     canvas.replaceChildren(frame);
