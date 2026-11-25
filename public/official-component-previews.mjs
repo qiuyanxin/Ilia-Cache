@@ -31,6 +31,8 @@ lift glow velvet cushion haze gust pass drift inhale exhale shimmer stardust rev
 `.trim().split(/\s+/));
 
 export function officialSourceForRecord(record) {
+  const transition = record && transitionDemoForRecord(record);
+  if (transition) return transition;
   if (!record || (record.sourceShort || record.sourceName) !== 'React Bits') return null;
   const id = /^reactbits-sound-([a-z0-9-]+)$/.exec(record.id)?.[1];
   if (!soundIds.has(id)) return null;
@@ -39,10 +41,31 @@ export function officialSourceForRecord(record) {
   return source === soundLab || source === exactSource ? exactSource : null;
 }
 
+const correctedTransitionSlugs = {
+  modal: 'modal-open-close',
+  'input-clear-dissolve': 'input-clear-with-dissolve',
+  'skeleton-reveal': 'skeleton-loader-and-reveal',
+  tooltip: 'tooltip-open-close',
+  'card-tilt': '3d-tilt',
+  'plus-menu-morph': 'gooey-plus-menu',
+  toast: 'toast-open-close',
+  'matrix-loader': 'matrix-dot-loader',
+};
+
+export function transitionDemoForRecord(record) {
+  if ((record.sourceShort || record.sourceName) !== 'Transitions.dev') return null;
+  const slug = /^transitions-([a-z0-9-]+)$/.exec(record.id)?.[1];
+  if (!slug) return null;
+  const source = record.sourcePageUrl || record.url;
+  const base = 'https://transitions.dev/detail.html?t=';
+  const current = base + (Object.hasOwn(correctedTransitionSlugs, slug) ? correctedTransitionSlugs[slug] : slug);
+  return source === current || source === base + slug ? current : null;
+}
+
 function savedTransitionPoster(record, source, sourceName) {
   if (sourceName !== 'Transitions.dev') return null;
   const slug = /^transitions-([a-z0-9-]+)$/.exec(record.id)?.[1];
-  if (!slug || source !== 'https://transitions.dev/detail.html?t=' + slug) return null;
+  if (!slug || !transitionDemoForRecord({ ...record, sourcePageUrl: source })) return null;
   const url = '/component-posters/transitions-' + slug + '.jpg';
   return record.localPoster === url || (record.preview?.kind === 'image' && record.preview.url === url)
     ? { kind: 'image', url } : null;
@@ -93,7 +116,7 @@ export function officialPreviewForRecord(record) {
   if (!record) return null;
   const source = record.sourcePageUrl || record.url;
   const sourceName = record.sourceShort || record.sourceName;
-  const soundSource = officialSourceForRecord(record);
+  const soundSource = sourceName === 'React Bits' ? officialSourceForRecord(record) : null;
   if (soundSource || (record.id === 'reactbits-sound-engine' && sourceName === 'React Bits' && source === soundLab)) {
     return { kind: 'html', url: soundSource || soundLab };
   }

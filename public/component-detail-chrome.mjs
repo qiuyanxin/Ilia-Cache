@@ -17,13 +17,13 @@ export function renderComponentReferences({ source, author, license, media = '',
   </section>`;
 }
 
-export function renderComponentPrompt({ value, editable = false, interactive = false }) {
+export function renderComponentPrompt({ value, editable = false, interactive = false, label = '提示词原文' }) {
   const input = interactive ? ' id="saved-component-prompt"' : '';
   const readOnly = editable ? '' : ' readonly';
   const placeholder = editable ? '把原站提供的提示词粘贴在这里。' : '来源未收录提示词。';
   const copy = interactive ? '<button type="button" id="copy-component-prompt">复制提示词</button>' : '';
   return `<div class="component-prompt">
-    <label>提示词原文<textarea${input} class="command-field" data-detail-prompt rows="14"${readOnly} placeholder="${placeholder}">
+    <label>${escape(label)}<textarea${input} class="command-field" data-detail-prompt rows="14"${readOnly} placeholder="${placeholder}">
 ${escape(value)}</textarea></label>
     <div class="component-prompt-actions">${copy}</div>
   </div>`;

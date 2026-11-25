@@ -1,9 +1,9 @@
 import {
-  componentRequest, generatedPreview, openComponentForm, renderLocalPreviewCandidates,
+  bindComponentCategoryField, componentRequest, generatedPreview, openComponentForm, renderComponentCategoryField, renderLocalPreviewCandidates,
 } from './local-component-editor.mjs';
 import { componentWebUrl } from './component-workspace.mjs';
 import { collectionMediaEntries } from './catalog.mjs';
-import { COMPONENT_CATEGORIES, componentCategory } from './component-taxonomy.mjs';
+import { componentCategory } from './component-taxonomy.mjs';
 import { icon } from './icons.mjs';
 import { savedCasePreviewUrl } from './reference-media-model.mjs';
 
@@ -119,17 +119,16 @@ export function createLocalComponentActions(host, acknowledgeResource) {
   }
 
   function openLegacyEditor(dialog, record, onUpdated) {
-    const selectedCategory = componentCategory(record);
     dialog.innerHTML = `<form>
       <div class="dialog-heading"><h2 id="component-dialog-title">编辑组件</h2><button type="button" data-close aria-label="关闭">×</button></div>
       <label>名称<input name="name" value="${escape(record.name)}" required></label>
-      <label>分类<select name="category">${COMPONENT_CATEGORIES.map(category =>
-        `<option${selectedCategory === category ? ' selected' : ''}>${escape(category)}</option>`).join('')}</select></label>
+      ${renderComponentCategoryField(record)}
       <label>用途与备注<textarea name="note">${escape(record.note || record.description)}</textarea></label>
       <label>源码链接<input type="url" name="sourceUrl" value="${escape(record.sourceUrl || '')}"></label>
-      <label class="compact-file-control">${icon('upload')}<span>追加源码文件</span><input name="files" type="file" multiple hidden accept=".html,.css,.js,.mjs,.tsx,.jsx,.ts,.vue,.svelte,.json,.md,.txt"></label>
-      <button class="primary">保存修改</button> <button type="button" id="archive-component">移除组件</button>
+      <div class="dialog-actions"><label class="compact-file-control">${icon('upload')}<span>追加源码文件</span><input name="files" type="file" multiple hidden accept=".html,.css,.js,.mjs,.tsx,.jsx,.ts,.vue,.svelte,.json,.md,.txt"></label>
+      <button type="button" id="archive-component">${icon('trash')}移除组件</button><button type="submit" class="primary">保存修改</button></div>
     </form>`;
+    bindComponentCategoryField(dialog.querySelector('form'));
     dialog.querySelector('[data-close]').onclick = () => dialog.close();
     dialog.querySelector('#archive-component').onclick = () => {
       record.archived = true;

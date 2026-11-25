@@ -76,14 +76,19 @@ export function compareComponentTitles(a, b) {
     order.compare(text(a.id), text(b.id));
 }
 
+export function compareComponentSources(a, b) {
+  return Number(b === '原创') - Number(a === '原创') || order.compare(a, b);
+}
+
 /** Index the directory once for repeated selections in either host. */
 export function createComponentSearch(records, {
   describe = record => ({ category: record.category, source: record.sourceName }),
 } = {}) {
   const entries = [...records].sort(compareComponentTitles).map(record => ({ record, facets: describe(record) }));
+  const browseEntries = [...entries].sort((a, b) => compareComponentSources(a.facets.source || '', b.facets.source || ''));
   return ({ category = '', source = '', query = '' } = {}) => {
     const search = prepareSearchQuery(query);
-    const matching = entries.filter(({ facets }) => (!category || facets.category === category) &&
+    const matching = (search.raw ? entries : browseEntries).filter(({ facets }) => (!category || facets.category === category) &&
       (!source || facets.source === source));
     if (!search.raw) return matching.map(({ record }) => record);
     return matching.map(entry => {

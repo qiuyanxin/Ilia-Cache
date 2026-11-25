@@ -1,5 +1,6 @@
 import { componentWebUrl, referenceMedia } from './component-workspace.mjs';
 import { renderDetailMediaStage } from './component-detail-preview.mjs';
+import { COMPONENT_BROWSE_GROUPS, componentBrowseCategory } from './component-categories.mjs';
 
 const escape = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const sourceFiles = /\.(?:html?|css|[cm]?js|tsx?|jsx|vue|svelte|json|md|txt)$/i;
@@ -68,7 +69,38 @@ export function renderLocalPreviewCandidates(root, record, sourceUrl, { refresh,
   root.querySelectorAll('[data-select-reference]').forEach(button => button.addEventListener('click', () => perform(button, () => select(button.dataset.selectReference), '保存所选预览…')));
 }
 
-export function openComponentForm(dialog, { categories, category, record, onSaved }) {
+const editorCategoryGroups = {
+  ...COMPONENT_BROWSE_GROUPS,
+  '摄影与画风': ['摄影与画风'],
+  '动画与镜头': ['动画技法', '镜头与剪辑'],
+  '音效': ['音效'],
+};
+
+function categoryOptions(choices, selected) {
+  return choices.map(name =>
+    `<option${name === selected ? ' selected' : ''}>${escape(name)}</option>`).join('');
+}
+
+export function renderComponentCategoryField(record, category) {
+  const selected = record ? componentBrowseCategory(record) : category;
+  const group = Object.keys(editorCategoryGroups).find(name => editorCategoryGroups[name].includes(selected)) ||
+    (Object.hasOwn(editorCategoryGroups, category) ? category : Object.keys(editorCategoryGroups)[0]);
+  return `<div class="component-edit-category-fields">
+    <label class="component-category-field">组件分类<select name="categoryGroup" aria-label="组件分类" data-anchored-select>
+      ${categoryOptions(Object.keys(editorCategoryGroups), group)}</select></label>
+    <label class="component-category-field">细分分类<select name="category" aria-label="细分分类" data-anchored-select>
+      ${categoryOptions(editorCategoryGroups[group], selected)}</select></label>
+  </div>`;
+}
+
+export function bindComponentCategoryField(form) {
+  const { categoryGroup, category } = form.elements;
+  categoryGroup.addEventListener('change', () => {
+    category.innerHTML = categoryOptions(editorCategoryGroups[categoryGroup.value], category.value);
+  });
+}
+
+export function openComponentForm(dialog, { category, record, onSaved }) {
   const editing = Boolean(record);
   dialog.innerHTML = `<div class="component-workspace-layout"><form id="component-add" class="component-workspace">
     <div class="dialog-heading"><h2 id="component-dialog-title">${editing ? '编辑组件' : '添加组件'}</h2><button type="button" data-close aria-label="关闭">×</button></div>
@@ -78,7 +110,7 @@ export function openComponentForm(dialog, { categories, category, record, onSave
     </fieldset>
     <label>组件名称<input name="name" maxlength="150" autocomplete="off" value="${escape(record?.name)}"></label>
     <label>原网页链接<input name="url" type="url" placeholder="https://…" value="${escape(record?.url)}"></label>
-    <label>组件分类<select name="category">${categories.map(name => `<option${name === category ? ' selected' : ''}>${escape(name)}</option>`).join('')}</select></label>
+    ${renderComponentCategoryField(record, category)}
     <div class="component-input-source">
       <label>代码格式<select name="framework"><option value="">自动识别</option><option value="html" ${record?.framework === 'html' ? 'selected' : ''}>HTML / CSS / JavaScript</option><option value="react" ${record?.framework === 'react' ? 'selected' : ''}>React JSX / TSX</option></select></label>
       <label>组件代码<textarea name="code" rows="8" spellcheck="false" placeholder="${editing ? '留空保留当前源码。' : '粘贴完整 HTML，或粘贴 React JSX / TSX 组件代码。'}"></textarea></label>
@@ -89,10 +121,11 @@ export function openComponentForm(dialog, { categories, category, record, onSave
       <label>提示词原文<textarea name="prompt" rows="4">${escape(record?.prompt)}</textarea></label>
       <label>源码许可<input name="license" autocomplete="off" value="${escape(record?.license)}" placeholder="例如 MIT，或留空待确认"></label>
     </details>
-    <div class="component-reference-actions"><button type="button" data-preview-source>预览代码</button><button class="primary" type="submit">${editing ? '保存修改' : '保存组件'}</button></div>
+    <div class="dialog-actions"><button type="button" data-preview-source>预览代码</button><button class="primary" type="submit">${editing ? '保存修改' : '保存组件'}</button></div>
     <p class="component-workspace-status" role="status"></p>
   </form><section class="component-workspace-result" data-preview-result aria-label="代码预览" hidden></section></div>`;
   const form = dialog.querySelector('form');
+  bindComponentCategoryField(form);
   const { name, url, code, framework, files } = form.elements;
   const submit = form.querySelector('[type="submit"]');
   const preview = form.querySelector('[data-preview-source]');

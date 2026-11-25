@@ -1,8 +1,8 @@
 import { componentBrowseCategory } from './component-categories.mjs';
 import { isMotionPromptRecord, motionPreviewForRecord } from './motion-prompt-preview/index.mjs';
-import { officialPreviewForRecord } from './official-component-previews.mjs';
+import { officialPreviewForRecord, transitionDemoForRecord } from './official-component-previews.mjs';
 import {
-  COMPONENT_CATEGORIES, allowsComponentSource, canDistributeSource, componentCategory,
+  allowsComponentSource, canDistributeSource, componentCategory,
   hasOriginalMotionBundle, isComponentRecord as isComponent, sourcePage,
 } from './component-taxonomy.mjs';
 import {componentMedia,installDetailMediaPlayback,installPreviewRecovery} from './component-media.mjs';
@@ -40,7 +40,7 @@ export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pul
  const readonly=!local;
  const {getState,toast,copy}=h;
  const packages=createComponentPackageCache(local?.loadComponentPackage||h.loadComponentPackage);
- const distributable=r=>readonly?allowsComponentSource(r):canDistributeSource(r);
+ const distributable=r=>readonly?allowsComponentSource(r):canDistributeSource(r)||Boolean(r.filePackage&&r.localSource?.kind==='leibox');
  const componentFiles=r=>{
   if(readonly&&!distributable(r))return [];
   return r.filePackage?(packages.read(r)?.files||[]):r.files||[];
@@ -76,6 +76,12 @@ export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pul
  const directory=directoryInstaller(sheet,{
   getRecords:()=>getState().resources,
   readonly,thumbnail,toast,playRecipe:h.playRecipe,
+  async loadOriginalMotion(record){
+   if(!record||!hasOriginalMotionBundle(record))return;
+   const entry=packages.load(record);
+   await entry?.settled;
+   return entry?.files.find(file=>file.name==='index.html')?.content;
+  },
   hasInCart:id=>h.projects?.has(id),
   getCollection:h.componentCollection,
   onAdd:local ? addComponent : undefined,
@@ -107,7 +113,7 @@ export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pul
   motionPreview.clear();
   playback.remember();
   local.openComponentForm(dialog,{
-   record,categories:COMPONENT_CATEGORIES,category:record?componentCategory(record):directory.getCategory(),
+   record,category:directory.getCategory(),
    onSaved:async(saved,formOpen)=>{
     local.adopt(saved);
     if(!formOpen)return;
@@ -176,7 +182,10 @@ export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pul
   });
   if(preserveMedia)playback.remember();
   dialog.innerHTML=`${chrome}
-   <div class="detail-tabs" role="tablist" aria-label="组件详情"></div><div id="component-detail-content" role="tabpanel" tabindex="0"></div>`;
+   <div class="component-detail-tabbar">
+    <div class="detail-tabs" role="tablist" aria-label="组件详情"></div>
+    <button type="button" class="component-detail-replay" data-replay-detail hidden>↻ 重播</button>
+   </div><div id="component-detail-content" role="tabpanel" tabindex="0"></div>`;
   dialog.querySelector('[data-close]').onclick=()=>dialog.close();
   const copyAgent=dialog.querySelector('#copy-agent');
   copyAgent.disabled=showSource&&packages.read(r)?.status==='loading';
@@ -188,14 +197,33 @@ export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pul
    canDownload:()=>distributable(active),
   });
   const body=dialog.querySelector('#component-detail-content');
+  const replay=dialog.querySelector('[data-replay-detail]');
+  replay.onclick=()=>{
+   const media=body.querySelector('video[src],audio[src]');
+   if(media){media.currentTime=0;media.play().catch(()=>toast('重播失败，请打开组件来源。'));return;}
+   const audio=body.querySelector('#play-sound');
+   if(audio){audio.click();return;}
+   motionPreview.reset();
+   playback.reset();
+   renderDetailPanel(body,active,{replay:true});
+   body.querySelector('[data-start-official-preview]')?.click();
+  };
   selectDetailTab=installComponentDetailTabs(dialog.querySelector('.detail-tabs'),body,{tabs,selected:tab,onSelect:h.onComponentDetailTab,render:name=>{
    tab=name;
    renderDetailPanel(body,active);
   }});
  }
- function renderDetailPanel(body,r){
+ function syncReplay(body) {
+  const control=dialog.querySelector('[data-replay-detail]');
+  if(!control)return;
+  control.hidden=tab!=='预览';
+  control.disabled=!body.querySelector('iframe,video[src],audio[src],[data-start-official-preview],#play-sound');
+  control.title=control.disabled?'当前没有可重播的动效预览':'从头播放预览';
+ }
+ function renderDetailPanel(body,r,{replay=false}={}){
   motionPreview.clear();
-  playback.remember(body);
+  if(!replay)playback.remember(body);
+  syncReplay(body);
   const files=componentFiles(r);
   body.removeAttribute('data-awaiting-source-preview');
   fileIndex=Math.min(fileIndex,Math.max(0,files.length-1));
@@ -214,16 +242,29 @@ export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pul
     const label=r.sourcePageKind==='collection'?'打开收录页 ↗':'打开原组件 ↗';
     if(url)body.insertAdjacentHTML('beforeend',renderPreviewOrigin({href:url,label}));
     playback.restore(body);
+    syncReplay(body);
     return;
    }
    const built=local?.generatedPreview(r),official=r.soundRecipe?null:officialPreviewForRecord(r),src=sourceDocument(r);
    let reference=r.referencePreview;
-   let referenceMarkup=referenceMedia(reference,r.name);
-   if(!referenceMarkup){reference=official;referenceMarkup=referenceMedia(reference,r.name);}
+   let referenceMarkup=referenceMedia(reference,r.name,{loop:true,autoplay:playback.canAutoplay(reference?.url)});
+   if(!referenceMarkup){
+    reference=official;
+    referenceMarkup=referenceMedia(reference,r.name,{loop:true,autoplay:playback.canAutoplay(reference?.url)});
+   }
+   const transition=!readonly&&transitionDemoForRecord(r);
+   const nativePath=r.thumbnailFrame?.startsWith('/motion/')?r.thumbnailFrame:
+    r.builtin||r.builtinNative?'/motion/'+(r.builtin||r.builtinNative)+'.html':'';
+   const localLeiBox=!readonly&&r.localSource?.kind==='leibox'&&
+    /^https:\/\/leibox\.pantoria\.cn\/assets\/motion\/[\w.-]+\.html$/.test(r.localSource.preview)&&r.localSource.preview;
    const video={kind:'video',url:r.previewVideo,poster:r.previewPoster};
    const videoMarkup=referenceMedia(video,r.name,{loop:true,autoplay:playback.canAutoplay(video.url)});
    const status=r.previewStatus?.message,motion=motionPreviewForRecord(r,{assetPrefix:motionAssetPrefix});
    if(built)body.innerHTML=(r.preview.stale?`<p class="component-workspace-status">${esc(status||'当前展示上次成功生成的预览。')}</p>`:'')+built;
+   else if(transition||nativePath||localLeiBox&&!r.referencePreview&&!r.previewVideo&&official?.kind!=='video'){
+    const url=transition||nativePath||localLeiBox;
+    body.innerHTML=`<iframe class="component-live" title="${esc(r.name)} 交互预览" src="${esc(url)}" sandbox="allow-scripts" referrerpolicy="no-referrer"></iframe>`;
+   }
    else if(referenceMarkup)body.innerHTML=renderDetailMediaStage(referenceMarkup,reference);
    else if(official?.kind==='html')body.innerHTML=renderOfficialFramePreview({title:r.name,url:official.url});
    else if(motion)motionPreview.render(body,{title:r.name,...motion});
@@ -305,6 +346,7 @@ export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pul
    });
   }
   playback.restore(body);
+  syncReplay(body);
  }
  function appendSourceFrame(body,r,src){
   const frame=document.createElement('iframe');
@@ -313,7 +355,7 @@ export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pul
   frame.srcdoc=src;body.append(frame);
  }
  function renderPrompt(body,r){
-  body.innerHTML=renderComponentPrompt({value:promptDraft??r.prompt,editable:!readonly,interactive:true});
+  body.innerHTML=renderComponentPrompt({value:promptDraft??r.prompt,editable:!readonly,interactive:true,label:['LeiBox 复刻提示词','本机复刻任务'].includes(r.promptStatus)?r.promptStatus:undefined});
   const input=body.querySelector('textarea');
   const copyButton=body.querySelector('#copy-component-prompt');
   copyButton.onclick=event=>copy(input.value,event.currentTarget);

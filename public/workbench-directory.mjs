@@ -1,5 +1,5 @@
 import { COMPONENT_BROWSE_GROUPS, componentBrowseCategory, styleReferenceGroup } from './component-categories.mjs';
-import { isLibraryComponent, isSoundEffect, sourceName, sourcePage } from './component-taxonomy.mjs';
+import { hasOriginalMotionBundle, isLibraryComponent, isSoundEffect, sourceName, sourcePage } from './component-taxonomy.mjs';
 import { connectCollectionPreviews, pauseCollectionPreviews } from './component-media.mjs';
 import { browseComponentRecords, describeComponentBrowse } from './component-browse.mjs';
 import { renderGroupedComponentFilters } from './component-directory-controls.mjs';
@@ -16,6 +16,7 @@ function directoryCard(record, { hasInCart, thumbnail }) {
       (/leibox.*image-compare/.test(record.url) ? '拖动分隔线比较两张图片，松开时边界自然回弹。' : record.description),
     category: componentBrowseCategory(record), source: sourceName(record), sourceHref: sourcePage(record),
     sourceAuthor: record.primarySourceAuthor, media: thumbnail(record), workbench: true,
+    interactivePreview: hasOriginalMotionBundle(record),
     collection: {
       inCart: hasInCart(record.id), usage: record.usage?.length || 0, favorite: record.favorite,
       favoriteType: isSoundEffect(record) ? 'sound' : styleReferenceGroup(record) ? 'style' : 'component',
@@ -49,6 +50,9 @@ export function installWorkbenchDirectory(sheet, options) {
     }
     let shown = 0;
     const motionStart = records.findIndex(record => sourceName(record) === 'Motion Prompt');
+    const originalsEnd = !query.trim() && sourceName(records[0]) === '原创'
+      ? records.findIndex(record => sourceName(record) !== '原创') : 0;
+    const loadMotion = id => options.loadOriginalMotion?.(getRecords().find(record => record.id === id));
     const sentinel = document.createElement('div');
     sentinel.className = 'component-load-sentinel';
     grid.append(sentinel);
@@ -58,11 +62,11 @@ export function installWorkbenchDirectory(sheet, options) {
     function append() {
       const batch = records.slice(shown, shown + BATCH_SIZE);
       sentinel.insertAdjacentHTML('beforebegin', batch.map((record, index) =>
-        (motionStart > 0 && shown + index === motionStart ? '<div class="component-source-break" aria-hidden="true"></div>' : '') +
+        ((motionStart > 0 && shown + index === motionStart) || (originalsEnd > 0 && shown + index === originalsEnd) ? '<div class="component-source-break" aria-hidden="true"></div>' : '') +
         directoryCard(record, options),
       ).join(''));
       shown += batch.length;
-      connectCollectionPreviews(grid);
+      connectCollectionPreviews(grid, loadMotion);
       onRender?.();
       if (shown >= records.length) {
         sentinel.remove();
