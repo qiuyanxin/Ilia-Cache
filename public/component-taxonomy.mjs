@@ -1,6 +1,7 @@
 import { officialSourceForRecord } from './official-component-previews.mjs';
+import { COMPONENT_CATEGORIES } from './component-search.mjs';
 
-export { COMPONENT_CATEGORIES } from './component-search.mjs';
+export { COMPONENT_CATEGORIES };
 
 const sourceNames = new Map([
   ['reactbits.dev', 'React Bits'],
@@ -11,6 +12,25 @@ const sourceNames = new Map([
   ['kokonutui.com', 'Kokonut UI'],
   ['smoothui.dev', 'SmoothUI'],
 ]);
+
+const motionCategories = {
+  enter: '页面与转场',
+  text: '文字',
+  hover: '按钮与输入',
+  scroll: '页面与转场',
+  feedback: '提示与状态',
+  loop: '文字',
+  layout: '卡片',
+};
+
+export function normalizeOriginalMotionRecord(record) {
+  if (!/^ilia-motion-[a-z]+$/.test(record?.id) || record.primarySourceKind !== 'original') return record;
+  const category = record.motionPattern?.category;
+  const componentCategory = COMPONENT_CATEGORIES.includes(record.componentCategory) || !Object.hasOwn(motionCategories, category)
+    ? record.componentCategory : motionCategories[category];
+  const tags = Array.isArray(record.tags) ? record.tags.filter(tag => tag !== 'Ilia原创实现') : undefined;
+  return { ...record, componentCategory, sourceShort: '原创', ...(tags && { tags }) };
+}
 
 export function isComponentRecord(record, { includeArchived = false } = {}) {
   return Boolean(record && (includeArchived || !record.archived) && (

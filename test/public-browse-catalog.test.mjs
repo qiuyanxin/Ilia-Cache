@@ -10,8 +10,9 @@ async function publicJson(name) {
 test('公开网站归并域名、保留具体链接和已审核的策展信息', async () => {
   const [seed, summaries] = await Promise.all([publicJson('seed'), publicJson('site-summaries')]);
   const { websites } = buildPublicBrowseCatalog(seed, summaries);
-  assert.equal(websites.length, 87);
-  assert.equal(websites.flatMap(site => site.links).length, 106);
+  assert.equal(websites.length, 96);
+  assert.equal(websites.flatMap(site => site.links).length, 117);
+  assert.ok(websites.some(site => site.links.some(link => link.id === 'website-streamline-flex-line-free')));
   const reactBits = websites.find(site => site.id === 'site:reactbits.dev');
   assert.equal(reactBits.title, 'React Bits');
   assert.ok(reactBits.links.some(link => link.url === 'https://reactbits.dev/tools/center-stage'));
@@ -26,7 +27,7 @@ test('公开网站归并域名、保留具体链接和已审核的策展信息',
 test('公开页面来自种子，保留具体出处与参考文案性质', async () => {
   const [seed, summaries] = await Promise.all([publicJson('seed'), publicJson('site-summaries')]);
   const { pages } = buildPublicBrowseCatalog(seed, summaries);
-  assert.equal(pages.length, 280);
+  assert.equal(pages.length, 331);
   assert.equal(pages.filter(row => row.promptKind === 'original').length, 3);
   assert.equal(pages.filter(row => row.promptKind === 'implementation-task').length, 277);
   const carousel = pages.find(row => row.id === 'page-ms-outfit-carousel');
@@ -36,6 +37,9 @@ test('公开页面来自种子，保留具体出处与参考文案性质', async
   assert.equal(carousel.sourceAuthor, 'MotionSites');
   assert.ok(pages.every(row => !('prompt' in row) && !('preview' in row) && !('files' in row)));
   assert.ok(!pages.some(row => row.id === 'page-ms-ai-image-generator-ui'));
+  assert.equal(pages.find(row => row.id === 'page-dashboard-open-tabler').sourcePageUrl, 'https://github.com/tabler/tabler');
+  assert.equal(pages.filter(row => row.id.startsWith('page-framer-')).length, 15);
+  assert.equal(pages.filter(row => row.id.startsWith('page-21st-')).length, 30);
 });
 
 test('网站和页面仅投影已发布字段，本机范围与私人字段不进入结果', () => {

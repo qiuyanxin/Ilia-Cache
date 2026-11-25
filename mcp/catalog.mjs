@@ -3,7 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { groupSites, validPublicWebUrl } from '../public/catalog.mjs';
 import { loadBuiltinComponents } from '../public/builtin-components.mjs';
-import { allowsComponentSource, componentCategory, isComponentRecord, sourceName, sourcePage } from '../public/component-taxonomy.mjs';
+import { allowsComponentSource, componentCategory, isComponentRecord, normalizeOriginalMotionRecord, sourceName, sourcePage } from '../public/component-taxonomy.mjs';
 import { compareComponentTitles, componentSearchFields, createSearchRanker, normalizeSearchText, prepareSearchQuery } from '../public/component-search.mjs';
 import { isPageRecord } from '../public/page-taxonomy.mjs';
 import { localImageAttachment, localMediaAttachment } from '../public/reference-media-model.mjs';
@@ -241,7 +241,7 @@ export function createCatalog({
     }
 
     const builtinMap = new Map(builtins.map(record => [record.id, record]));
-    const raw = overlay(seed, saved?.resources);
+    const raw = overlay(seed, saved?.resources).map(normalizeOriginalMotionRecord);
     const savedIds = new Set(array(saved?.resources).map(record => record?.id));
     const records = new Map(raw.filter(record => typeof record?.id === 'string').map(record => [record.id, record]));
     for (const [id, builtin] of builtinMap) {

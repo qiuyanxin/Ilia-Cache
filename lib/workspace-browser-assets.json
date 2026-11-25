@@ -13,6 +13,7 @@
   "component-navigation.mjs",
   "component-package-cache.mjs",
   "component-public-record.mjs",
+  "component-reference-posters.mjs",
   "component-search.mjs",
   "component-source-panel.mjs",
   "component-taxonomy.mjs",

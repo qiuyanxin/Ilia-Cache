@@ -3,6 +3,7 @@ import { renderDetailMediaStage } from './component-detail-preview.mjs';
 import { cardImage, cardPlaceholder, soundThumbnail } from './component-card.mjs';
 import { isMotionPromptRecord, motionPreviewForRecord } from './motion-prompt-preview/index.mjs';
 import { officialPreviewForRecord } from './official-component-previews.mjs';
+import { componentReferencePoster } from './component-reference-posters.mjs';
 
 const escape = value => String(value ?? '').replace(/[&<>"']/g, character =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
@@ -54,7 +55,8 @@ export function componentMedia(record, { motionAssetPrefix, legacyPreviews, deta
     const legacy = renderLegacyComponentMedia(legacyPreviews?.(record), record.name, detail);
     if (legacy) return legacy;
   }
-  const thumbnail = known || cardPlaceholder();
+  const poster = !known && componentReferencePoster(record.id);
+  const thumbnail = known || (poster && cardImage(poster.url, `${record.name} · ${poster.label}`)) || cardPlaceholder();
   return detail ? staticPreview(thumbnail) : thumbnail;
 }
 

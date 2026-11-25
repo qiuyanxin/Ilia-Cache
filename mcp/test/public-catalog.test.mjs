@@ -8,7 +8,8 @@ import { selectComponentRecords } from '../../public/component-directory.mjs';
 import { createCatalog, createPublicCatalog } from '../catalog.mjs';
 
 const baseline = {
-  id: 'demo', name: 'Demo UI', sourcePolicy: 'source-link-only', sourcePageUrl: 'https://public.example.org/components/demo',
+  id: 'demo', name: 'Demo UI', caseType: '组件',
+  sourcePolicy: 'source-link-only', sourcePageUrl: 'https://public.example.org/components/demo',
 };
 
 test('本机 MCP 为已公开组件返回私人素材，同时保留 Ilia 官网详情链接', async t => {
@@ -54,6 +55,7 @@ test('公开目录只投影明确发布字段，拒绝个人素材及不具体�
     { ...baseline, id: 'homepage', sourcePageUrl: 'https://public.example.org' },
     { ...baseline, id: 'archived', archived: true },
     { ...baseline, id: 'unreviewed', sourcePolicy: undefined },
+    { ...baseline, id: 'linked-template', caseType: '网页参考', pageCategory: 'Dashboard' },
     { ...baseline, id: 'local-source', sourcePageUrl: 'http://127.0.0.1:4317/components/private' },
     { ...baseline, id: 'invalid path' },
     { ...baseline, id: 'claimed', sourcePolicy: 'bundled-source', license: 'MIT', filePackage: 'claimed' },

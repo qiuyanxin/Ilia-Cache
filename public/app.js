@@ -4,6 +4,7 @@ import {installExtensions,builtinResources,isComponent} from './extensions.js';
 import {installComponentNavigation} from './component-navigation.mjs';
 import {componentDetailTabQuery,readComponentDetailTab} from './component-directory-url.mjs';
 import {componentDetailPage,componentDetailPath} from './component-document.mjs';
+import {normalizeOriginalMotionRecord} from './component-taxonomy.mjs';
 import {playRecipe} from './local-component-audio.mjs';
 import {createWorkspaceCopy} from './workspace-copy.mjs';
 import {setWorkspaceTheme as setTheme} from './workspace-theme.mjs';
@@ -177,6 +178,7 @@ function exportLesson(l){download(l.title.replace(/[\\/:*?"<>|]/g,'-')+'.md',les
 $('export-lesson').onclick=()=>{if(!$('prompt-text').value.trim()){toast('请先粘贴提示词');return;}exportLesson(currentLesson());};
 $('lesson-list').onclick=e=>{if(learning)return;const b=e.target.closest('[data-lesson]');if(b){const l=state.lessons.find(l=>l.id===b.dataset.lesson);if(($('prompt-text').value.trim()||$('explanation').value.trim())&&activeLesson!==l.id&&!confirm('打开笔记将替换当前编辑区。未保存内容会丢失，继续吗？'))return;activeLesson=l.id;lessonExample=Boolean(l.example);$('lesson-title').value=l.title;$('lesson-source').value=l.source||'';$('prompt-text').value=l.prompt;setExplanation(l.explanation,l.example?'保存的示例讲解':'保存的学习笔记');updateCount();$('learning').scrollIntoView({block:'start'});}const d=e.target.closest('[data-download-lesson]');if(d)exportLesson(state.lessons.find(l=>l.id===d.dataset.downloadLesson));};
 async function init(){try{const seedResponse=await fetch('/seed.json');if(!seedResponse.ok)throw Error('资源加载失败');const seed=await seedResponse.json();try{summaries=await(await fetch('/site-summaries.json')).json();}catch{}let syncBaseline=null;const stored=localStorage.getItem(STORAGE);if(stored){try{state=validateImport({version:1,...JSON.parse(stored)});}catch{toast('本地备份暂时无法读取，已加载原始收藏。请先导出并保留现有数据。');state={resources:seed,lessons:[]};}}else state={resources:seed,lessons:[]};try{const disk=await(await fetch('/api/library')).json();if(disk?.resources){syncBaseline=structuredClone(disk);if(!stored||(disk.updatedAt||'')>(state.updatedAt||''))state={version:1,...disk,lessons:disk.lessons||[]};else{const diskResources=new Map(disk.resources.map(r=>[r.id,r]));state.resources=state.resources.map(r=>{const latest=diskResources.get(r.id);diskResources.delete(r.id);return latest?.componentRevision&&latest.componentRevision!==r.componentRevision?latest:r;});state.resources.push(...diskResources.values());}}}catch{}
+ state.resources=state.resources.map(normalizeOriginalMotionRecord);
  const existingIds=new Set(state.resources.map(r=>r.id));
  for(const record of seed){
   if(existingIds.has(record.id))continue;

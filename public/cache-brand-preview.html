@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cache 字标对比</title>
+  <link rel="icon" href="/cache-deer-3d.png">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Gravitas+One&family=Lobster&display=swap&text=Cache">
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #ededef; color: #222; font: 15px system-ui, sans-serif; }
+    main { max-width: 1152px; margin: clamp(32px, 8vw, 105px) auto; padding: 0 24px; }
+    h1 { margin: 0; font-size: 28px; }
+    header p { color: #555; margin: 8px 0 28px; }
+    .comparisons { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 310px), 1fr)); gap: 16px; }
+    article { border: 1px solid #dadadd; background: #fafafa; border-radius: 18px; padding: 24px; }
+    h2 { margin: 0; font-size: 15px; font-weight: 600; }
+    .pair { display: flex; align-items: center; gap: 11px; white-space: nowrap; }
+    .large { margin: 30px 0; font-size: 37px; gap: 15px; }
+    .small { font-size: 18px; }
+    .small img { border-radius: 9px; }
+    .large img { border-radius: 14px; }
+    img { flex: none; }
+    .word { font-family: var(--font), Georgia, serif; line-height: 1; }
+    small { color: #555; }
+    footer { margin-top: 24px; }
+    a { color: #222; text-underline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Cache 字标对比</h1>
+      <p>浅灰底 3D 小鹿 · 大字标与实际侧栏尺寸</p>
+    </header>
+    <div class="comparisons">
+      <article style="--font: 'Lobster'">
+        <h2>Lobster</h2>
+        <div class="pair large"><img src="/cache-deer-3d.png" width="60" height="60" alt=""><span class="word">Cache</span></div>
+        <div class="pair small"><img src="/cache-deer-3d.png" width="32" height="32" alt=""><span class="word">Cache</span><small>侧栏</small></div>
+      </article>
+      <article style="--font: 'Gravitas One'">
+        <h2>Gravitas One</h2>
+        <div class="pair large"><img src="/cache-deer-3d.png" width="60" height="60" alt=""><span class="word">Cache</span></div>
+        <div class="pair small"><img src="/cache-deer-3d.png" width="32" height="32" alt=""><span class="word">Cache</span><small>侧栏</small></div>
+      </article>
+      <article style="--font: 'Abril Fatface'">
+        <h2>Abril Fatface</h2>
+        <div class="pair large"><img src="/cache-deer-3d.png" width="60" height="60" alt=""><span class="word">Cache</span></div>
+        <div class="pair small"><img src="/cache-deer-3d.png" width="32" height="32" alt=""><span class="word">Cache</span><small>侧栏</small></div>
+      </article>
+    </div>
+    <footer><a href="/">返回 Cache 首页</a></footer>
+  </main>
+</body>
+</html>
