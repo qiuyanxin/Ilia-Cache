@@ -7,7 +7,7 @@ import {
   allComponentCategories as allCategories, allComponentSources as allSources,
   describeComponentDirectoryResults, renderComponentDirectoryStatus, renderComponentFilterChoices, renderGroupedComponentFilters, revealComponentFilterChoice,
 } from './component-directory-controls.mjs';
-import { COMPONENT_CATEGORIES, componentCategory, isComponentRecord, sourceName, sourcePage } from './component-taxonomy.mjs';
+import { COMPONENT_CATEGORIES, componentCategory, hasOriginalMotionBundle, isComponentRecord, sourceName, sourcePage } from './component-taxonomy.mjs';
 import { installComponentLaneLayout } from './component-lane-layout.mjs';
 import { createComponentSearch } from './component-search.mjs';
 import { icon } from './icons.mjs';
@@ -40,7 +40,7 @@ function card(record, { readonly, hasInCart, thumbnail, getCollection, mode }) {
     description: record.note || (/leibox.*image-compare/.test(record.url) ? '拖动分隔线比较两张图片，松开时边界自然回弹。' : record.description),
     category: mode === 'components' ? componentBrowseCategory(record) : componentCategory(record), source: sourceName(record), sourceHref: sourcePage(record),
     sourceAuthor: record.primarySourceAuthor, indexed: indexedPolicies.has(record.sourcePolicy),
-    media: thumbnail(record),
+    media: thumbnail(record), interactivePreview: hasOriginalMotionBundle(record),
     previewHref: mode === 'sounds' && (!record.catalogPreview || ['none', 'external'].includes(record.catalogPreview.kind))
       ? componentWebUrl(sourcePage(record)) : undefined,
     collection: accountCollection ?? (readonly ? undefined : { inCart: hasInCart(record.id), usage: record.usage?.length || 0 }),
@@ -75,12 +75,13 @@ export function installComponentDirectory(sheet, options) {
   const resetFilters = status.querySelector('[data-clear-directory]');
   const grid = sheet.querySelector('.component-grid');
   const layout = installComponentLaneLayout(grid);
-  const previews = installCardPreviews(grid);
+  const previews = installCardPreviews(grid, id => options.loadOriginalMotion?.(byId.get(id)));
   const cardTemplate = document.createElement('template');
   let selectRecords = () => [];
   let byId = new Map();
   let visibleCards = new Map();
   let renderedTiles;
+  let renderedOriginals;
   let category = grouped ? '' : allCategories;
   let subcategory = '';
   let facets;
@@ -110,10 +111,13 @@ export function installComponentDirectory(sheet, options) {
       [...cardTemplate.content.children].forEach((tile, index) => { newCards[index].tile = tile; });
     }
     const tiles = entries.map(({ tile }) => tile);
-    if (renderedTiles && tiles.length === renderedTiles.length && tiles.every((tile, index) => tile === renderedTiles[index])) return;
+    const originals = filters.query.trim() ? 0 : results.filter(record => sourceName(record) === '原创').length;
+    if (renderedOriginals === originals && renderedTiles && tiles.length === renderedTiles.length &&
+        tiles.every((tile, index) => tile === renderedTiles[index])) return;
     renderedTiles = tiles;
+    renderedOriginals = originals;
     visibleCards = new Map(entries.map(entry => [entry.id, entry]));
-    layout(tiles);
+    layout(tiles, originals);
     previews.refresh();
     onRender?.();
   }
@@ -176,8 +180,8 @@ export function installComponentDirectory(sheet, options) {
   function restoreFocus(id, { reveal = false, control = 'preview' } = {}) {
     if (sheet.hidden || (!reveal && sheet.contains(document.activeElement))) return;
     const tile = visibleCards.get(id)?.tile;
-    const selector = { preview: '.component-thumb', title: '.component-title-control', source: 'a.component-source-name' }[control];
-    const target = tile?.querySelector(selector) || sheet.querySelector('h1');
+    const selector = { preview: 'button.component-thumb', title: '.component-title-control', source: 'a.component-source-name' }[control];
+    const target = tile?.querySelector(selector) || tile?.querySelector('.component-title-control') || sheet.querySelector('h1');
     target.focus({ preventScroll: true });
     if (reveal) target.scrollIntoView({ block: 'center', behavior: 'instant' });
   }

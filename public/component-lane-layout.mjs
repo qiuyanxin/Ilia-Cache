@@ -17,6 +17,8 @@ export function installComponentLaneLayout(grid) {
   const laneCount = () => Number(getComputedStyle(grid).getPropertyValue('--component-lanes')) || 1;
   let lanes = laneCount();
   let anchor;
+  let prefixCount = 0;
+  let orderedTiles = [];
   let captureFrame = 0;
   const columns = [];
   const newLane = () => {
@@ -25,14 +27,19 @@ export function installComponentLaneLayout(grid) {
     return column;
   };
 
-  function layout(tiles) {
+  function layout(tiles, originals = 0) {
+    orderedTiles = tiles;
+    prefixCount = originals;
     scheduleAnchor();
     if (!tiles.length) {
       if (columns.length) grid.replaceChildren();
       columns.length = 0;
       return;
     }
-    const groups = splitComponentLanes(tiles, lanes);
+    const groups = splitComponentLanes(tiles.slice(prefixCount), lanes);
+    if (prefixCount) {
+      splitComponentLanes(tiles.slice(0, prefixCount), lanes).forEach((lane, index) => groups[index].unshift(...lane));
+    }
     if (!columns.length) {
       for (const group of groups) {
         const column = newLane();
@@ -96,7 +103,7 @@ export function installComponentLaneLayout(grid) {
     }
     const saved = anchor;
     lanes = next;
-    layout([...grid.querySelectorAll('.component-tile')]);
+    layout(orderedTiles, prefixCount);
     if (saved && grid.contains(saved.node) && grid.getClientRects().length) {
       const bounds = saved.node.getBoundingClientRect();
       const top = Math.max(saved.top, 1 - bounds.height);

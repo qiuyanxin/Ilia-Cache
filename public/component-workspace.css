@@ -1,4 +1,7 @@
 .component-workspace { display: grid; gap: 12px; }
+.component-edit-category-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.component-category-field .spring-select { display: flex; margin-block-start: 8px; }
+#component-dialog .dialog-actions label.compact-file-control { margin: 0; min-height: 42px; }
 .component-workspace [hidden] { display: none; }
 .component-input-mode { border: 0; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 0; }
 .component-input-mode label { margin: 0; display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; border: 1px solid var(--line); border-radius: 11px; }
@@ -45,6 +48,15 @@
 .component-source-panel .source-files > :is(button, li) { max-inline-size: 100%; overflow-wrap: anywhere; }
 .component-source-panel .source-code:focus-visible { outline: 2px solid var(--secondary); outline-offset: -2px; }
 .component-code-card { color: var(--muted); font-size: var(--font-sm); }
+.favorite-surface > .component-thumb:has([data-card-original-motion]) { aspect-ratio: 25 / 19; }
+.component-thumb iframe.component-card-motion {
+  pointer-events: auto;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: none;
+  background: var(--raised);
+}
 
 .component-workspace .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .component-workspace-result { min-width: 0; background: var(--hover); border: 1px solid var(--line); border-radius: 16px; }
@@ -58,7 +70,7 @@
   .component-layout > * { min-width: 0; }
   #component-dialog:has(.component-workspace) { width: calc(100vw - 24px); padding: 16px; overflow-x: hidden; }
   .component-workspace { min-width: 0; }
-  .component-workspace > .component-reference-actions { position: sticky; bottom: 0; z-index: 1; padding-block: 8px; background: var(--surface); }
+  .component-workspace > .dialog-actions { position: sticky; bottom: 0; z-index: 1; padding-block: 8px; background: var(--surface); }
 }
 
 .component-source-preview {
@@ -106,6 +118,7 @@
   align-items: center;
   text-align: center;
 }
+.component-thumb [data-card-original-motion] { display: grid; place-items: center; height: 100%; }
 .component-thumbnail-stage > :is(img, video) { width: 100%; height: 100%; object-fit: contain; }
 .component-video-card {
   position: relative;
@@ -405,3 +418,8 @@
 .component-motion-notes p, .component-motion-notes dl { margin: 0; }
 .component-motion-notes dl > div { display: grid; grid-template-columns: 5rem 1fr; gap: 8px; padding-block: 4px; }
 .component-motion-notes dd { margin: 0; }
+
+
+.component-detail-tabbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.component-detail-tabbar > .detail-tabs { flex: 1 1 auto; min-width: 0; }
+.component-detail-replay { flex: none; margin-inline-start: auto; white-space: nowrap; }

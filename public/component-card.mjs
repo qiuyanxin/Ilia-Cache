@@ -44,7 +44,7 @@ function cardPlacement(id, slots) {
 
 /** Render the shared card. The host provides vetted URLs and locally rendered media markup. */
 export function renderComponentCard({
-  id, title, description, category, source, sourceHref, sourceAuthor, media, href, previewHref, slots, indexed = Boolean(href), collection, workbench = false,
+  id, title, description, category, source, sourceHref, sourceAuthor, media, href, previewHref, slots, indexed = Boolean(href), collection, workbench = false, interactivePreview,
 }) {
   const key = escape(id);
   const name = escape(title);
@@ -55,7 +55,9 @@ export function renderComponentCard({
   const thumbnail = indexed ? `<span class="component-thumbnail-stage">${media}</span>` : media;
   const openAttributes = `data-open-component="${key}"`;
   const thumbnailAttributes = `class="component-thumb" aria-label="${previewHref ? '试听' : '预览'} ${name}"`;
-  const trigger = previewHref
+  const trigger = interactivePreview
+    ? `<div ${thumbnailAttributes} role="group">${thumbnail}</div>`
+    : previewHref
     ? `<a ${thumbnailAttributes} href="${escape(previewHref)}" target="_blank" rel="noopener noreferrer"${describedBy}>${thumbnail}</a>`
     : href
     ? `<a ${thumbnailAttributes} href="${escape(href)}"${describedBy}>${thumbnail}</a>`
