@@ -2,7 +2,7 @@ import { isMotionPromptRecord, motionPreviewForRecord } from './motion-prompt-pr
 import { officialPreviewForRecord } from './official-component-previews.mjs';
 import {
   COMPONENT_CATEGORIES, allowsComponentSource, canDistributeSource, componentCategory,
-  isComponentRecord as isComponent, sourcePage,
+  hasOriginalMotionBundle, isComponentRecord as isComponent, sourcePage,
 } from './component-taxonomy.mjs';
 import {componentMedia,installDetailMediaPlayback,installPreviewRecovery} from './component-media.mjs';
 import {installComponentDirectory} from './component-directory.mjs';
@@ -15,6 +15,24 @@ import {mountComponentSourceFiles,renderComponentSourceContent,renderComponentSo
 import {installWorkspaceTheme} from './workspace-theme.mjs';
 import {componentWebUrl,referenceMedia,renderPreviewReferences} from './component-workspace.mjs';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function originalMotionNotes(record, files) {
+ let pattern=record.motionPattern;
+ if(!pattern){
+  try{pattern=JSON.parse(files.find(file=>file.name==='pattern.json')?.content||'null');}
+  catch{return '';}
+ }
+ if(!pattern||!Array.isArray(pattern.specs)||!pattern.uses)return '';
+ const text=value=>esc(String(value??'').replaceAll(/<\/?strong>/g,''));
+ const rows=entries=>entries.map(([key,value])=>`<div><dt>${esc(key)}</dt><dd>${text(value)}</dd></div>`).join('');
+ return `<section class="component-motion-notes">
+  <h3>原理</h3><p>${text(pattern.principle)}</p>
+  <h3>参数</h3><dl>${rows(pattern.specs)}</dl>
+  <h3>三种用法</h3><dl>${rows([
+   ['短视频',pattern.uses.video],['落地页',pattern.uses.page],['UI 组件',pattern.uses.ui],
+  ])}</dl>
+ </section>`;
+}
 
 /** Mount the shared component directory, detail and theme controls for a host. */
 export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pull-cord.html', motionAssetPrefix } = {}){
@@ -101,7 +119,8 @@ export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pul
   if(detailSession!==session||!active||!dialog.open||!body||packages.read(active)!==entry)return;
   refreshDownload?.();
   dialog.querySelector('#copy-agent').disabled=false;
-  if(tab==='源码'||(tab==='预览'&&body.hasAttribute('data-awaiting-source-preview')&&entry.files.some(file=>file.name.endsWith('.html'))))renderDetailPanel(body,active);
+  if(tab==='源码'||(tab==='预览'&&body.hasAttribute('data-awaiting-source-preview')&&
+   (hasOriginalMotionBundle(active)||entry.files.some(file=>file.name.endsWith('.html')))))renderDetailPanel(body,active);
  }
  async function openComponent(id,{fetchSource=true,tab:initialTab='预览'}={}){
   const resource=getState().resources.find(r=>r.id===id);
@@ -179,6 +198,24 @@ export function installComponentWorkspace(h, { local, pullCordUrl = '/motion/pul
    else if(referenceMarkup)body.innerHTML=renderDetailMediaStage(referenceMarkup,reference);
    else if(official?.kind==='html')body.innerHTML=renderOfficialFramePreview({title:r.name,url:official.url});
    else if(motion)motionPreview.render(body,{title:r.name,...motion});
+   else if(hasOriginalMotionBundle(r)){
+    body.replaceChildren();
+    const documentFile=files.find(file=>file.name==='index.html');
+    const entry=packages.read(r);
+    if(documentFile)appendSourceFrame(body,r,documentFile.content);
+    else if(entry?.status==='loading'){
+     body.setAttribute('data-awaiting-source-preview','');
+     body.innerHTML='<p class="component-workspace-status" role="status">正在加载交互预览…</p>';
+    }else{
+     body.innerHTML='<p class="component-workspace-status" role="status">预览暂时无法加载。<button type="button" data-retry-motion-preview>重试</button></p>';
+     body.querySelector('[data-retry-motion-preview]').onclick=()=>{
+      const pending=packages.load(r);
+      renderDetailPanel(body,r);
+      refreshAfterPackage(pending,detailSession);
+     };
+    }
+    body.insertAdjacentHTML('beforeend',originalMotionNotes(r,files));
+   }
    else if(isMotionPromptRecord(r)){
     if(!readonly&&r.customFiles&&src)appendSourceFrame(body,r,src);
     else if(status&&r.previewStatus.status!=='ready')body.innerHTML=`<p class="component-workspace-status" role="status">${esc(status)}</p>`;

@@ -83,6 +83,7 @@ MCP 用来让 Agent 查找组件、理解用途、取得提示词，并在许可
 当前约定：
 
 - Motion Prompt 中已确认 MIT 且保留许可的组件可使用 `bundled-source`。
+- 已公开的 20 个 Ilia 原创动效使用 `bundled-source`，只提供逐项列明的预览 HTML、代码片段、模式说明及许可来源文件。
 - React Bits 使用 `official-source-only`，不得通过网页、ZIP 或 MCP 转发聚合源码。
 - Transitions.dev 在许可冲突得到作者澄清前使用 `official-source-only`。
 - DesignBookmark、LeiBox 或其他收录来源若不能确认原作者许可，使用 `source-link-only`。

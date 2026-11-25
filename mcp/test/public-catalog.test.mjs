@@ -137,3 +137,36 @@ test('公开组件界面和 MCP 使用相同的检索字段、词语和结果顺
   }
   assert.deepEqual(selectComponentRecords(seed, { query: '元素弹跳着出现' }).map(record => record.id), ['motion-prompt-001']);
 });
+
+test('20 个 Ilia 原创动效只公开审核过的资料、预览和源码包', async () => {
+  const seed = JSON.parse(await readFile(new URL('../../public/seed.json', import.meta.url)));
+  const originals = seed.filter(record => record.id.startsWith('ilia-motion-'));
+  const { components } = buildPublicCatalog(originals);
+  const mcp = createPublicCatalog({ baseUrl: 'https://ilia.example.com' });
+  assert.equal(originals.length, 20);
+  assert.equal(components.length, originals.length);
+
+  for (const component of components) {
+    assert.equal(component.sourcePolicy, 'bundled-source', component.id);
+    assert.equal(component.sourceName, '原创');
+    const pattern = JSON.parse(await mcp.file(component.id, 'pattern.json'));
+    assert.equal(component.prompt, pattern.prompt);
+    assert.equal(await mcp.file(component.id, 'snippet.txt'), pattern.code);
+    assert.match(await mcp.file(component.id, 'index.html'), /Content-Security-Policy/);
+    assert.match(await mcp.file(component.id, 'LICENSE'), /Ilia 原创授权/);
+    assert.equal(JSON.parse(await mcp.file(component.id, 'ORIGIN.json')).source, component.sourcePageUrl);
+    await assert.rejects(mcp.file(component.id, 'unlisted.png'));
+  }
+
+  const [first] = originals;
+  for (const changes of [
+    { id: 'ilia-motion-unreviewed', filePackage: 'ilia-motion-unreviewed' },
+    { primarySourceAuthor: '另一位作者' },
+    { sourcePageUrl: 'https://example.org/unreviewed' },
+    { sourceFiles: [{ name: 'index.html' }] },
+  ]) {
+    const [entry] = buildPublicCatalog([{ ...first, ...changes }]).components;
+    assert.equal(entry.sourcePolicy, 'source-link-only');
+    assert.deepEqual(entry.files, []);
+  }
+});

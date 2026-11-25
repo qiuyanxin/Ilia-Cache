@@ -394,3 +394,9 @@
   .component-manage-label { display: none; }
   .component-manage-icon { display: inline; font-size: 16px; line-height: 1; }
 }
+
+.component-motion-notes { margin-block-start: 16px; overflow-wrap: anywhere; }
+.component-motion-notes h3 { font-size: 1rem; margin: 16px 0 6px; }
+.component-motion-notes p, .component-motion-notes dl { margin: 0; }
+.component-motion-notes dl > div { display: grid; grid-template-columns: 5rem 1fr; gap: 8px; padding-block: 4px; }
+.component-motion-notes dd { margin: 0; }

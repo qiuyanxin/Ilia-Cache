@@ -4,6 +4,7 @@ import { cardImage, cardPlaceholder, soundThumbnail } from './component-card.mjs
 import { isMotionPromptRecord, motionPreviewForRecord } from './motion-prompt-preview/index.mjs';
 import { officialPreviewForRecord } from './official-component-previews.mjs';
 import { componentReferencePoster } from './component-reference-posters.mjs';
+import { hasOriginalMotionBundle } from './component-taxonomy.mjs';
 
 const escape = value => String(value ?? '').replace(/[&<>"']/g, character =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
@@ -28,7 +29,7 @@ function knownComponentThumbnail(record, motionAssetPrefix) {
     thumbnailFrame, localPoster, builtin, builtinNative } = record;
   const reference = referenceMedia(referencePreview, name, { card: true });
   if (reference) return reference;
-  if (preview?.kind === 'html') return cardPlaceholder('interaction');
+  if (preview?.kind === 'html' || hasOriginalMotionBundle(record)) return cardPlaceholder('interaction');
   const official = officialPreviewForRecord(record);
   if (official?.kind === 'image') return referenceMedia(official, name, { card: true });
   if (official?.kind === 'html') return cardPlaceholder('interaction');

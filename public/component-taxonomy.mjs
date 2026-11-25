@@ -23,6 +23,11 @@ const motionCategories = {
   layout: '卡片',
 };
 
+export function hasOriginalMotionBundle(record) {
+  return /^ilia-motion-[a-z]+$/.test(record.id) && record.primarySourceAuthor === 'Ilia' &&
+    record.sourcePolicy === 'bundled-source' && record.filePackage === record.id;
+}
+
 export function normalizeOriginalMotionRecord(record) {
   if (!/^ilia-motion-[a-z]+$/.test(record?.id) || record.primarySourceKind !== 'original') return record;
   const category = record.motionPattern?.category;
