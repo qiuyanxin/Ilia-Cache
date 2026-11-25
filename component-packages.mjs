@@ -6,6 +6,15 @@ export async function componentPackage(id){
 }
 
 export async function renderComponentPreview(id) {
+ if (/^ilia-motion-[a-z]+$/.test(id)) {
+  try {
+   const pack = await componentPackage(id);
+   return pack.files.find(file => file.name === 'index.html')?.content || '';
+  } catch (error) {
+   if (error.code === 'ENOENT') return '';
+   throw error;
+  }
+ }
  const pack = /^interaction-[a-z0-9-]+$/.test(id) ? await componentPackage(id) : null;
  const snippet = pack?.files.find(file => file.name === 'component.html');
  if (!snippet) return '';

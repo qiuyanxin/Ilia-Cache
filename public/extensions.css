@@ -5,3 +5,50 @@
 .topbar{border-bottom:0}.pull-cord-control{min-width:62px;width:62px;height:62px}.cord-window{width:62px;height:62px;overflow:visible}.cord-window iframe{transform:scale(.2);top:-12px;width:280px;height:370px}.pull-cord-control>span{display:block;position:absolute;right:0;top:67px;max-width:none;white-space:nowrap;margin:0;padding:6px 10px;border-radius:7px;background:var(--panel);border:1px solid var(--line);box-shadow:var(--tooltip-shadow);color:var(--ink);font-size:11px;opacity:0;pointer-events:none;transition:opacity .18s;z-index:20}.pull-cord-control:hover>span,.pull-cord-control:focus-within>span{opacity:1}
 /* Keep the library focused on saved content and actions. */
 .eyebrow,.page-heading>div>p,.workspace-footer,.list-head>span:last-child,.quick-add-options>span,.local-status,.explain-plan,.component-detail-actions~.help,.component-static-preview+.help,#component-dialog> .help,#site-editor .help{display:none!important}.page-heading{margin-bottom:28px}.component-thumb .case-media-empty{height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;background:transparent;border:0}.component-thumb .case-media-empty span{display:none}.component-thumb .case-media-empty p{margin:0;color:var(--muted)}.component-thumb video,.component-thumb img{pointer-events:none}.component-thumb .case-image-link{pointer-events:none}.page-heading h1{margin-top:0}
+
+.component-english-name {
+  margin: 4px 0 6px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.component-reference-poster {
+  border-radius: inherit;
+}
+
+.component-preview-credit {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.ilia-motion-dialog .ilia-motion-details {
+  background: color-mix(in srgb, var(--panel) 62%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, white 24%, transparent), 0 12px 34px -27px #0008;
+  backdrop-filter: blur(14px);
+  color: var(--ink);
+}
+.ilia-motion-dialog .component-live { background: transparent; }
+.ilia-motion-dialog .component-live { height: auto; aspect-ratio: 4 / 2.9; max-height: 430px; }
+.ilia-motion-details { margin-top: 14px; padding: 18px; border-radius: 16px; }
+.ilia-motion-details h3 { margin: 0 0 8px; font-size: 1rem; }
+.ilia-motion-details p, .ilia-motion-details dl { margin: 0 0 16px; }
+.ilia-motion-details dl:last-child { margin-bottom: 0; }
+.ilia-motion-details dl > div { display: grid; grid-template-columns: 5rem 1fr; gap: 8px; padding: 5px 0; }
+.ilia-motion-details dd { margin: 0; overflow-wrap: anywhere; }
+.ilia-motion-tile .component-thumb iframe { pointer-events: auto; }
+.ilia-motion-tile .favorite-surface > .preview-chip {
+  display: block;
+  left: 10px;
+  right: auto;
+  z-index: 2;
+  border: 0;
+  pointer-events: none;
+}
+.ilia-motion-tile .favorite-surface:hover > .preview-chip,
+.ilia-motion-tile .favorite-surface:focus-within > .preview-chip {
+  opacity: 1;
+  pointer-events: auto;
+}
