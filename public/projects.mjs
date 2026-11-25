@@ -1,7 +1,50 @@
 import {icon} from './icons.mjs';import {spring} from './springs.mjs';import {uploadFile} from './native-controls.mjs';import {addToCart,moveCartToProject,markProjectUse} from './project-model.mjs';
+import { installPreviewRecovery } from './component-media.mjs';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-export function installProjects(h){const {getState,save,toast}=h;const page=document.createElement('main');page.id='projects-page';page.hidden=true;document.querySelector('#component-library').after(page);const dialog=document.createElement('dialog');dialog.id='project-dialog';document.body.append(dialog);let current='',showing=false,selected=new Set(),selectedRefs=new Set();const cart=()=>getState().componentCart||[];const referenceCart=()=>getState().referenceCart||[];const projects=()=>(getState().projects?.filter(p=>!p.archived)||[]).sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''),'en',{numeric:true,sensitivity:'base'}));const resource=id=>getState().resources.find(r=>r.id===id&&!r.archived);const cartButton=document.createElement('button');cartButton.id='project-cart';cartButton.type='button';cartButton.setAttribute('aria-label','打开项目待选区');document.querySelector('.topbar').append(cartButton);cartButton.onclick=openCart;
- function update(){cartButton.innerHTML=icon('folder')+'<span>待选 '+(cart().length+referenceCart().length)+'</span>';document.querySelectorAll('[data-cart-add]').forEach(b=>{const added=cart().includes(b.dataset.cartAdd);b.innerHTML=icon(added?'check':'plus');b.setAttribute('aria-pressed',String(added));b.setAttribute('aria-label',(added?'移出待选 ':'加入待选 ')+(resource(b.dataset.cartAdd)?.name||''));});document.querySelectorAll('[data-reference-cart]').forEach(b=>{const added=referenceCart().some(r=>r.id===b.dataset.referenceCart);b.innerHTML=icon(added?'check':'plus');b.setAttribute('aria-pressed',String(added));b.setAttribute('aria-label',added?'移出待选':'加入待选');});}
+export function installProjects(h){const {getState,save,toast}=h;const page=document.createElement('main');page.id='projects-page';page.hidden=true;document.querySelector('#component-library').after(page);const dialog=document.createElement('dialog');dialog.id='project-dialog';document.body.append(dialog);let current='',showing=false,selected=new Set(),selectedRefs=new Set();const cart=()=>getState().componentCart||[];const referenceCart=()=>getState().referenceCart||[];const projects=()=>(getState().projects?.filter(p=>!p.archived)||[]).sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''),'en',{numeric:true,sensitivity:'base'}));const resource=id=>getState().resources.find(r=>r.id===id&&!r.archived);const cartButton=document.createElement('button');cartButton.id='project-cart';cartButton.type='button';cartButton.setAttribute('aria-label','打开项目待选区');cartButton.onclick=openCart;
+ installPreviewRecovery(page);
+ installPreviewRecovery(dialog);
+ const compactHeader=matchMedia('(max-width: 480px)');
+ const compactCartHost=document.querySelector('.sidebar-bottom');
+ const fullCartHost=document.querySelector('.topbar');
+ function placeCartButton() {
+  const destination=compactHeader.matches?compactCartHost:fullCartHost;
+  if(cartButton.parentElement===destination)return;
+  const focused=document.activeElement===cartButton;
+  if(compactHeader.matches)destination.prepend(cartButton);
+  else destination.append(cartButton);
+  if(focused)cartButton.focus({preventScroll:true});
+ }
+ compactHeader.addEventListener('change',placeCartButton);
+ placeCartButton();
+ const cartIcons = new WeakMap();
+ let displayedCount;
+ function updateCartControl(button, added, name = '') {
+  const label = (added ? '移出待选' : '加入待选') + (name ? ' ' + name : '');
+  if (cartIcons.get(button) !== added) {
+   button.innerHTML = icon(added ? 'check' : 'plus');
+   button.setAttribute('aria-pressed', String(added));
+   cartIcons.set(button, added);
+  }
+  if (button.getAttribute('aria-label') !== label) button.setAttribute('aria-label', label);
+ }
+ function update() {
+  const pending = new Set(cart());
+  const references = new Set(referenceCart().map(record => record.id));
+  const count = cart().length + referenceCart().length;
+  if (count !== displayedCount) {
+   cartButton.innerHTML = icon('folder') + '<span>待选 ' + count + '</span>';
+   displayedCount = count;
+  }
+  const names = new Map(getState().resources.filter(record => !record.archived).map(record => [record.id, record.name]));
+  document.querySelectorAll('[data-cart-add]').forEach(button => {
+   const id = button.dataset.cartAdd;
+   updateCartControl(button, pending.has(id), names.get(id));
+  });
+  document.querySelectorAll('[data-reference-cart]').forEach(button => {
+   updateCartControl(button, references.has(button.dataset.referenceCart));
+  });
+ }
  function persist(){save();h.nav();update();}
  document.addEventListener('click',e=>{const b=e.target.closest('[data-cart-add]');if(b){const id=b.dataset.cartAdd;if(cart().includes(id))getState().componentCart=cart().filter(x=>x!==id);else addToCart(getState(),id);persist();return;}const refButton=e.target.closest('[data-reference-cart]');if(!refButton)return;const id=refButton.dataset.referenceCart;if(referenceCart().some(r=>r.id===id))getState().referenceCart=referenceCart().filter(r=>r.id!==id);else{const ref=refButton._projectReference;if(ref)getState().referenceCart=[...referenceCart(),ref];}persist();});
  function show(){showing=true;for(const id of ['library','learning','component-library','collection-pages'])document.getElementById(id).hidden=true;page.hidden=false;document.querySelector('#breadcrumb').textContent='项目夹';render();}

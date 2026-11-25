@@ -6,11 +6,11 @@
 
 MCP 用来让 Agent 查找组件、理解用途、取得提示词，并在许可允许时取得源码。它不是第三方组件站的镜像、下载代理或许可证绕过工具。
 
-公开仓库保留完整组件目录。每个组件至少应能返回名称、说明、分类、预览、提示词、来源、作者、许可状态和可直接打开的组件页面。
+公开仓库保留完整组件目录。可公开组件的搜索、详情、预览和交接都把 Agent 引到 Ilia 网站的 `/components/<id>`。页面上可以看可用预览，并进一步打开原作者或收录方的具体页面。本机独有组件继续通过本机详情打开。
 
 ## 权威数据
 
-- 公开目录：`public/seed.json`
+- 公开目录：`public/seed.json`，通过 `lib/public-catalog.mjs` 生成独立网站与 MCP 共用的公开记录。
 - 私人本地资料：`data/library.json`
 - 公开来源策略：`sourcePolicy`
 - 许可复核：`LICENSE_REVIEW.md`
@@ -18,11 +18,11 @@ MCP 用来让 Agent 查找组件、理解用途、取得提示词，并在许可
 
 公开 MCP 默认只能读取公开目录。私人 MCP 也必须遵守组件许可，不得因为本地保存了源码就自动获得再分发权。
 
-## 建议工具
+## 组件工具
 
-### `search_components`
+### `ilia_cache_search_components`
 
-按中文名、英文原名、分类、说明、来源或 ID 搜索。
+按中文名、英文原名、分类、说明、作者、来源、标签、提示词或 ID 搜索。搜索词可以分开输入，多个词需同时匹配。支持「图片轮播」和 `image carousel` 等中英文同义查询。`category` 和 `source` 可同时筛选，其中 `source` 使用组件目录展示的完整来源名称。
 
 输入：
 
@@ -35,57 +35,49 @@ MCP 用来让 Agent 查找组件、理解用途、取得提示词，并在许可
 }
 ```
 
-返回轻量列表，不返回源码文件。
+返回轻量列表。公开组件使用 Ilia 详情 URL，源码文件通过明确的文件读取操作取得。
 
-### `get_component`
+### `ilia_cache_get_record`
 
-按 ID 返回单个组件的完整公开信息、提示词、预览和来源。
+传入 `kind: "component"` 和组件 ID，返回组件信息、来源名称和许可。Agent 从 Ilia 详情页看预览、提示词和具体来源链接。
 
-### `get_component_source`
+### `ilia_cache_read_component_file`
 
-仅当 `sourcePolicy` 为 `bundled-source` 时返回文件。其他策略必须返回来源页和拒绝原因，不得返回空壳源码冒充成功。
+公开组件只在 `sourcePolicy` 为 `bundled-source` 时返回明确请求的文件。其他策略返回 Ilia 详情 URL 和拒绝原因。已许可文件内的原始署名及引用按原文保留。
 
-### `get_component_handoff`
+### `ilia_cache_get_component_handoff`
 
-返回给编码 Agent 的适配任务，包括目标技术栈、提示词、动效参数、依赖、来源和许可边界。只有 `bundled-source` 可以内嵌源码。
+返回给编码 Agent 的 Ilia 详情 URL、适配信息、可用文件和许可。需要原版提示词、预览或来源时先查看 Ilia 详情。只有 `bundled-source` 可以交付源码。
 
-## 标准返回字段
+## 已公开组件的链接
 
 ```json
 {
   "id": "component-id",
-  "name": "中文名称",
-  "originalName": "Original name",
+  "title": "中文名称",
   "description": "组件用途",
   "category": "卡片",
+  "detailUrl": "https://ilia.example.com/components/component-id",
   "preview": {
-    "type": "image | video | html | external",
-    "url": "https://example.com/preview"
+    "kind": "website_url",
+    "url": "https://ilia.example.com/components/component-id"
   },
-  "prompt": "原始或整理后的提示词",
-  "source": {
-    "collectionSource": "LeiBox",
-    "primarySourceAuthor": "Author",
-    "primarySourceUrl": "https://example.com/original",
-    "sourcePageUrl": "https://example.com/component",
-    "sourcePageKind": "primary | collection",
-    "sourceShort": "Source name",
-    "license": "MIT | OFL-1.1 | unknown",
-    "sourcePolicy": "bundled-source | official-source-only | source-link-only"
-  },
-  "usageCount": 0,
-  "files": []
+  "sourceAuthor": "原作者"
 }
 ```
 
-`sourcePageUrl` 必须指向具体组件、文档、仓库目录或原始帖子，不能只指向来源网站首页。无法确认第一来源时，保留已知收录页并将 `sourcePageKind` 标为 `collection`，不得编造作者链接。
+给本机和公开 MCP 配置同一个 `ILIACACHE_PUBLIC_BASE_URL`，使用已部署的 Ilia 网站地址。同一个已公开组件由两种 MCP 返回相同的 Ilia 详情地址。本仓库的本机收藏应用运行在 `http://127.0.0.1:4317`，线上网站由独立仓库维护。
+
+本机 `ilia_cache_get_component_handoff` 可返回用户已选的 `referencePreview`。它包含素材地址、出处，以及已提交的封面、尺寸和时长。已公开组件的搜索和通用读取继续使用公开目录结果，网站和公开 MCP 也使用公开目录结果。
+
+网站记录里的 `sourcePageUrl` 指向具体组件、文档、仓库目录或原始帖子。无法确认第一来源时，网站保留已知收录页并标注 `collection`。
 
 ## 三种源码策略
 
 | 策略 | 网页展示 | MCP 返回 | 文件下载 |
 | --- | --- | --- | --- |
 | `bundled-source` | 效果、提示词、来源、源码 | 可返回文件与许可 | 允许 |
-| `official-source-only` | 效果、提示词、官方组件页 | 不返回源码；引导到官方页 | 禁止 |
+| `official-source-only` | 效果、提示词、官方组件页 | 返回 Ilia 详情和许可 | 禁止 |
 | `source-link-only` | 效果、提示词、来源链接 | 不返回源码；说明许可未确认 | 禁止 |
 
 当前约定：
@@ -123,9 +115,9 @@ MCP 用来让 Agent 查找组件、理解用途、取得提示词，并在许可
 ## 错误行为
 
 - 找不到组件：返回明确的 `not_found`，并提供可用搜索条件。
-- 没有源码权限：返回 `source_restricted`、`sourcePolicy` 和 `sourcePageUrl`。
+- 没有源码权限时返回 `source_restricted`、`sourcePolicy` 和 Ilia 详情 URL。
 - 第一来源未确认：返回 `source_unverified`，不得猜测。
-- 预览不可嵌入：返回原站链接，不做代理绕过。
+- 预览不可嵌入时，Ilia 详情页说明当前状态并给出原站入口。
 - 许可未知：默认不返回源码。
 
 ## 发布检查
@@ -135,7 +127,8 @@ MCP 用来让 Agent 查找组件、理解用途、取得提示词，并在许可
 1. 所有公开组件都有 `primarySourceAuthor`、`sourceShort`、`sourcePageUrl` 和 `sourcePolicy`。
 2. `sourcePageUrl` 不是空值，也不是只有域名的首页。
 3. 非 `bundled-source` 记录没有进入公开源码包。
-4. 返回源码时同时返回许可和来源声明。
-5. 运行 `npm run check` 与 `npm test`。
+4. 本机和公开 MCP 对同一已公开组件返回相同的 Ilia 详情 URL，具体第三方来源由网页展示。
+5. 返回源码时同时返回许可和来源声明。
+6. 运行 `npm run check` 与 `npm test`。
 
 仅供学习使用。第三方设计、代码与素材的权利归原权利人所有，使用须遵守其许可。

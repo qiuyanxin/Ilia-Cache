@@ -1,0 +1,31 @@
+:root {
+  color-scheme: light dark;
+  font: 14px system-ui, sans-serif;
+  background: Canvas;
+  color: CanvasText;
+}
+
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+
+body {
+  margin: 0;
+  padding: 12px;
+  display: grid;
+  place-items: center;
+  min-height: calc(100vh - 24px);
+}
+
+main { width: min(100%, 960px); }
+canvas { display: block; width: 100%; height: auto; border-radius: 8px; }
+canvas[hidden] { display: none; }
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin-top: 8px;
+}
+a { color: inherit; }
+button { min-height: 32px; padding: 4px 12px; cursor: pointer; }

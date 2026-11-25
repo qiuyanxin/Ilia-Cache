@@ -1,12 +1,13 @@
 import { uploadFile } from './native-controls.mjs';
 import { icon } from './icons.mjs';
+import { isPageRecord as isPage } from './page-taxonomy.mjs';
 
 const esc = (value) => String(value ?? '').replace(/[&<>"']/g, (char) => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
 })[char]);
 
 const CATEGORIES = ['浏览全部', '作品集', 'Dashboard', 'SaaS', '电商与品牌', '品牌与机构', '实验与动效', '内容与行业'];
-const isPage = (item) => !item.archived && (item.caseType === '网页参考' || Boolean(item.pageCategory));
+export { isPage };
 const detect = (item) => item.pageCategory || '内容与行业';
 const promptLabel = (item) => item.promptKind === 'original' ? 'MCP 原始提示词' : item.promptKind === 'user-edited' || item.promptKind === 'user' ? '我的提示词' : '复刻任务';
 
@@ -235,5 +236,5 @@ export function installPageLibrary(h) {
     page.hidden = true;
   }
 
-  return { show, leave, count: () => rows().length, get showing() { return showing; } };
+  return { show, leave, openPage, count: () => rows().length, get showing() { return showing; } };
 }

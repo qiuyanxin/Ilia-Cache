@@ -4,24 +4,33 @@
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
-    "check": "node --check server.mjs && node --check media.mjs && node --check library-store.mjs && node --check component-source.mjs && node --check capture-store.mjs && node --check pinterest.mjs && node --check public/app.js && node --check public/catalog.mjs && node --check public/extensions.js && node --check public/interface.mjs && node --check public/collection-pages.mjs && node --check public/home-page.mjs && node --check public/page-library.mjs && node --check public/font-library.mjs && node --check public/sources-page.mjs && node --check public/springs.mjs && node --check public/glass-folders.mjs && node --check public/folder-surface.mjs && node --check public/capture-model.mjs && node --check public/native-controls.mjs && node --check public/counter.mjs && node --check component-packages.mjs && node --check public/input-clear.mjs && node --check public/projects.mjs && node --check public/project-model.mjs && node --check public/component-media.mjs && node --check embed-check.mjs && node --check public/sound-engine.mjs",
+    "check": "node scripts/check-syntax.mjs",
     "test": "node --test test/*.test.mjs",
     "import:motionsites-pages": "node scripts/import-motionsites-pages.mjs",
     "import:motion-prompt": "node scripts/import-motion-prompt.mjs",
-    "build:previews": "node scripts/build-react-previews.mjs && tailwindcss -i preview-src/preview.css -o public/react-previews.css --minify"
+    "build:previews": "node scripts/build-previews.mjs",
+    "verify": "npm run check && npm test && npm --prefix mcp run check && npm --prefix mcp test",
+    "rebuild:index": "node scripts/rebuild-index.mjs",
+    "build:previews:archive": "node scripts/build-react-previews.mjs && tailwindcss -i preview-src/preview.css -o public/react-previews.css --minify",
+    "build:previews:public": "node scripts/build-public-previews.mjs"
   },
   "dependencies": {
     "@paper-design/shaders-react": "^0.0.82",
+    "@tailwindcss/oxide": "^4.3.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "esbuild": "^0.28.2",
     "lucide-react": "^1.77.0",
     "motion": "^14.14.0",
+    "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "tailwind-merge": "^3.7.1"
+    "tailwind-merge": "^3.7.1",
+    "tailwindcss": "^4.3.5"
   },
   "devDependencies": {
-    "@tailwindcss/cli": "^4.3.5",
-    "esbuild": "^0.28.2",
-    "tailwindcss": "^4.3.5"
+    "@tailwindcss/cli": "^4.3.5"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

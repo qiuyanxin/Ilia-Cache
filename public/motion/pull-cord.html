@@ -332,7 +332,7 @@ window.Motion = (() => {
   }
   addEventListener('message', e => {
     if (e.data && e.data.type === 'motion:slow') setSlow(!!e.data.on, true);
-    if (e.data && e.data.type === 'motion:theme') setTheme(e.data.theme);
+    if (e.source === parent && e.data?.type === 'motion:theme') setTheme(e.data.theme);
   });
 
   const comps = [];
@@ -365,11 +365,10 @@ window.Motion = (() => {
 // lamp, which leans toward the pull on its wire. A pull past the click flips
 // the switch: the light room opens as a circle from the bulb (and closes back
 // into it), the bulb pops and the lamp bounces. Let go and the cord whips back
-// while the lamp swings to rest. It pulls itself when idle, a tap or Enter
-// pulls it too. It follows the card's own light and dark setting, and sends
-// a 'motion:theme' event when it flips so the page around it can follow.
+// while the lamp swings to rest. A tap or Enter uses the same pull motion.
+// It follows the host theme silently and reports only a user-operated flip.
 (() => {
-  const { S, tune, step, clamp, after } = Motion;
+  const { S, tune, step, clamp, after, cancel } = Motion;
   const $ = id => document.getElementById(id);
   const scene = $('scene'), lit = $('lit'), grab = $('grab');
 
@@ -388,7 +387,7 @@ window.Motion = (() => {
   tune(TH, 46, 3); tune(TUG, 300, 13); tune(R, 120, 21); tune(BP, 420, 13);
   const HX = S(0, 210, 22), HY = S(0, 210, 22);            // the hand that pulls when nobody does
   const K = S(1, 300, 17); tune(K, 300, 17);              // how far the cord is stretched: it eases back, so letting go is a bounce and not a whip
-  let on = false, armed = true, held = null, ghost = false, stretch = 0, lean = 0, clock = 0, userUntil = 0, side = 1, W = 0, H = 0, scheme = '';
+  let on = false, armed = true, held = null, ghost = false, stretch = 0, lean = 0, clock = 0, userUntil = 0, side = 1, W = 0, H = 0, notice;
 
   const pts = [];
   const anchor = () => {
@@ -405,14 +404,19 @@ window.Motion = (() => {
   }
   measure();
 
-  function flip(to = !on) {
+  function flip(to = !on, notifyHost = true) {
+    cancel(notice);
+    notice = undefined;
     if (to === on) return;
     on = to;
     grab.setAttribute('aria-checked', on);
     BP.x = on ? 1.35 : .8; TUG.v += 150;
     // tell the page around it, so anything drawn over the lamp can change with the light
-    const now = on;
-    after(.14, () => { if (now === on) parent.postMessage({type:'ilia:theme',light:on},'*'); });
+    if (notifyHost) notice = after(.14, () => {
+      notice = undefined;
+      if (parent === window) document.documentElement.dataset.theme = on ? 'light' : 'dark';
+      else parent.postMessage({ type: 'ilia:theme', light: on }, '*');
+    });
   }
 
   // what holds the bead: a real pointer, or the idle hand
@@ -442,24 +446,25 @@ window.Motion = (() => {
     held.moved = Math.max(held.moved, Math.hypot(x - held.sx, y - held.sy));
     userUntil = clock + 7;
   });
-  function drop(e) {
-    if (!held || e.pointerId !== held.id) return;
-    const tap = held.moved < 5 && !held.flipped && e.type === 'pointerup';
+  function drop(pointerId, tapAllowed = false) {
+    if (!held || pointerId !== held.id) return;
+    const tap = tapAllowed && held.moved < 5 && !held.flipped;
     held = null;
     grab.classList.remove('is-held');
     if (tap) pull();
   }
-  grab.addEventListener('pointerup', drop);
-  grab.addEventListener('pointercancel', drop);
+  grab.addEventListener('pointerup', e => drop(e.pointerId, true));
+  grab.addEventListener('pointercancel', e => drop(e.pointerId));
+  grab.addEventListener('lostpointercapture', e => drop(e.pointerId));
+  addEventListener('message', e => {
+    if (e.source === parent && e.data?.type === 'ilia:release-cord') drop(e.data.pointerId);
+  });
   grab.addEventListener('click', e => { if (!e.detail) { userUntil = clock + 7; pull(); } });   // keyboard
 
 
-  // the card's own sun and moon button: the lamp follows it
-  (function watch() {
-    const now = getComputedStyle(document.documentElement).colorScheme === 'light' ? 'light' : 'dark';
-    if (now !== scheme) { if (scheme) flip(now === 'light'); else if (now === 'light') { on = true; grab.setAttribute('aria-checked', 'true'); R.x = R.t = 1; } scheme = now; }
-    after(.4, watch);
-  })();
+  const root = document.documentElement;
+  new MutationObserver(() => flip(root.dataset.theme === 'light', false))
+    .observe(root, { attributes: true, attributeFilter: ['data-theme'] });
 
   Motion.register({
     frame(dt) {

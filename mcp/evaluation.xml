@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evaluation>
+  <qa_pair>
+    <question>在公开资料中找一个左右拖动、把网站叠成卡组的组件。打开本机源码，卡片放手后归位使用的弹簧参数是什么？以用空格分隔的两个数字回答。</question>
+    <answer>280 16</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>我想复用点按改变配色的绳索控件。查到组件后，打开本机源码，确认是否有名为 auto 的函数。回答「有」或「无」。</question>
+    <answer>无</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>找到 Kokonut UI 来源的、向里逐层展开的设置界面。其组件详情列出的原始 TSX 文件名是什么？</question>
+    <answer>stack-panel.tsx</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>找可以用命令打开的输入界面，从详情读取其文件清单。项目内共享的弹簧参数模块叫什么？</question>
+    <answer>springs.mjs</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>我想参考用服装搭配展示做翻页的案例。找到英文名称为 Outfit Carousel 的收藏并读详情，其记录的 caseType 字段是什么？</question>
+    <answer>网页参考</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>想看冰沙饮品切换的 MotionSites 页面。先从网页参考找到它，读取原始记录并返回已登记的 primarySourceUrl。</question>
+    <answer>https://motionsites.ai/?prompt=smoothie-slider</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>在字体资料中检索 Princess Sofia，读详情确认它属于哪一字体类别。返回 category 字段。</question>
+    <answer>手写</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>我要参考像熔化的银色金属的材质提示词。从已收录的 Ilia 风格定位铬材质，读取记录并返回 english 字段。</question>
+    <answer>Liquid chrome</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>从公开库的网站条目定位英文名为 Designeer 的设计灵感站，再查聚合记录，给出其 id。</question>
+    <answer>site:designeer.xyz</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>React Bits 按库内说明属于哪类网站？查网站说明记录，读取详情后返回 category 字段。</question>
+    <answer>组件</answer>
+  </qa_pair>
+</evaluation>

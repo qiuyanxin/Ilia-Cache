@@ -16,4 +16,11 @@ export function mediaType(media){
  return /\.(?:mp4|webm|mov|m4v)$/.test(url)?'video':media?.type;
 }
 
+export function collectionMediaEntries(record) {
+  const entries = Array.isArray(record.media) ? record.media : [];
+  return entries.map(entry => ({ ...entry, type: mediaType(entry) })).filter(({ type, url }) =>
+    (type === 'image' || type === 'video') && validPublicWebUrl(url) &&
+    !/(?:leibox-og|logo)(?:[.\W_]|$)|github\.githubassets\.com\/assets\//i.test(url));
+}
+
 export function conciseTitle(resource){if(resource.displayTitle)return resource.displayTitle;let url;try{url=new URL(resource.url);}catch{}if(url?.hostname==='github.com'){const parts=url.pathname.split('/').filter(Boolean);if(parts.length>=2)return parts[1].replace(/[-_]+/g,' ').replace(/\b\w/g,c=>c.toUpperCase());}const raw=(resource.pageTitle||resource.name||url?.hostname||'收藏').trim();let title=raw.replace(/\s*[|｜]\s*(?:LeiBox|GitHub|Pinterest).*$/i,'').split(/\s[—–]\s|:\s(?=[A-Z][a-z]+ is )/)[0];if(title.length>48)title=title.split(/[。！？.!?]/)[0].slice(0,45);return title;}

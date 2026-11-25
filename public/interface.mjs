@@ -1,45 +1,123 @@
-import {installProjects} from './projects.mjs';
-import {decorateClearInputs} from './input-clear.mjs';
-import {decorateDropdowns} from './native-controls.mjs';
-import {spring,MOTION} from './springs.mjs';
-import {icon} from './icons.mjs';
-import {installCollectionPages} from './collection-pages.mjs';
-import {installPageLibrary} from './page-library.mjs';
-import {installFontLibrary} from './font-library.mjs';
-import {installSourcesPage} from './sources-page.mjs';
-import {installHomePage} from './home-page.mjs';
-const $=s=>document.querySelector(s);
-export function installInterface(h,styleSeed){
- let projects,pageLibrary,fontLibrary,sourcesPage,homePage;const collections=installCollectionPages(h,styleSeed);h.collections=collections;let compact=localStorage.getItem('ilia-sidebar-compact')==='true',activeCopy=null,stackDepth=0;
- const oldLeave=h.leaveComponents;h.leaveCustom=()=>{collections.leave();projects?.leave();pageLibrary?.leave();fontLibrary?.leave();sourcesPage?.leave();homePage?.leave();oldLeave();};h.route=next=>{if(['home','projects','components','pages','fonts','sources','accumulation','styles','aesthetic'].includes(next))document.querySelector('#inspector').replaceChildren();if(next==='home'){homePage.show();return true;}if(next==='projects'){projects.show();return true;}if(next==='components'){h.showComponents();return true;}if(next==='pages'){pageLibrary.show();return true;}if(next==='fonts'){fontLibrary.show();return true;}if(next==='sources'){sourcesPage.show();return true;}if(['accumulation','styles','aesthetic'].includes(next)){collections.show(next);return true;}return false;};
- document.querySelector('.filterbar').prepend(document.querySelector('#website-categories'));$('.brand-sub')?.remove();const sidebar=$('.sidebar');sidebar.classList.toggle('is-compact',compact);const toggle=document.createElement('button');toggle.id='sidebar-collapse';toggle.innerHTML=icon('left');toggle.setAttribute('aria-label',compact?'展开导航':'收起导航');toggle.setAttribute('aria-expanded',String(!compact));sidebar.prepend(toggle);
- const W=spring(compact?56:160,MOTION.sidebar,x=>{document.documentElement.style.setProperty('--side',x+'px');sidebar.style.width=x+'px';});const R=spring(compact?1:0,[300,22],x=>toggle.querySelector('svg').style.transform=`rotate(${x*180}deg)`);
- let labelSprings=[];function animateLabels(open){labelSprings.forEach(s=>s.destroy());labelSprings=[...sidebar.querySelectorAll('#navigation button .nav-label')].map((el,i)=>{const s=spring(open?0:1,MOTION.label,x=>{el.style.opacity=Math.max(0,Math.min(1,x));el.style.transform=`translateX(${(1-x)*-10}px)`;});if(open)setTimeout(()=>s.set(1),60+i*40);else s.set(0);return s;});}
- toggle.onclick=()=>{compact=!compact;sidebar.classList.toggle('is-compact',compact);W.set(compact?56:160);R.set(compact?1:0);toggle.setAttribute('aria-label',compact?'展开导航':'收起导航');toggle.setAttribute('aria-expanded',String(!compact));localStorage.setItem('ilia-sidebar-compact',String(compact));animateLabels(!compact);};
- // Word Roll replaces the old workspace/LOCAL badge.
- const wordBox=$('.workspace-label');wordBox.className='workspace-label word-roll';wordBox.innerHTML='<span>积累</span><button type="button" aria-label="积累灵感"><span class="word-slot"></span></button>';const slot=wordBox.querySelector('.word-slot'),wordButton=wordBox.querySelector('button'),words=['灵感','审美','方法'];let wi=0,wordTimer;const wordWidth=spring(30,MOTION.wordWidth,x=>slot.style.width=x+'px');function rollWord(first=false){clearTimeout(wordTimer);const old=slot.querySelector('.word-live');if(old){old.classList.remove('word-live');[...old.children].forEach((l,i)=>{const s=spring(0,MOTION.wordLetter,x=>{l.style.transform=`translateY(${x*105}%)`;l.style.opacity=Math.max(0,1-Math.abs(x)*.9);});setTimeout(()=>s.set(-1),i*22);});setTimeout(()=>old.remove(),1000);}const word=words[wi++%words.length],row=document.createElement('span');row.className='rolling-word word-live';for(const [i,ch]of [...word].entries()){const letter=document.createElement('span');letter.textContent=ch;row.append(letter);const s=spring(first?0:1,MOTION.wordLetter,x=>{letter.style.transform=`translateY(${x*105}%)`;letter.style.opacity=Math.max(0,1-Math.abs(x)*.9);});if(!first)setTimeout(()=>s.set(0),60+i*28);}slot.append(row);wordWidth.set(row.offsetWidth);wordButton.setAttribute('aria-label','积累'+word);wordTimer=setTimeout(()=>rollWord(),2400);}rollWord(true);
- // Sidebar highlight follows the selected row on its own spring.
- const highlight=document.createElement('span');highlight.className='sidebar-highlight';$('#navigation').prepend(highlight);let y0=0;const Y=spring(0,MOTION.highlight,x=>highlight.style.transform=`translateY(${x}px)`);
- function rollLabel(button){const label=button.querySelector('.nav-label');if(!label||label.dataset.rolled)return;const text=label.textContent;label.dataset.rolled='true';label.dataset.text=text;label.textContent='';label.setAttribute('aria-hidden','true');const letters=[...text].map(ch=>{const c=document.createElement('span');c.className='nav-roll-letter';c.innerHTML='<span><i></i><i></i></span>';c.querySelectorAll('i').forEach(i=>i.textContent=ch);label.append(c);const inner=c.firstChild;return spring(0,MOTION.rollLink,x=>inner.style.transform=`translateY(${-50*x}%)`);});let over=false;const roll=on=>{over=on;letters.forEach((s,i)=>setTimeout(()=>{if(over===on)s.set(on?1:0);},i*30));};button.addEventListener('pointerenter',()=>roll(true));button.addEventListener('pointerleave',()=>roll(false));button.addEventListener('focus',()=>roll(true));button.addEventListener('blur',()=>roll(false));}
- const navIcons={home:'home',all:'web',components:'grid',pages:'web',fonts:'text',styles:'palette',aesthetic:'image',projects:'folder',accumulation:'book',sources:'link'};
- function decorateNav(){const nav=$('#navigation');if(!highlight.isConnected)nav.prepend(highlight);nav.querySelectorAll('[data-view]').forEach(b=>{const key=b.dataset.view,label=b.querySelector('span:nth-child(2)');if(label)label.classList.add('nav-label');const first=b.querySelector('span:first-child');if(first&&!first.classList.contains('nav-label'))first.innerHTML=icon(navIcons[key]||'grid');b.setAttribute('aria-label',b.querySelector('.nav-label')?.dataset.text||b.querySelector('.nav-label')?.textContent||key);rollLabel(b);});const active=nav.querySelector('button.active');if(active){highlight.style.height=active.offsetHeight+'px';Y.set(active.offsetTop);if(!y0){Y.jump(active.offsetTop);y0=1;}}if(compact)nav.querySelectorAll('.nav-label').forEach(l=>l.style.opacity='0');}
- new MutationObserver(decorateNav).observe($('#navigation'),{childList:true});decorateNav();
- // Bottom Bar lives in the annotated header; only the selected action expands.
- const header=$('.topbar'),theme=$('#theme-controls');const dock=document.createElement('nav');dock.className='action-dock';dock.setAttribute('aria-label','快捷操作');dock.innerHTML='<span class="dock-highlight"></span>'+[['search','search','搜索'],['capture','plus','随手收集'],['learn','book','学习'],['components','grid','组件库']].map(([key,ic,label])=>`<button data-dock="${key}" aria-label="${label}" type="button">${icon(ic)}<span>${label}</span></button>`).join('');header.replaceChildren();const crumb=document.createElement('span');crumb.id='breadcrumb';crumb.textContent='网站';header.append(crumb,dock,theme);const tabs=[...dock.querySelectorAll('button')].map(el=>{const nm=el.querySelector('span'),full=nm.scrollWidth+8;return {el,nm,full,w:spring(0,MOTION.barLabel,x=>{nm.style.width=Math.max(0,x)+'px';nm.style.paddingLeft=Math.max(0,Math.min(1,x/full))*8+'px';nm.style.opacity=Math.max(0,Math.min(1,x/full*1.4-.4));}),pop:spring(1,MOTION.barIcon,x=>el.querySelector('svg').style.transform=`scale(${x})`)};});let dockIndex=1;const hx=spring(0,MOTION.barHighlight,x=>dock.querySelector('.dock-highlight').style.transform=`translateX(${x}px)`),hw=spring(0,MOTION.barHighlight,x=>dock.querySelector('.dock-highlight').style.width=Math.max(0,x)+'px');const measureDock=()=>{const el=tabs[dockIndex].el;hx.set(el.offsetLeft);hw.set(el.offsetWidth);};const dockResize=new ResizeObserver(measureDock);tabs.forEach(t=>dockResize.observe(t.el));function pickDock(i){dockIndex=i;tabs.forEach((t,k)=>{t.el.setAttribute('aria-pressed',String(k===i));t.w.set(k===i?t.full:0);});tabs[i].pop.jump(.72);tabs[i].pop.v=6;tabs[i].pop.set(1);measureDock();}pickDock(1);dock.onclick=e=>{const b=e.target.closest('[data-dock]');if(!b)return;const index=tabs.findIndex(t=>t.el===b);pickDock(index);if(b.dataset.dock==='capture')collections.openCapture();if(b.dataset.dock==='learn')h.switchView('accumulation');if(b.dataset.dock==='components')h.switchView('components');if(b.dataset.dock==='search')focusSearch();};
- // Stack Panel: push/pop pages, a 0.3 parallax and the source 0.42/0.38 timings.
- const bottom=$('.sidebar-bottom'),oldExport=$('#export'),oldImport=$('.import-button');bottom.replaceChildren();const settings=document.createElement('button');settings.id='stack-settings';settings.innerHTML=icon('settings')+'<span>设置</span>';bottom.append(settings);const stack=document.createElement('div');stack.id='settings-stack';stack.hidden=true;document.body.append(stack);const stackFrames=(from,to,duration)=>{const frames=[];for(let i=0;i<=40;i++){const t=i/40,p=(1-(1+9.233*t)*Math.exp(-9.233*t))/(1-(1+9.233)*Math.exp(-9.233));frames.push({transform:`translateX(${from+(to-from)*p}px)`,offset:t});}return {frames,options:{duration,fill:'forwards'}};};
- let stackPage='root';function renderStack(page='root',back=false){const previous=stack.querySelector('.stack-content:last-child');stack.querySelectorAll('.stack-content').forEach(el=>{if(el!==previous)el.remove();});const title={root:'设置',backup:'备份',theme:'外观'}[page];stackPage=page;const body=document.createElement('section');body.className='stack-content';if(page==='root')body.innerHTML='<button data-stack="backup">备份'+icon('right')+'</button><button data-stack="theme">外观'+icon('right')+'</button>';if(page==='backup'){oldExport.innerHTML=icon('download')+'<span>导出备份</span>';oldImport.firstChild.textContent='导入备份';body.append(oldExport,oldImport);}if(page==='theme')body.innerHTML='<button data-theme-choice="light">白色'+icon('check')+'</button><button data-theme-choice="dark">黑色'+icon('check')+'</button>';if(!stack.querySelector('.stack-heading'))stack.innerHTML='<div class="stack-heading"><button id="stack-back" aria-label="返回">'+icon('left')+'</button><h3></h3><button id="stack-close" aria-label="关闭设置">'+icon('close')+'</button></div><div class="stack-body"></div>';const container=stack.querySelector('.stack-body');container.append(body);stack.querySelector('h3').textContent=title;stack.querySelector('#stack-back').hidden=page==='root';if(previous){previous.inert=true;previous.style.position='absolute';previous.style.inset='0';const width=container.clientWidth,move=stackFrames(back?-width*.3:width,0,back?340:420);body.animate(move.frames,move.options);const under=stackFrames(0,back?width:-width*.3,back?340:420);previous.animate(under.frames,under.options).finished.then(()=>previous.remove());}container.style.height=body.offsetHeight+'px';stack.querySelector('#stack-back').onclick=()=>renderStack('root',true);stack.querySelector('#stack-close').onclick=()=>stack.hidden=true;body.querySelectorAll('[data-stack]').forEach(b=>b.onclick=()=>renderStack(b.dataset.stack));body.querySelectorAll('[data-theme-choice]').forEach(b=>{b.classList.toggle('selected',b.dataset.themeChoice===document.documentElement.dataset.theme);b.onclick=()=>{h.setTheme(b.dataset.themeChoice);renderStack('theme');};});}settings.onclick=()=>{stack.hidden=!stack.hidden;if(!stack.hidden)renderStack('root');};stack.addEventListener('keydown',e=>{if(e.key==='Escape'){e.stopPropagation();if(stackPage!=='root')renderStack('root',true);else stack.hidden=true;}});
- // Command Button port: native inputs use the same press/open springs.
- const searches=new WeakMap();function commandSearch(input){if(searches.has(input))return;const wrap=document.createElement('div');wrap.className='command-search';const openButton=document.createElement('button');openButton.type='button';openButton.className='command-trigger';openButton.innerHTML=icon('search')+'<span>搜索</span><kbd>⌘ K</kbd>';openButton.setAttribute('aria-label',input.getAttribute('aria-label')||'搜索');openButton.setAttribute('aria-expanded','false');input.before(wrap);wrap.append(openButton,input);input.classList.add('command-input');input.setAttribute('autocomplete','off');let open=Boolean(input.value),sp=spring(open?0:152,MOTION.commandOpen,x=>wrap.style.width=Math.max(100,x)+'px'),press=spring(1,MOTION.commandPress,x=>wrap.style.transform=`scale(${x})`);const available=()=>Math.max(180,wrap.parentElement.clientWidth);const expand=()=>{open=true;wrap.classList.add('is-open');openButton.setAttribute('aria-expanded','true');sp.set(available());input.focus({preventScroll:true});};const collapse=()=>{if(input.value)return;open=false;wrap.classList.remove('is-open');openButton.setAttribute('aria-expanded','false');sp.set(152);};openButton.onclick=expand;openButton.onpointerdown=()=>press.set(.97);openButton.onpointerup=()=>press.set(1);openButton.onpointerleave=()=>press.set(1);input.addEventListener('focus',()=>{if(!open)expand();});input.addEventListener('blur',collapse);input.addEventListener('keydown',e=>{if(e.key==='Escape'){input.value='';input.dispatchEvent(new Event('input',{bubbles:true}));collapse();openButton.focus();}});if(open){wrap.classList.add('is-open');sp.jump(available());}searches.set(input,{expand});new ResizeObserver(()=>{if(open)sp.set(available());}).observe(wrap.parentElement);}
- function focusSearch(){const inputs=[...document.querySelectorAll('[data-command-search],#search,#component-search')];const input=inputs.find(el=>{const main=el.closest('main');return main&&!main.hidden&&el.isConnected;});if(input){searches.get(input)?.expand();input.focus();}}
- document.addEventListener('keydown',e=>{if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();e.stopImmediatePropagation();focusSearch();}if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='j'){e.preventDefault();collections.openCapture();}},true);
- function decorateInputs(){document.querySelectorAll('#search,#component-search,[data-command-search]').forEach(commandSearch);document.querySelectorAll('input:not([type=file]):not([type=hidden]):not([type=checkbox]):not([type=radio]):not([type=range]),textarea,select').forEach(input=>{input.classList.add('command-field');if(input.dataset.pressBound)return;input.dataset.pressBound='true';const p=spring(1,MOTION.commandPress,x=>input.style.setProperty('--field-scale',x));input.addEventListener('pointerdown',()=>{if(document.activeElement!==input)p.set(.995);});for(const type of ['pointerup','pointercancel','blur'])input.addEventListener(type,()=>p.set(1));});}
- // Copy Button port; animate only after the real clipboard write succeeds.
- function decorateCopies(){document.querySelectorAll('button').forEach(b=>{if(b.dataset.copyUi||b.hasAttribute('data-open-component')||!/^复制/.test(b.textContent.trim()))return;const label=b.textContent.trim();b.dataset.copyUi='true';b.setAttribute('aria-label',label);b.classList.add('animated-copy');b.innerHTML='<span class="copy-icons"><span class="copy-original">'+icon('copy')+'</span><span class="copy-success">'+icon('check')+'</span></span><span class="copy-roll"><span><i></i><i>已复制</i></span></span>';b.querySelector('.copy-roll i').textContent=label;b.addEventListener('pointerdown',()=>activeCopy=b);b.addEventListener('click',()=>activeCopy=b);});}
- function copyFeedback(button){if(!button?.isConnected||!button.matches('.animated-copy'))return;const roll=button.querySelector('.copy-roll'),words=roll.firstChild,[a,b]=words.children,width=spring(a.scrollWidth,MOTION.copyWidth,x=>roll.style.width=Math.max(0,x)+'px'),r=spring(0,MOTION.copyRoll,x=>words.style.transform=`translateY(${-20*x}px)`),i=spring(0,MOTION.copyIcon,x=>{const clamp=v=>Math.max(0,Math.min(1,v)),c=button.querySelector('.copy-original'),ok=button.querySelector('.copy-success');c.style.opacity=clamp(1-x*1.6);c.style.transform=`scale(${1-.5*clamp(x)}) rotate(${-40*clamp(x)}deg)`;ok.style.opacity=clamp(x*1.6-.4);ok.style.transform=`scale(${.4+.6*x})`;});r.set(1);i.set(1);width.set(b.scrollWidth);setTimeout(()=>{r.set(0);i.set(0);width.set(a.scrollWidth);},1800);}
- document.addEventListener('ilia:copied',()=>copyFeedback(activeCopy));
- function iconButtons(){document.querySelectorAll('[data-site-add],[data-site-edit],[data-site-delete],.star,[data-remove-case],#close-editor,.dialog-heading>button').forEach(b=>{const type=b.matches('[data-site-add]')?'plus':b.matches('[data-site-edit]')?'edit':b.matches('[data-site-delete],[data-remove-case]')?'trash':b.matches('.star')?'heart':'close';if(b.dataset.iconSet===type)return;b.dataset.iconSet=type;b.innerHTML=icon(type);});document.querySelectorAll('[data-layout]').forEach(b=>{if(b.dataset.iconSet)return;b.dataset.iconSet='layout';b.innerHTML=icon(b.dataset.layout==='list'?'list':'grid')+(b.dataset.layout==='list'?'列表':'卡片');});}
- let scheduled=false;function refresh(){if(scheduled)return;scheduled=true;queueMicrotask(()=>{scheduled=false;decorateInputs();decorateClearInputs();decorateDropdowns();decorateCopies();iconButtons();});}new MutationObserver(refresh).observe(document.body,{childList:true,subtree:true});refresh();
- document.addEventListener('ilia:view',e=>{const value=e.detail;document.querySelectorAll('#website-categories').forEach(el=>el.hidden=!['all','favorites','cases'].includes(value));});
- projects=installProjects(h);pageLibrary=installPageLibrary(h);fontLibrary=installFontLibrary(h);sourcesPage=installSourcesPage(h);homePage=installHomePage(h);h.pageLibrary=pageLibrary;return {collections,projects,pageLibrary,fontLibrary,sourcesPage,homePage,refresh};
+import { installProjects } from "./projects.mjs";
+import { installCollectionPages } from "./collection-pages.mjs";
+import { installPageLibrary } from "./page-library.mjs";
+import { installFontLibrary } from "./font-library.mjs";
+import { installSourcesPage } from "./sources-page.mjs";
+import { installHomePage } from "./home-page.mjs";
+import { installWorkspaceChrome } from "./workspace-chrome.mjs";
+
+export function installInterface(h, styleSeed) {
+  let projects, pageLibrary, fontLibrary, sourcesPage, homePage;
+  const collections = installCollectionPages(h, styleSeed);
+  h.collections = collections;
+  const oldLeave = h.leaveComponents;
+  h.leaveCustom = () => {
+    collections.leave();
+    projects?.leave();
+    pageLibrary?.leave();
+    fontLibrary?.leave();
+    sourcesPage?.leave();
+    homePage?.leave();
+    oldLeave();
+  };
+  h.route = (next) => {
+    if (
+      [
+        "home",
+        "projects",
+        "components",
+        "pages",
+        "fonts",
+        "sources",
+        "accumulation",
+        "styles",
+        "aesthetic",
+      ].includes(next)
+    )
+      document.querySelector("#inspector").replaceChildren();
+    if (next === "home") {
+      homePage.show();
+      return true;
+    }
+    if (next === "projects") {
+      projects.show();
+      return true;
+    }
+    if (next === "components") {
+      h.showComponents();
+      return true;
+    }
+    if (next === "pages") {
+      pageLibrary.show();
+      return true;
+    }
+    if (next === "fonts") {
+      fontLibrary.show();
+      return true;
+    }
+    if (next === "sources") {
+      sourcesPage.show();
+      return true;
+    }
+    if (["accumulation", "styles", "aesthetic"].includes(next)) {
+      collections.show(next);
+      return true;
+    }
+    return false;
+  };
+
+  document
+    .querySelector(".filterbar")
+    .prepend(document.querySelector("#website-categories"));
+  const openCapture = () => collections.openCapture();
+  const { refresh, setDockPage } = installWorkspaceChrome({
+    dockActions: [
+      { id: "search", icon: "search", label: "搜索" },
+      { id: "capture", icon: "plus", label: "随手收集", onSelect: openCapture },
+      {
+        id: "learn",
+        icon: "book",
+        label: "学习",
+        onSelect: () => h.switchView("accumulation"),
+      },
+      {
+        id: "components",
+        icon: "grid",
+        label: "组件库",
+        onSelect: () => h.switchView("components"),
+      },
+    ],
+    initialDockAction: "capture",
+    openCapture,
+    captureDialog: collections.captureDialog,
+    setTheme: (theme) => h.setTheme(theme),
+    backupControls: {
+      exportButton: document.querySelector("#export"),
+      importLabel: document.querySelector(".import-button"),
+    },
+  });
+  document.addEventListener("ilia:view", (e) => {
+    const value = e.detail;
+    setDockPage(["accumulation", "learn"].includes(value) ? "learn" : value);
+    document
+      .querySelectorAll("#website-categories")
+      .forEach(
+        (el) => (el.hidden = !["all", "favorites", "cases"].includes(value)),
+      );
+  });
+  projects = installProjects(h);
+  pageLibrary = installPageLibrary(h);
+  fontLibrary = installFontLibrary(h);
+  sourcesPage = installSourcesPage(h);
+  homePage = installHomePage(h);
+  h.pageLibrary = pageLibrary;
+  return {
+    collections,
+    projects,
+    pageLibrary,
+    fontLibrary,
+    sourcesPage,
+    homePage,
+    refresh,
+  };
 }
