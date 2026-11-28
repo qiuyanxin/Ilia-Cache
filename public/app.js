@@ -17,8 +17,8 @@ import {savedCasePreviewUrl as safePreview} from './reference-media-model.mjs';
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const safeUrl=(value,obsidian=false)=>{try{const u=new URL(value);return (['http:','https:'].includes(u.protocol)||(obsidian&&u.protocol==='obsidian:'))?u.href:'';}catch{return '';}};
-const NAV=[['home','⌂','首页'],['all','▦','网站'],['components','◫','组件库'],['sounds','♫','音效库'],['pages','▤','页面库'],['fonts','T','字体库'],['styles','◉','视觉参考'],['inbox','◩','工作台'],['sources','↗','来源说明']];
-const ACCUMULATION_VIEWS=new Set(['inbox','aesthetic','projects','accumulation','learn','favorites']);
+const NAV=[['home','⌂','首页'],['all','▦','网站'],['components','◫','组件库'],['sounds','♫','音效库'],['pages','▤','页面库'],['fonts','T','字体库'],['styles','◉','视觉参考'],['projects','◩','工作台'],['sources','↗','来源说明']];
+const WORKBENCH_VIEWS=new Set(['projects','capture','favorites','learn']);
 const STORAGE='ilia-design-library-sqlite-v1';
 const LEGACY_STORAGE='ilia-design-library-v1';
 $('theme-controls').onclick=e=>{const b=e.target.closest('[data-theme-choice]');if(b)setTheme(b.dataset.themeChoice);};
@@ -38,7 +38,7 @@ function nav(){
   sounds:state.resources.filter(isSoundEffect).length,
   pages:extensions?.pageLibrary?.count?.()||state.resources.filter(r=>r.caseType==='网页参考'&&!r.archived).length,
   fonts:extensions?.fontLibrary?.count?.()||204,styles:extensions?.collections?.styleCount()??50,
-  inbox:(state.inbox||[]).filter(r=>!r.archived&&!r.inboxDone).length,sources:'',
+  projects:(state.projects||[]).filter(project=>!project.archived).length,sources:'',
  };
  const navigation=$('navigation');
  if(!navigation.querySelector('[data-view]')){
@@ -47,7 +47,7 @@ function nav(){
  }
  for(const button of navigation.querySelectorAll('[data-view]')){
   const key=button.dataset.view;
-  const active=!category&&(key==='inbox'?ACCUMULATION_VIEWS.has(view):view===key);
+  const active=!category&&(key==='projects'?WORKBENCH_VIEWS.has(view):view===key);
   button.classList.toggle('active',active);
   if(active&&!button.hasAttribute('aria-current'))button.setAttribute('aria-current','page');
   if(!active)button.removeAttribute('aria-current');
@@ -56,7 +56,7 @@ function nav(){
   if(count.textContent!==label)count.textContent=label;
  }
  const cats=websiteCategories(groups);$('categories').innerHTML='<button data-category="">全部用途</button>'+cats.map((cat,i)=>`<button data-category="${escape(cat)}" class="${category===cat?'active':''}"><span>${['◫','↗','◩','◉','⌘'][i%5]}</span><span>${escape(cat)}</span><small>${groups.filter(r=>r.category===cat).length}</small></button>`).join('');const field=$('resource-category');let list=$('resource-category-list');if(field.tagName==='SELECT'){const input=document.createElement('input');input.id='resource-category';input.name='category';input.setAttribute('list','resource-category-list');field.replaceWith(input);list=document.createElement('datalist');list.id='resource-category-list';input.after(list);}list.innerHTML=cats.map(cat=>`<option value="${escape(cat)}"></option>`).join('');}
-const ROUTES={home:'home',websites:'all',components:'components',sounds:'sounds',pages:'pages',fonts:'fonts',styles:'styles',inbox:'inbox',aesthetic:'aesthetic',projects:'projects',favorites:'favorites',learning:'accumulation',sources:'sources'};const pathFor=v=>Object.entries(ROUTES).find(([,value])=>value===v)?.[0]||'websites';
+const ROUTES={home:'home',websites:'all',components:'components',sounds:'sounds',pages:'pages',fonts:'fonts',styles:'styles',projects:'projects',capture:'capture',favorites:'favorites','prompt-learning':'learn',inbox:'capture',aesthetic:'capture',learning:'capture',sources:'sources'};const pathFor=v=>Object.entries(ROUTES).find(([,value])=>value===v)?.[0]||'websites';
 const detailHash=/^#\/(components|sounds|pages)\/(.*)$/;
 const componentHash=()=>location.hash.split('?',2);
 let componentNavigation, linkedPageHash;
@@ -122,7 +122,7 @@ function bindDetailRoutes(){
  });
 }
 function switchView(next,cat='',fromHash=false){if(learning){toast('讲解正在生成');return;}if(!fromHash&&location.hash!==`#/${pathFor(next)}`){const entry=next===view&&['components','sounds'].includes(next)?{iliaDirectory:extensions?.getComponentFilters()}:null;history.pushState(entry,'',`#/${pathFor(next)}`);}extensions?.leaveCustom?.();if(extensions?.route?.(next,cat)){view=next;category=cat;nav();document.dispatchEvent(new CustomEvent('ilia:view',{detail:next}));return;}extensions?.leaveComponents();if(learning){toast('讲解正在生成，请稍等。');return;}hideTooltip();view=next;category=cat;selected='';filter='全部';caseFilter='全部';$('search').value='';nav();const learn=next==='learn';$('library').hidden=learn;$('learning').hidden=!learn;$('breadcrumb').textContent=learn?'学习提示词':cat||'网站';if(!learn){$('page-title').innerHTML=`${escape(cat||({all:'网站',favorites:'精选',cases:'组件与网页参考'}[next]))}<span class="title-dot">.</span>`;renderList();}else renderLessons();document.dispatchEvent(new CustomEvent('ilia:view',{detail:next}));}
-function filtered(){return filterWebsites(sites(),{query:$('search').value,category,filter,order:$('sort').value,view});}
+function filtered(){return filterWebsites(sites(),{query:$('search').value,category,filter,order:$('sort').value,view,favoritesFirst:true});}
 function renderList(){hideTooltip();$('filters').innerHTML=WEBSITE_FILTERS.map(f=>`<button data-filter="${f}" class="${filter===f?'active':''}">${f}</button>`).join('');const rows=filtered();renderCounter($('total-count'),sites().length);$('result-count').textContent=`${rows.length} 个网站`;if(!rows.some(r=>r.id===selected))selected=rows[0]?.id||'';
  $('resource-list').innerHTML=renderWebsiteRows(rows,{selected,tooltipId:'site-tooltip'});extensions?.decorateRows();renderInspector();}
 function homeScreenshot(site){const local={'designeer.xyz':'home-designeer.jpg','allan.xin':'home-allan.jpg','reactbits.dev':'home-reactbits.jpg','leibox.pantoria.cn':'home-leibox.jpg'};return local[site.domain]?'/previews/'+local[site.domain]:'https://image.thum.io/get/width/900/crop/640/noanimate/?url='+encodeURIComponent(site.url);}
@@ -149,7 +149,7 @@ $('resource-list').onclick=e=>{const row=e.target.closest('[data-site]');if(row)
 $('inspector').onclick=e=>{const siteEdit=e.target.closest('[data-edit-website]');if(siteEdit){extensions.openSiteEditor(siteEdit.dataset.editWebsite);return;}const component=e.target.closest('[data-component-open]');if(component){extensions.openComponent(component.dataset.componentOpen);return;}const remove=e.target.closest('[data-remove-case]');if(remove){const r=state.resources.find(r=>r.id===remove.dataset.removeCase);if(saveResource({...r,archived:true})){nav();renderList();toast('已从收藏中移除');const undo=document.createElement('button');undo.textContent='撤销';undo.onclick=()=>{if(saveResource({...r,archived:false})){nav();renderList();toast('已恢复收藏');}};$('toast').append(undo);}return;}const tab=e.target.closest('[data-case-filter]');if(tab){caseFilter=tab.dataset.caseFilter;renderInspector();return;}const edit=e.target.closest('[data-edit-case]');if(edit){openEditor(state.resources.find(r=>r.id===edit.dataset.editCase));return;}const refresh=e.target.closest('[data-read-case]');if(refresh){const r=state.resources.find(r=>r.id===refresh.dataset.readCase);queueMedia(r);updateCard(r.id);return;}const learn=e.target.closest('[data-learn-case]');if(learn){const r=state.resources.find(r=>r.id===learn.dataset.learnCase);switchView('learn');$('lesson-title').value=r.name+' · 提示词学习';$('lesson-source').value=r.url;$('prompt-text').value=r.prompt||'';activeLesson=null;lessonExample=false;setExplanation('');updateCount();if(!r.prompt)toast('先从原站复制提示词，粘贴到左侧学习。');}};
 $('search').oninput=()=>{renderList();rememberSelection();};$('sort').onchange=renderList;window.addEventListener('scroll',()=>{const link=document.activeElement;if(link?.matches('.site-link'))showTooltip(link);else hideTooltip();},true);window.addEventListener('resize',hideTooltip);document.addEventListener('keydown',e=>{if(e.key==='Escape')hideTooltip();if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();if(view==='learn')switchView('all');$('search').focus();}});
 function openEditor(r=null,websiteOnly=false){editing=r;$('resource-form').reset();$('editor-title').textContent=r?'编辑收藏':websiteOnly?'添加网站':'添加网站或具体收藏';$('resource-kind').disabled=websiteOnly;if(websiteOnly){$('resource-kind').value='网站';$('resource-category').value=category||'';}const mapping={name:'name',url:'url',kind:'kind',category:'category',description:'description',cost:'cost',gets:'gets',tags:'tags',note:'note',prompt:'prompt'};for(const [field,key]of Object.entries(mapping))if(r)$('resource-'+field).value=key==='tags'?r.tags.join(', '):r[key]||'';$('editor').showModal();}
-$('add').onclick=()=>openEditor();$('add-website').onclick=()=>openEditor(null,true);$('close-editor').onclick=()=>$('editor').close();
+$('add').onclick=()=>openEditor();$('close-editor').onclick=()=>$('editor').close();
 $('resource-form').onsubmit=async e=>{e.preventDefault();const url=validPublicWebUrl($('resource-url').value);if(!url){toast('请填写 http 或 https 网址。');return;}const file=$('resource-preview').files[0];let preview=editing?.preview||'',previewDate=editing?.previewDate||'';if(file){if(file.size>3*1024*1024||!['image/png','image/jpeg','image/webp'].includes(file.type)){toast('请使用 3 MB 以内的 PNG、JPG 或 WebP 图片。');return;}preview=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(file);}).catch(()=>null);if(!preview){toast('图片读取失败');return;}previewDate=new Date().toLocaleDateString('sv-SE');}
  const r={...editing,id:editing?.id||crypto.randomUUID(),name:$('resource-name').value.trim(),url,kind:$('resource-kind').value,category:$('resource-category').value.trim(),description:$('resource-description').value,gets:$('resource-gets').value,cost:$('resource-cost').value,tags:$('resource-tags').value.split(/[,，]/).map(s=>s.trim()).filter(Boolean),note:$('resource-note').value,prompt:$('resource-prompt').value,preview,previewDate,favorite:editing?.favorite||false,license:editing?.license||'待核实',source:editing?.source||'手动收藏',created:editing?.created||new Date().toISOString()};if(!r.name||!r.category){toast('请填写名称和分类');return;}if(state.resources.some(x=>!x.archived&&x.url===url&&x.id!==r.id)){toast('这个链接已经收藏过了，可以搜索它再编辑。');return;}state.siteCategories=[...new Set([...(state.siteCategories||[]),r.category])];if(saveResource(r)){switchView('all');selected='site:'+domainOf(r.url);renderList();$('editor').close();toast('已保存，并按网站归在一起。');}};
 function download(name,text,type='text/plain'){const url=URL.createObjectURL(new Blob([text],{type}));const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}

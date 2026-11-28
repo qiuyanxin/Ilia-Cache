@@ -25,6 +25,13 @@ test('首选已核实组件页，显式源码限制覆盖本机兼容规则', ()
   assert.equal(allowsComponentSource({}), false);
 });
 
+test('Kokonut Registry 使用原组件文档页而不是 JSON 地址', () => {
+  assert.equal(sourcePage({ captureMethod: 'registry', registryUrl: 'https://kokonutui.com/r/smooth-tab.json', componentCategory: '导航与菜单' }),
+    'https://kokonutui.com/docs/navigation/smooth-tab');
+  assert.equal(sourcePage({ captureMethod: 'registry', registryUrl: 'https://kokonutui.com/r/receipt-printer.json', componentCategory: '内容卡片' }),
+    'https://kokonutui.com/docs/cards/receipt-printer');
+});
+
 test('旧原创动效按现有细分类显示，保留作者、源码策略和用户分类', () => {
   const old = {
     id: 'ilia-motion-marquee', primarySourceKind: 'original', primarySourceAuthor: 'Ilia',

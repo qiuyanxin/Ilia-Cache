@@ -1,10 +1,10 @@
 import { COMPONENT_BROWSE_GROUPS, componentBrowseCategory, styleReferenceGroup } from './component-categories.mjs';
-import { isLibraryComponent, isSoundEffect, sourceName, sourcePage } from './component-taxonomy.mjs';
+import { hasOriginalMotionBundle, isLibraryComponent, isSoundEffect, sourceName, sourcePage } from './component-taxonomy.mjs';
 import { connectCollectionPreviews, pauseCollectionPreviews } from './component-media.mjs';
 import { browseComponentRecords, describeComponentBrowse } from './component-browse.mjs';
 import { renderGroupedComponentFilters } from './component-directory-controls.mjs';
 import { renderComponentCard } from './component-card.mjs';
-import { esc } from './favorite-button.mjs';
+import { compareFavoriteNames, esc } from './favorite-button.mjs';
 import { icon } from './icons.mjs';
 
 const ALL_SOURCES = '全部来源';
@@ -16,6 +16,7 @@ function directoryCard(record, { hasInCart, thumbnail }) {
       (/leibox.*image-compare/.test(record.url) ? '拖动分隔线比较两张图片，松开时边界自然回弹。' : record.description),
     category: componentBrowseCategory(record), source: sourceName(record), sourceHref: sourcePage(record),
     sourceAuthor: record.primarySourceAuthor, media: thumbnail(record), workbench: true,
+    interactivePreview: hasOriginalMotionBundle(record),
     collection: {
       inCart: hasInCart(record.id), usage: record.usage?.length || 0, favorite: record.favorite,
       favoriteType: isSoundEffect(record) ? 'sound' : styleReferenceGroup(record) ? 'style' : 'component',
@@ -41,14 +42,18 @@ export function installWorkbenchDirectory(sheet, options) {
     } else onOpen(record.id);
   }
 
-  function fill(grid, records) {
+  function fill(grid, records, favoritesFirst = false) {
+    grid.classList.remove('favorite-order-grid');
     grid.replaceChildren();
     if (!records.length) {
       grid.innerHTML = '<div class="empty">这里还没有组件。</div>';
       return;
     }
     let shown = 0;
-    const motionStart = records.findIndex(record => sourceName(record) === 'Motion Prompt');
+    const motionStart = favoritesFirst ? -1 : records.findIndex(record => sourceName(record) === 'Motion Prompt');
+    const originalsEnd = !favoritesFirst && !query.trim() && sourceName(records[0]) === '原创'
+      ? records.findIndex(record => sourceName(record) !== '原创') : 0;
+    const loadMotion = id => options.loadOriginalMotion?.(getRecords().find(record => record.id === id));
     const sentinel = document.createElement('div');
     sentinel.className = 'component-load-sentinel';
     grid.append(sentinel);
@@ -58,11 +63,11 @@ export function installWorkbenchDirectory(sheet, options) {
     function append() {
       const batch = records.slice(shown, shown + BATCH_SIZE);
       sentinel.insertAdjacentHTML('beforebegin', batch.map((record, index) =>
-        (motionStart > 0 && shown + index === motionStart ? '<div class="component-source-break" aria-hidden="true"></div>' : '') +
+        ((motionStart > 0 && shown + index === motionStart) || (originalsEnd > 0 && shown + index === originalsEnd) ? '<div class="component-source-break" aria-hidden="true"></div>' : '') +
         directoryCard(record, options),
       ).join(''));
       shown += batch.length;
-      connectCollectionPreviews(grid);
+      connectCollectionPreviews(grid, loadMotion);
       onRender?.();
       if (shown >= records.length) {
         sentinel.remove();
@@ -82,7 +87,9 @@ export function installWorkbenchDirectory(sheet, options) {
 
   function renderResults() {
     browseObserver?.disconnect();
-    browseObserver = fill(sheet.querySelector('.component-grid'), browseComponentRecords(libraryItems(), getFilters(), { readSource: sourceName }));
+    const favoritesFirst = !query.trim();
+    browseObserver = fill(sheet.querySelector('.component-grid'),
+      browseComponentRecords(libraryItems(), getFilters(), { readSource: sourceName, favoritesFirst }), favoritesFirst);
   }
 
   function render() {
@@ -90,7 +97,7 @@ export function installWorkbenchDirectory(sheet, options) {
     const facets = describeComponentBrowse(all, sourceName);
     const sources = [ALL_SOURCES, ...facets.sources];
     const previousGrid = sheet.querySelector('.component-grid');
-    sheet.innerHTML = `<div class="page-heading"><h1 tabindex="-1">${soundMode ? '音效库' : '组件库'}</h1>${soundMode ? '' : `<button class="primary" id="add-component">${icon('plus')}添加组件</button>`}</div>
+    sheet.innerHTML = `<div class="page-heading"><h1 tabindex="-1">${soundMode ? '音效库' : '组件库'}</h1></div>
       <div class="component-layout${soundMode ? ' sound-library-layout' : ''}"><section>
       <input id="component-search" aria-label="${soundMode ? '搜索音效' : '搜索组件'}" placeholder="${soundMode ? '搜索音效…' : '搜索组件、效果或提示词…'}" value="${esc(query)}">
        ${soundMode ? '' : renderGroupedComponentFilters(facets, getFilters())}
@@ -162,7 +169,7 @@ export function installWorkbenchDirectory(sheet, options) {
         grid.addEventListener('click', activate);
         collectionGrids.add(grid);
       }
-      collectionObserver = fill(grid, records);
+      collectionObserver = fill(grid, [...records].sort(compareFavoriteNames), true);
     },
     stopCollection() { collectionObserver?.disconnect(); },
   };

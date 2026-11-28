@@ -44,7 +44,7 @@ function cardPlacement(id, slots) {
 
 /** Render the shared card. The host provides vetted URLs and locally rendered media markup. */
 export function renderComponentCard({
-  id, title, description, category, source, sourceHref, sourceAuthor, media, href, previewHref, slots, indexed = Boolean(href), collection, workbench = false,
+  id, title, description, category, source, sourceHref, sourceAuthor, media, href, previewHref, slots, indexed = Boolean(href), collection, workbench = false, interactivePreview,
 }) {
   const key = escape(id);
   const name = escape(title);
@@ -55,7 +55,9 @@ export function renderComponentCard({
   const thumbnail = indexed ? `<span class="component-thumbnail-stage">${media}</span>` : media;
   const openAttributes = `data-open-component="${key}"`;
   const thumbnailAttributes = `class="component-thumb" aria-label="${previewHref ? '试听' : '预览'} ${name}"`;
-  const trigger = previewHref
+  const trigger = interactivePreview
+    ? `<div ${thumbnailAttributes} role="group">${thumbnail}</div>`
+    : previewHref
     ? `<a ${thumbnailAttributes} href="${escape(previewHref)}" target="_blank" rel="noopener noreferrer"${describedBy}>${thumbnail}</a>`
     : href
     ? `<a ${thumbnailAttributes} href="${escape(href)}"${describedBy}>${thumbnail}</a>`
@@ -67,7 +69,7 @@ export function renderComponentCard({
   const sourceLink = sourceHref
     ? `<a class="component-source-name" href="${escape(sourceHref)}" target="_blank" rel="noopener noreferrer" title="${escape(sourceAuthor || source)}">${sourceLabel}</a>`
     : `<span class="component-source-name">${sourceLabel}</span>`;
-  const cart = collection ? `<button type="button" class="${workbench ? 'card-action card-action--cart' : 'component-cart-add'}" data-cart-add="${key}" aria-label="${collection.inCart ? '移出待选' : '加入待选'} ${name}" aria-pressed="${Boolean(collection.inCart)}">${workbench ? icon(collection.inCart ? 'check' : 'plus') : '＋'}</button>` : '';
+  const cart = collection ? `<button type="button" class="${workbench ? 'card-action card-action--cart' : 'component-cart-add'}" data-project-add="${key}" aria-label="${collection.inCart ? '已在项目中，继续加入其他项目' : '加入项目'} ${name}" aria-pressed="${Boolean(collection.inCart)}">${workbench ? icon(collection.inCart ? 'check' : 'plus') : collection.inCart ? '✓' : '＋'}</button>` : '';
   const heart = collection?.favoriteType ? favoriteButton(collection.favoriteType, {id, name: title}, collection.favorite) : '';
   const preview = workbench ? `<div class="favorite-surface">${trigger}${heart}${cart}</div>` : trigger + cart;
   const usage = collection?.usage !== undefined ? `<span>使用 ${escape(collection.usage)} 次</span>` : '';

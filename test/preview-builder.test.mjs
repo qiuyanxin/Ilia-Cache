@@ -31,6 +31,7 @@ test('React preview builds TypeScript, local modules, dependencies and detected 
   assert.match(result.preview.srcdoc, /Playwright demo/);
   assert.match(result.preview.srcdoc, /\.bg-sky-500\s*\{/);
   assert.match(result.preview.srcdoc, /border-radius:24px/);
+  assert.match(result.preview.srcdoc, /#preview\{display:grid;place-items:center;font-size:clamp\(2rem,10vmin,5rem\)\}/);
 });
 
 test('React reports project imports that are not provided in the local preview context', async () => {
@@ -39,4 +40,16 @@ test('React reports project imports that are not provided in the local preview c
   ] });
   assert.equal(result.status, 'needs-input');
   assert.match(result.message, /@\/components\/ui\/button/);
+});
+
+test('Next Image uses a preview-only img adapter without changing the saved source', async () => {
+  const source = `import Image from 'next/image';
+export default function Avatar(){ return <div className="relative h-20 w-20"><Image src="https://example.com/avatar.png" alt="Avatar" fill /></div> }`;
+  const result = await buildComponentPreview({
+    framework: 'react', files: [{ name: 'Preview.tsx', content: source }],
+  });
+  assert.equal(result.status, 'ready');
+  assert.match(result.message, /已兼容预览 next\/image/);
+  assert.match(result.preview.srcdoc, /<script>/);
+  assert.equal(source.includes("from 'next/image'"), true);
 });

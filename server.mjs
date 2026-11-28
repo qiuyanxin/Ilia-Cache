@@ -5,6 +5,7 @@ import {readPinterest} from './pinterest.mjs';
 import {uploadAsset,serveAsset} from './capture-store.mjs';
 import {initializeLibrary,loadLibrary,saveLibrary,zipFiles} from './library-store.mjs';
 import {readComponent} from './component-source.mjs';
+import { readComponentRegistry } from './component-registry.mjs';
 import {
  addPreviewCandidate, ComponentRecordError, getComponentRecord, previewComponentInput,
  readComponentPreview, saveComponentRecord, selectPreviewCandidate
@@ -22,7 +23,7 @@ const system = `你是一位耐心的中文 UI 和前端老师。用户不懂编
 将原文按语义分成小段，保留每段完整原文，逐段中文解释，长文不得静默遗漏。解释框架、库、CSS属性、动画原理，并用生活比喻说明。区分生成图片、生成视频、编写网页和设计规格。
 解释哪些参数可以改、改了会怎样、哪些是依赖，不要把库名翻译成中文。给最小复现步骤、三个可复用术语、一个很小的练习。原文不完整就说缺少什么。
 最后给适合直接交给编程AI的中文改写。使用中文Markdown，保持原意，标出推测，不宣称已运行或已核实授权。`;
-const mime = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.txt':'text/plain; charset=utf-8','.tsv':'text/tab-separated-values; charset=utf-8','.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png','.gif':'image/gif','.webp':'image/webp','.svg':'image/svg+xml'};
+const mime = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.txt':'text/plain; charset=utf-8','.tsv':'text/tab-separated-values; charset=utf-8','.jpg':'image/jpeg','.jpeg':'image/jpeg','.png':'image/png','.gif':'image/gif','.webp':'image/webp','.svg':'image/svg+xml','.woff2':'font/woff2','.woff':'font/woff','.ttf':'font/ttf','.otf':'font/otf'};
 function send(res, status, value) { res.writeHead(status, {'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store'}); res.end(JSON.stringify(value)); }
 const previewHeaders = {
  'Content-Type':'text/html; charset=utf-8',
@@ -100,6 +101,14 @@ const server = http.createServer(async (req,res)=>{
    let input;try{input=JSON.parse(raw);}catch{return send(res,400,{error:'无法读取链接'});}
    if(typeof input.url!=='string'||input.url.length>5000)return send(res,400,{error:'请粘贴有效链接'});
    try{return send(res,200,await readPageMedia(input.url));}catch(error){return send(res,422,{error:error.name==='AbortError'?'读取超时，可以先保存链接。':error.message});}
+  }
+  if (url.pathname === '/api/component-registry') {
+   if(req.method!=='POST') return send(res,405,{error:'请使用 POST'});
+   if(![`http://127.0.0.1:${port}`,`http://localhost:${port}`].includes(req.headers.origin)) return send(res,403,{error:'请求来源不匹配'});
+   let raw='';for await(const chunk of req){raw+=chunk;if(raw.length>12000)return send(res,413,{error:'安装命令太长'});}
+   let input;try{input=JSON.parse(raw);}catch{return send(res,400,{error:'无法读取安装命令'});}
+   if(typeof input.command!=='string')return send(res,400,{error:'请粘贴安装命令'});
+   try{return send(res,200,{registry:await readComponentRegistry(input.command)});}catch(error){return send(res,422,{error:error.name==='AbortError'?'读取 Registry 超时，请重试。':error.message});}
   }
   if (url.pathname === '/api/learn') {
    if(req.method!=='POST') return send(res,405,{error:'请使用 POST'});

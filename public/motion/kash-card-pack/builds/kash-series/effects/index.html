@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>卡什样卡 · 材质与动效</title>
+  <link rel="stylesheet" href="../r01/cards.css">
+  <link rel="stylesheet" href="../r03/layers.css">
+  <link rel="stylesheet" href="../r08/collection.css">
+  <link rel="stylesheet" href="./effects.css">
+  <script src="./preview.js" defer></script>
+</head>
+<body>
+  <main class="studio">
+    <section class="stage" aria-label="样卡预览">
+      <button class="card" type="button" aria-describedby="interaction">
+        <span class="card-plane">
+          <span class="card-body">
+            <span class="glass-base"></span>
+            <span class="portrait-window">
+              <span class="foil"></span>
+            </span>
+            <span class="surface-effect"></span>
+            <span class="contact-shadow"></span>
+            <span class="glass-rim"></span>
+            <span class="card-type" lang="en">Cache</span>
+            <span class="card-copy"><strong></strong><small></small></span>
+            <span class="card-number"></span>
+          </span>
+          <img class="mascot" alt="" width="768" height="1024" draggable="false">
+          <span class="face-glare" aria-hidden="true"></span>
+        </span>
+      </button>
+    </section>
+    <section class="controls" aria-labelledby="title">
+      <h1 id="title">卡什样卡</h1>
+      <div class="picker">
+        <label for="character">角色</label>
+        <select id="character"></select>
+      </div>
+      <div class="effects" role="group" aria-label="整卡效果"></div>
+      <button class="recommendation" type="button">试角色推荐效果</button>
+      <p id="effect-note" aria-live="polite"></p>
+      <p id="interaction">移动鼠标、轻点卡面或按方向键看效果。</p>
+    </section>
+  </main>
+</body>
+</html>

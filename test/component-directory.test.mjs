@@ -46,6 +46,24 @@ test('同一结果顺序在不同预览高度下分列相同，切换列数后�
   assert.deepEqual(lanes(firstHost, 1), [[1, 2, 3, 4, 5, 6, 7]]);
 });
 
+test('本机组件目录始终使用瀑布流，不因收藏优先切回等高横排', async () => {
+  const source = await import('node:fs/promises').then(fs => fs.readFile(
+    new URL('../public/workbench-directory.mjs', import.meta.url), 'utf8'));
+  assert.doesNotMatch(source, /classList\.toggle\(['"]favorite-order-grid/);
+  assert.match(source, /classList\.remove\(['"]favorite-order-grid/);
+});
+
+test('源码和安装命令组件都会在提示词页生成给 Agent 的使用说明', async () => {
+  const source = await import('node:fs/promises').then(fs => fs.readFile(
+    new URL('../public/component-workspace-ui.mjs', import.meta.url), 'utf8'));
+  assert.match(source, /const agentPrompt=handoff\(r\)/);
+  assert.match(source, /label:''/);
+  assert.match(source, /copyButton\.textContent='复制给 Agent'/);
+  assert.doesNotMatch(source, /打开原组件并复制源码 ↗/);
+  assert.match(source, /fetch\('\/api\/embed-check\?url='/);
+  assert.match(source, /result\.available&&result\.blocked===false/);
+});
+
 test('连续检索复用评分器，并读到原地修改后的提示词', () => {
   let prompt = '蓝色原始演示';
   let reads = 0;

@@ -35,6 +35,7 @@ export function installFontLibrary(h) {
     isCollected: font => h.projects?.hasReference('font:' + font.id),
     getRecords: rows,
     onAdd: openAdd,
+    showAdd: false,
     onDelete(font) {
       if (!confirm(`删除字体 ${font.name}？`)) return false;
       const state = getState();
@@ -46,7 +47,7 @@ export function installFontLibrary(h) {
       return true;
     },
     onCollect(font) {
-      h.projects?.addReferenceToCart({
+      h.projects?.addReference({
         id: 'font:' + font.id, type: 'font', name: font.name, image: '', url: font.sourceUrl || '',
       });
     },
@@ -122,6 +123,7 @@ export function installFontLibrary(h) {
 
   return {
     show, leave, ready: load,
+    add: () => view.add(),
     open: id => view.open(id),
     favoriteRows: () => rows().filter(font => favoriteIds().includes(font.id)),
     toggleFavorite(id) {
@@ -132,6 +134,7 @@ export function installFontLibrary(h) {
       else ids.delete(id);
       getState().favoriteFontIds = [...ids];
       save();
+      if (showing) view.refresh();
       return selected;
     },
     count: () => loaded ? rows().length : 204, get showing() { return showing; } };

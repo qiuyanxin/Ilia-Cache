@@ -1,0 +1,46 @@
+.secret-foil { display: none; }
+
+.card[data-finish=angel] {
+  --shell: #ecca71;
+  --edge: #a57b30;
+  --ink: #362b1d;
+  --prism: linear-gradient(115deg, #ffd369, #ffa74a 23%, #ff8f9d 41%, #ef47ac 59%, #ffcc58 82%, #ffc782);
+  --texture: repeating-conic-gradient(from var(--turn-y) at 49% 55%, #fff6aab0 0deg 7deg, #f32f8433 7deg 14deg);
+}
+[data-finish=angel] .glass-base {
+  background: linear-gradient(129deg, #fff8dd 1%, #f6d46d 28%, #fff5d8 52%, #e6a93a 81%, #f8d86c 100%);
+}
+[data-finish=angel] .secret-foil {
+  display: block;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image: url('./foil-grain.png'),
+    linear-gradient(117deg, #fff6d9 9%, #ead9547d 28%, #ff9dd57a 49%, #fff5d99a 59%, #f08859a6 75%, #ffc800a8 91%),
+    repeating-conic-gradient(from var(--turn-y) at 48% 47%, #ffffff00 0deg 7deg, #fffac985 8deg 14deg);
+  background-size: 108px 108px, 165% 155%, 100% 100%;
+  background-position: 0 0, calc(50% + var(--light-x)) calc(50% - var(--light-y)), center;
+}
+[data-finish=angel] .portrait-window {
+  outline-color: #76406564;
+  box-shadow: inset 0 1px 7px #62205272;
+}
+[data-finish=angel] .foil {
+  background-image: radial-gradient(ellipse at calc(48% + var(--light-x) / 4) 55%, #fff4bd 0%, #ffc45e60 33%, transparent 65%), var(--prism);
+  background-size: 100% 100%, 155% 155%;
+}
+[data-finish=angel] .foil-pattern {
+  background: url('./foil-grain.png') 0 0 / 87px 87px, var(--texture);
+  opacity: .83;
+  mask-image: radial-gradient(ellipse at 49% 55%, #0008 1%, #000 36%, #000 92%);
+}
+[data-finish=angel] .glass-coat {
+  background-image: linear-gradient(119deg, transparent 35%, #fffef575 37%, #fffef529 48%, transparent 51%),
+                    radial-gradient(ellipse at calc(50% + var(--light-x)) calc(21% - var(--light-y)), #fffced87, transparent 52%);
+  mask-image: linear-gradient(#000 0%, #0009 55%, #0004 100%);
+}
+[data-finish=angel] .glass-rim {
+  border-color: #fff5dc;
+  box-shadow: inset 0 0 0 1px #b8873f, inset 0 3px 4px #fff8dc;
+}

@@ -1,0 +1,45 @@
+.card[data-finish=code] {
+  --shell: #c2e0db;
+  --edge: #578985;
+  --ink: #153d43;
+  --prism: linear-gradient(145deg, #375a83 3%, #5d9dd0 26%, #8ce3dd 44%, #dbffe1 54%, #73c3ce 65%, #8c7cc6 85%, #504977);
+  --texture: repeating-linear-gradient(0deg, transparent 0 3px, #eaffef92 4px, transparent 5px 8px);
+}
+
+.card[data-finish=director] {
+  --shell: #dbccda;
+  --edge: #826782;
+  --ink: #472e4b;
+  --prism: linear-gradient(139deg, #5e5075 9%, #8877a5 28%, #bf8f9c 44%, #ffe0ab 51%, #b98c9f 66%, #614865 89%);
+  --texture: linear-gradient(124deg, transparent 25%, #f2a5625e 34%, #fff4dba8 46%, #ffe0ac61 51%, transparent 60%);
+}
+
+.card[data-finish=ballet] {
+  --shell: #efdfeb;
+  --edge: #a78ba9;
+  --ink: #573a58;
+  --prism: linear-gradient(132deg, #ad96cf 10%, #e8bae0 28%, #fff5f0 44%, #fce1ed 58%, #d0c0f0 73%, #ddafcc 92%);
+  --texture: repeating-radial-gradient(ellipse at 12% 102%, transparent 0 13%, #ffeff6a0 15%, #fff9fcab 17%, transparent 20% 24%);
+}
+
+.card[data-finish=sleep] {
+  --shell: #d6e1f0;
+  --edge: #6f82a7;
+  --ink: #283c62;
+  --prism: linear-gradient(160deg, #6479a8 10%, #91a9d5 26%, #e5effe 47%, #c6d9f3 56%, #788fbd 76%, #535f8b 97%);
+  --texture: radial-gradient(circle, #fffbe7dc 0 1.5px, transparent 2px) 0 0 / 47px 53px,
+             radial-gradient(circle, #fbfeffae 0 .8px, transparent 1.3px) 13px 17px / 31px 37px;
+}
+
+.card[data-finish=director] .mascot {
+  top: 5%;
+  height: 77%;
+}
+
+@media (min-width: 851px) {
+  .display {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    row-gap: clamp(23px, 4vw, 48px);
+  }
+  .samples { display: contents; }
+}

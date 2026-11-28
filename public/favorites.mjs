@@ -3,21 +3,33 @@ import { favoriteButton, esc } from './favorite-button.mjs';
 import { validPublicWebUrl } from './catalog.mjs';
 import { isComponent, isSoundEffect, sourceName, componentCategory } from './extensions.js';
 import { connectCollectionPreviews } from './component-media.mjs';
+import { icon } from './icons.mjs';
+import { WORKBENCH_TYPES, filterByWorkbenchType, workbenchTabs, workbenchTypeTabs } from './workbench-taxonomy.mjs';
 
-const TYPES = {
-  component: '组件',
-  style: '风格参考',
-  sound: '音效',
-  font: '字体',
-  website: '网站',
-  page: '页面',
-};
+const favoriteType = ({ type }) => type === 'style' ? 'visual' : type;
 export function installFavorites(h, fontLibrary, pageLibrary) {
   const page = document.createElement('main');
   page.id = 'my-favorites';
   page.hidden = true;
   document.querySelector('.workspace').append(page);
   let filter = 'all';
+
+  function projectButton(item, type) {
+    const resource = ['component', 'style', 'sound'].includes(type);
+    const added = resource && h.projects?.has(item.id);
+    const attribute = resource
+      ? `data-project-add="${esc(item.id)}" data-favorite-project-resource`
+      : `data-favorite-project="${esc(item.id)}" data-favorite-project-type="${type}"`;
+    const label = added ? '已在项目中，继续加入其他项目' : '加入项目';
+    return `<button type="button" class="card-action card-action--cart" ${attribute} aria-label="${label} ${esc(item.name)}" aria-pressed="${Boolean(added)}" title="${label}">${icon(added ? 'check' : 'folder')}</button>`;
+  }
+
+  function projectReference(item, type) {
+    if (type === 'website') return { id: `site:${item.id}`, type, name: item.name, image: h.screenshot(item), url: item.url };
+    if (type === 'font') return { id: `font:${item.id}`, type, name: item.name, image: '', url: item.sourceUrl || '' };
+    const image = item.media?.find(entry => entry.type === 'image')?.url || item.preview || '';
+    return { id: `page:${item.id}`, type: 'page', resourceId: item.id, name: item.name, image, url: item.url };
+  }
 
   function card(item, type) {
     const open = `data-favorite-open="${type}" data-favorite-id="${esc(item.id)}"`;
@@ -39,14 +51,15 @@ export function installFavorites(h, fontLibrary, pageLibrary) {
     return `<article class="favorite-card">
       <div class="favorite-surface">
         <div class="favorite-card-preview component-thumb">${cover}</div>
+        ${projectButton(item, type)}
         ${favoriteButton(type, item, true)}
       </div>
       <div class="favorite-card-body">
         <div class="favorite-card-title">${type === 'website'
           ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(item.name)}</a>`
-          : `<button type="button" ${open}>${esc(item.name)}</button>`}<span>${TYPES[type]}</span></div>
+          : `<button type="button" ${open}>${esc(item.name)}</button>`}<span>${WORKBENCH_TYPES[favoriteType({ type })]}</span></div>
         ${source ? `<p>${esc(source)}</p>` : ''}
-        ${tag && tag !== TYPES[type] ? `<span class="favorite-card-tag">${esc(tag)}</span>` : ''}
+        ${tag && tag !== WORKBENCH_TYPES[favoriteType({ type })] ? `<span class="favorite-card-tag">${esc(tag)}</span>` : ''}
       </div>
     </article>`;
   }
@@ -62,21 +75,23 @@ export function installFavorites(h, fontLibrary, pageLibrary) {
       ...fontLibrary.favoriteRows().map(item => ({ item, type: 'font' })),
       ...h.sites().filter(item => item.favorite).map(item => ({ item, type: 'website' })),
     ];
-    const visible = items.filter(({ type }) => filter === 'all' || filter === type);
+    const visible = filterByWorkbenchType(items, filter, favoriteType);
     page.innerHTML = `<div class="page-heading"><h1>工作台</h1></div>
-      <nav class="collection-chips accumulation-tabs" aria-label="工作台分类"><button data-accumulation-view="inbox">收件箱</button><button data-accumulation-view="projects">项目</button><button data-accumulation-view="aesthetic">审美采集</button><button data-accumulation-view="accumulation">灵感库</button><button data-accumulation-view="favorites" class="active">收藏</button></nav>
-      <div class="collection-chips" role="group" aria-label="收藏类型">${Object.entries({ all: '全部', ...TYPES }).map(([key, label]) => {
-        const count = key === 'all' ? items.length : items.filter(({ type }) => type === key).length;
-        return `<button type="button" data-favorite-filter="${key}" class="${filter === key ? 'active' : ''}" aria-pressed="${filter === key}">${label} <small>${count}</small></button>`;
-      }).join('')}</div>
+      ${workbenchTabs('favorites')}
+      ${workbenchTypeTabs(filter, items, favoriteType, 'data-favorite-filter')}
       ${visible.length ? `<div class="favorites-grid">${visible.map(({ item, type }) => card(item, type)).join('')}</div>` : '<p class="empty">还没有收藏。点卡片上的爱心，就能在这里找到。</p>'}`;
     connectCollectionPreviews(page);
+    page.querySelectorAll('[data-favorite-project]').forEach(button => {
+      const type = button.dataset.favoriteProjectType;
+      const item = items.find(row => row.type === type && row.item.id === button.dataset.favoriteProject)?.item;
+      if (item) h.projects?.bindReferenceButton(button, projectReference(item, type));
+    });
   }
 
   page.onclick = event => {
-    const workbenchButton = event.target.closest('[data-accumulation-view]');
+    const workbenchButton = event.target.closest('[data-workbench-view]');
     if (workbenchButton) {
-      h.switchView(workbenchButton.dataset.accumulationView);
+      h.switchView(workbenchButton.dataset.workbenchView);
       return;
     }
     const filterButton = event.target.closest('[data-favorite-filter]');
@@ -111,8 +126,14 @@ export function installFavorites(h, fontLibrary, pageLibrary) {
     }
     if (typeof selected !== 'boolean') return;
     const label = `${selected ? '取消收藏' : '收藏'} ${name}`;
-    for (const heart of document.querySelectorAll('[data-heart-type][data-heart-id]')) {
-      if (heart.dataset.heartType !== type || heart.dataset.heartId !== id) continue;
+    const focused = document.activeElement === button;
+    if (type === 'page') pageLibrary.refreshOrder();
+    else if (type === 'component' || type === 'sound') h.refreshComponents?.();
+    else if (type === 'style') h.collections?.render();
+    else if (type === 'website' && document.querySelector('#library:not([hidden])')) h.render();
+    const hearts = [...document.querySelectorAll('[data-heart-type][data-heart-id]')]
+      .filter(heart => heart.dataset.heartType === type && heart.dataset.heartId === id);
+    for (const heart of hearts) {
       heart.setAttribute('aria-pressed', String(selected));
       heart.setAttribute('aria-label', label);
       heart.title = label;
@@ -121,7 +142,7 @@ export function installFavorites(h, fontLibrary, pageLibrary) {
     if (!page.hidden) {
       render();
       page.querySelector('[aria-pressed="true"][data-favorite-filter]')?.focus();
-    }
+    } else if (focused && !button.isConnected) hearts.find(heart => !heart.closest('[hidden]'))?.focus({ preventScroll: true });
   });
 
   h.refreshFavorites = () => { if (!page.hidden) render(); };

@@ -1,4 +1,5 @@
 import { icon } from './icons.mjs';
+import { compareFavoriteNames } from './favorite-button.mjs';
 
 export const PAGE_CATEGORIES = ['浏览全部', '作品集', 'Dashboard', 'SaaS', '电商与品牌', '品牌与机构', '实验与动效', '内容与行业'];
 const sourcePriority = ['21st.dev', 'Framer', 'MotionSites'];
@@ -9,8 +10,8 @@ const escape = value => String(value ?? '').replace(/[&<>"']/g, character =>
 export const pageCategory = item => item.pageCategory || '内容与行业';
 export const pageSource = item => item.sourceShort || item.collectionSource?.name || item.source || '其他来源';
 export const pagePromptLabel = item => ({
-  original: 'MCP 原始提示词', reference: '设计参考', 'user-edited': '我的提示词', user: '我的提示词',
-}[item.promptKind] || '复刻任务');
+  original: '原始提示词', reference: '设计参考', 'user-edited': '我的提示词', user: '我的提示词',
+}[item.promptKind] || '复刻提示词');
 
 function sourceOrder(a, b) {
   const ai = sourcePriority.indexOf(a);
@@ -38,13 +39,14 @@ export function mixPageSources(items) {
   return result;
 }
 
-export function filterPageReferences(items, { category = '浏览全部', source = '全部来源', query = '' } = {}) {
+export function filterPageReferences(items, { category = '浏览全部', source = '全部来源', query = '', favoritesFirst = false } = {}) {
   const keyword = query.toLowerCase();
-  return mixPageSources(items.filter(item =>
+  const results = items.filter(item =>
     (category === '浏览全部' || pageCategory(item) === category) &&
     (source === '全部来源' || pageSource(item) === source) &&
     (!keyword || [item.name, item.originalName, item.sourceCategory, item.sourceShort, item.prompt]
-      .join(' ').toLowerCase().includes(keyword))));
+      .join(' ').toLowerCase().includes(keyword)));
+  return favoritesFirst ? results.sort(compareFavoriteNames) : mixPageSources(results);
 }
 
 export function renderPageSourcePreview() {
@@ -66,19 +68,23 @@ export function renderPageReferenceCards(items, { preview, actions = () => '' })
 }
 
 export function renderPageLibrary(items, { category = '浏览全部', source = '全部来源', query = '', canAdd = false, cards = '' } = {}) {
-  const sources = [...new Set(items.map(pageSource))].sort(sourceOrder);
+  const sourceCounts = new Map();
   const counts = new Map();
   for (const item of items) {
     const category = pageCategory(item);
     counts.set(category, (counts.get(category) || 0) + 1);
+    const name = pageSource(item);
+    sourceCounts.set(name, (sourceCounts.get(name) || 0) + 1);
   }
   const categories = PAGE_CATEGORIES.map(name => `<button type="button" data-page-cat="${name}" class="${category === name ? 'active' : ''}" aria-pressed="${category === name}">${name}<small>${name === '浏览全部' ? items.length : counts.get(name) || 0}</small></button>`).join('');
-  const options = sources.map(name => `<option${source === name ? ' selected' : ''}>${escape(name)}</option>`).join('');
-  return `<div class="page-heading"><h1>页面库</h1>${canAdd ? '<button type="button" class="primary" id="page-add">' + icon('plus') + '添加页面</button>' : ''}</div>
+  const options = ['全部来源', ...[...sourceCounts.keys()].sort(sourceOrder)].map(name =>
+    `<button type="button" data-page-source="${escape(name)}" aria-pressed="${source === name}">${escape(name)} <small>${sourceCounts.get(name) ?? items.length}</small></button>`).join('');
+  return `<div class="page-heading"><h1>页面库</h1>${canAdd ? '<button type="button" class="primary" id="page-add">' + icon('plus') + '添加</button>' : ''}</div>
       <div class="component-layout page-library-layout">
         <nav class="component-categories" aria-label="页面分类">${categories}</nav>
         <section>
-          <div class="page-library-search"><input id="page-search" data-command-search aria-label="搜索页面" placeholder="搜索页面、来源或提示词" value="${escape(query)}"><label class="page-source-filter"><span>来源分类</span><select id="page-source" aria-label="按来源筛选页面"><option>全部来源</option>${options}</select></label></div>
+          <div class="page-library-search"><input id="page-search" data-command-search aria-label="搜索页面" placeholder="搜索页面、来源或提示词" value="${escape(query)}"></div>
+          <nav class="component-source-filters" aria-label="页面来源">${options}</nav>
           <div class="page-reference-grid">${cards}</div>
         </section>
       </div>`;

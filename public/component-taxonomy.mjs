@@ -1,4 +1,5 @@
 import { officialSourceForRecord } from './official-component-previews.mjs';
+import { registryComponentPage } from './registry-component.mjs';
 
 import { COMPONENT_CATEGORIES, componentCategory as browseOriginalCategory, styleReferenceGroup } from './component-categories.mjs';
 
@@ -81,7 +82,8 @@ export function sourceName(record) {
 }
 
 export function sourcePage(record) {
-  return officialSourceForRecord(record) || record.sourcePageUrl || record.primarySourceUrl || record.sourceUrl || record.url;
+  return officialSourceForRecord(record) || registryComponentPage(record.registryUrl, componentCategory(record)) ||
+    record.sourcePageUrl || record.primarySourceUrl || record.sourceUrl || record.url;
 }
 
 export function allowsComponentSource(record, { allowUnclassified = false } = {}) {

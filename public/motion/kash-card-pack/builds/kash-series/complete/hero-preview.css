@@ -1,0 +1,25 @@
+#home-page { max-width: none; margin: auto; min-height: 100svh; }
+.hero-pack-stage {
+  position: relative;
+  min-height: min(60svh, 560px);
+  padding: clamp(22px, 4vw, 50px) clamp(18px, 5vw, 80px) 0;
+}
+.hero-pack-stage #toggle-sound { top: clamp(12px, 3vw, 34px); right: clamp(14px, 4vw, 48px); }
+.hero-pack-stage .experience { min-height: min(49svh, 465px); }
+.hero-pack-stage .experience .package { width: min(58vw, 33svh, 245px); }
+.hero-pack-stage .drawn { width: min(100%, 880px); }
+.hero-pack-stage .result { margin-top: 13px; }
+.home-hero.hero-pack-copy {
+  min-height: auto;
+  align-items: center;
+  text-align: center;
+  padding: 29px 16px 49px;
+}
+.hero-pack-copy h1 { margin: 12px 0 20px; }
+.hero-pack-copy > div { justify-content: center; flex-wrap: wrap; }
+@media (max-width: 620px) {
+  .hero-pack-stage { padding-top: 44px; }
+  .hero-pack-stage .drawn { width: min(100%, 415px); }
+  .home-hero.hero-pack-copy { padding: 23px 16px 35px; }
+  .hero-pack-copy h1 { font-size: clamp(26px, 7.4vw, 38px); }
+}

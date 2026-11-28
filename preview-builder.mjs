@@ -31,8 +31,15 @@ const builtinUtils = `import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 export function cn(...input) { return twMerge(clsx(input)); }
 `;
+const nextImagePreview = `import React from 'react';
+export default function Image({ src, alt = '', fill, priority, placeholder, blurDataURL, quality, loader, unoptimized, style, ...props }) {
+  const resolved = typeof src === 'string' ? src : src?.src || '';
+  const previewStyle = fill ? { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', ...style } : style;
+  return React.createElement('img', { ...props, src: resolved, alt, style: previewStyle });
+}
+`;
 
-const ready = srcdoc => ({ status: 'ready', preview: { kind: 'html', srcdoc } });
+const ready = (srcdoc, message) => ({ status: 'ready', ...(message ? { message } : {}), preview: { kind: 'html', srcdoc } });
 const needsInput = message => ({ status: 'needs-input', message });
 const inlineScript = content => content.replace(/<\/script/gi, '<\\/script');
 const inlineStyle = content => content.replace(/<\/style/gi, '<\\/style');
@@ -83,6 +90,7 @@ function virtualFiles(files, entry) {
           if (path === '@/lib/utils') return { path: '$ilia/utils', namespace: 'preview' };
           return { errors: [{ text: `请补充引用的文件 ${path}` }] };
         }
+        if (path === 'next/image') return { path: '$ilia/next-image', namespace: 'preview' };
         if (dependencies.has(path)) return build.resolve(path, { resolveDir: workDir, kind: args.kind });
         if (args.kind === 'url-token' && /^data:/i.test(path)) return { path, external: true };
         return { errors: [{ text: `预览环境不支持依赖 ${path}` }] };
@@ -90,6 +98,7 @@ function virtualFiles(files, entry) {
       build.onLoad({ filter: /.*/, namespace: 'preview' }, ({ path }) => {
         if (path === '$ilia/entry') return { contents: runtime, loader: 'js' };
         if (path === '$ilia/utils') return { contents: builtinUtils, loader: 'js' };
+        if (path === '$ilia/next-image') return { contents: nextImagePreview, loader: 'js' };
         const ext = posix.extname(path).slice(1);
         return hasOwn(loaders, ext)
           ? { contents: files.get(path), loader: loaders[ext] }
@@ -138,7 +147,9 @@ async function buildReact(files, entry) {
   const compiledStyles = result.outputFiles.find(file => file.path.endsWith('.css'))?.text || '';
   const styles = [compiledStyles, ...extraStyles].join('\n');
   const bundle = result.outputFiles.find(file => file.path.endsWith('.js')).text;
-  return ready(`<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>${inlineStyle(knownStyles)}\nbody{margin:0;padding:1rem} @media(prefers-color-scheme:dark){body{color:#f5f5f5;background:#1b1b1b}}\n${inlineStyle(styles)}</style><div id="preview"></div><script>${inlineScript(bundle)}</script></html>`);
+  const usesNextImage = [...files.values()].some(content => /(?:from\s*|import\s*)['"]next\/image['"]/.test(content));
+  const message = usesNextImage ? '已兼容预览 next/image：这里按普通图片显示，保存的原源码不会修改。' : undefined;
+  return ready(`<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><style>${inlineStyle(knownStyles)}\nhtml,body,#preview{min-height:100%}body{margin:0;padding:1rem}#preview{display:grid;place-items:center;font-size:clamp(2rem,10vmin,5rem)}@media(prefers-color-scheme:dark){body{color:#f5f5f5;background:#1b1b1b}}\n${inlineStyle(styles)}</style><div id="preview"></div><script>${inlineScript(bundle)}</script></html>`, message);
 }
 
 export async function buildComponentPreview({ files, framework } = {}) {

@@ -1,0 +1,46 @@
+.wrapper { touch-action: pan-y; }
+.wrap-front { isolation: isolate; background: repeating-linear-gradient(10deg,#704c2814 0 .5px,transparent .5px 3px),linear-gradient(120deg,#fff4dfb0,transparent 42%,#7c512720),var(--paper,#efdebf); }
+.wrap-front .wrap-brand { top: 13%; }
+.wrap-front .wrap-title { top: 20%; font-size: 12cqw; letter-spacing: -.08em; }
+.wrap-front .cover-expression {
+  left: 12%; right: 12%; top: 25%; aspect-ratio: 1;
+  pointer-events: none;
+}
+.cover-expression > span {
+  position: absolute; inset: 0; background-image: var(--sheet);
+  background-size: 300% 300%; filter: drop-shadow(0 1.2cqw 1.5cqw #59352530);
+  transition: opacity .13s ease, scale .28s cubic-bezier(.2,.82,.33,1.25);
+}
+.expression-after { opacity: 0; scale: .94; }
+.is-torn .expression-before { opacity: 0; }
+.is-torn .expression-after { opacity: 1; scale: 1; }
+.wrap-front .wrap-series { top: 78%; font-size: 4.9cqw; }
+.wrap-front .wrap-spec { top: 84%; }
+.wrap-front .tear-strip { z-index: 3; background-color: var(--paper); }
+.is-tearing .tear-strip { clip-path: polygon(var(--tear) 0,100% 0,100% 100%,var(--tear) 100%); }
+.is-torn .wrap-front { clip-path: polygon(0 9%,6% 8%,14% 10%,22% 8%,32% 9%,42% 7%,51% 9%,62% 8%,71% 9%,84% 7%,94% 9%,100% 8%,100% 100%,0 100%); }
+.is-torn .tear-strip { visibility: hidden; }
+.is-torn .cover-expression { animation: cover-recoil .32s ease-out; }
+@keyframes cover-recoil { 32% { scale: 1.035 .95; } }
+.cover-actions { display: flex; justify-content: center; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.cover-actions button { border: 1px solid #b2a497; background: #fffbf3; border-radius: 20px; padding: 4px 9px; font-size: 11px; cursor: pointer; }
+@media (prefers-reduced-motion: reduce) {
+  .cover-expression, .cover-expression > span { animation: none !important; transition: none; }
+}
+@media (max-width: 850px) {
+  .package { grid-row: 1; }
+  .samples { grid-row: 2; }
+}
+
+@font-face {
+  font-family: "Courier Prime";
+  src: url("./fonts/CourierPrime-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "DM Serif Display";
+  src: url("./fonts/DMSerifDisplay-Regular.ttf") format("truetype");
+  font-display: swap;
+}
+.wrap-series, .wrap-spec { font-family: "Courier Prime", monospace; font-weight: 400; }
+.card-type { font-family: "DM Serif Display", Georgia, serif; font-weight: 400; letter-spacing: .065em; }

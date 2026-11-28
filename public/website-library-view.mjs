@@ -1,4 +1,5 @@
 import { SITE_CATEGORIES, sitePreviewRank, validPublicWebUrl } from './catalog.mjs';
+import { compareFavoriteNames } from './favorite-button.mjs';
 
 const escape = value => String(value ?? '').replace(/[&<>"']/g, character =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
@@ -39,7 +40,7 @@ export function readWebsiteFilters(params, sites) {
   };
 }
 
-export function filterWebsites(sites, { query = '', category = '', filter = '全部', order = 'name', view = 'all' } = {}) {
+export function filterWebsites(sites, { query = '', category = '', filter = '全部', order = 'name', view = 'all', favoritesFirst = false } = {}) {
   const term = query.trim().toLocaleLowerCase();
   const result = sites.filter(site => {
     if ((view === 'favorites' && !site.favorite) || (view === 'cases' && !websiteHasCases(site))) return false;
@@ -53,6 +54,7 @@ export function filterWebsites(sites, { query = '', category = '', filter = '全
     return [websiteTitle(site), site.domain, site.description, site.finds, site.use, ...(site.tags || []),
       ...related.flatMap(item => [item.name || item.title, item.note, item.url])].join(' ').toLocaleLowerCase().includes(term);
   });
+  if (favoritesFirst && order === 'name') return result.sort((a, b) => compareFavoriteNames(a, b, websiteTitle));
   return result.sort((a, b) => sitePreviewRank(a) - sitePreviewRank(b) ||
     (order === 'new' ? (b.created || '').localeCompare(a.created || '') :
       order === 'name' ? websiteTitle(a).localeCompare(websiteTitle(b)) : 0));

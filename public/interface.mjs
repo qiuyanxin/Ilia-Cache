@@ -29,12 +29,11 @@ export function installInterface(h, styleSeed) {
         "projects",
         "components",
         "sounds",
-        "inbox",
+        "capture",
         "favorites",
         "pages",
         "fonts",
         "sources",
-        "accumulation",
         "styles",
         "aesthetic",
       ].includes(next)
@@ -68,7 +67,7 @@ export function installInterface(h, styleSeed) {
       favorites.show();
       return true;
     }
-    if (["inbox", "accumulation", "styles", "aesthetic"].includes(next)) {
+    if (["capture", "styles"].includes(next)) {
       collections.show(next);
       return true;
     }
@@ -78,22 +77,34 @@ export function installInterface(h, styleSeed) {
   document
     .querySelector(".filterbar")
     .prepend(document.querySelector("#website-categories"));
-  const openCapture = () => collections.openCapture();
+  const openCapture = (options) => {
+    if (options) return collections.openCapture(options);
+    const section = location.hash.replace(/^#\//, "").split(/[/?]/)[0];
+    if (section === "fonts") return fontLibrary?.add();
+    if (section === "styles") return collections.openStyleForm();
+    const expected = {
+      components: "component",
+      pages: "page",
+      websites: "website",
+    }[section];
+    return collections.openCapture(expected ? { expected } : undefined);
+  };
+  h.openCapture = openCapture;
   const { refresh } = installWorkspaceChrome({
     dockActions: [
       { id: "search", icon: "search", label: "搜索" },
-      { id: "capture", icon: "plus", label: "随手收集", onSelect: openCapture },
+      { id: "capture", icon: "plus", label: "添加", onSelect: openCapture },
       {
-        id: "learn",
-        icon: "book",
-        label: "学习",
-        onSelect: () => h.switchView("accumulation"),
+        id: "favorites",
+        icon: "heart",
+        label: "收藏",
+        onSelect: () => h.switchView("favorites"),
       },
       {
-        id: "components",
-        icon: "grid",
-        label: "组件库",
-        onSelect: () => h.switchView("components"),
+        id: "projects",
+        icon: "folder",
+        label: "工作台",
+        onSelect: () => h.switchView("projects"),
       },
     ],
     initialDockAction: "capture",

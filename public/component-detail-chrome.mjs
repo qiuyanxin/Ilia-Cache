@@ -17,20 +17,21 @@ export function renderComponentReferences({ source, author, license, media = '',
   </section>`;
 }
 
-export function renderComponentPrompt({ value, editable = false, interactive = false }) {
+export function renderComponentPrompt({ value, editable = false, interactive = false, label = '提示词原文' }) {
   const input = interactive ? ' id="saved-component-prompt"' : '';
   const readOnly = editable ? '' : ' readonly';
   const placeholder = editable ? '把原站提供的提示词粘贴在这里。' : '来源未收录提示词。';
   const copy = interactive ? '<button type="button" id="copy-component-prompt">复制提示词</button>' : '';
+  const textarea = `<textarea${input} class="command-field" data-detail-prompt rows="14"${readOnly} aria-label="给 Agent 的组件使用提示词" placeholder="${placeholder}">
+${escape(value)}</textarea>`;
   return `<div class="component-prompt">
-    <label>提示词原文<textarea${input} class="command-field" data-detail-prompt rows="14"${readOnly} placeholder="${placeholder}">
-${escape(value)}</textarea></label>
+    ${label ? `<label>${escape(label)}${textarea}</label>` : textarea}
     <div class="component-prompt-actions">${copy}</div>
   </div>`;
 }
 
 /** Render the detail heading and actions for an interactive dialog or a linked page. */
-export function renderComponentDetailChrome({ title, category, description, headingId, source, back, backLabel = '返回组件库', author, license }) {
+export function renderComponentDetailChrome({ title, category, description, headingId, source, back, backLabel = '返回组件库' }) {
   const heading = back ? 'h1' : 'h2';
   const summary = description?.trim();
   const dismiss = back
@@ -39,10 +40,9 @@ export function renderComponentDetailChrome({ title, category, description, head
   const origin = source
     ? `<a data-component-origin href="${escape(source.href)}" target="_blank" rel="noopener noreferrer">${escape(source.label)}</a>`
     : '';
-  const credit = author && license ? `<small>${escape(author)} · ${escape(license)}</small>` : '';
-  return `<div class="dialog-heading component-detail-heading"><div><small>${escape(category)}</small><${heading} id="${escape(headingId)}">${escape(title)}</${heading}>${credit}</div>${dismiss}</div>
+  return `<div class="dialog-heading component-detail-heading"><div><small>${escape(category)}</small><${heading} id="${escape(headingId)}">${escape(title)}</${heading}></div>${dismiss}</div>
     ${summary ? `<p class="component-detail-note">${escape(summary)}</p>` : ''}
-    <div class="component-detail-actions"><div class="component-shared-actions">${origin}${back ? '' : '<button type="button" id="copy-agent">复制给 Agent</button>'}</div></div>`;
+    <div class="component-detail-actions"><div class="component-shared-actions">${origin}</div></div>`;
 }
 
 export function renderPreviewOrigin(source) {

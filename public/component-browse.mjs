@@ -1,5 +1,6 @@
 import { COMPONENT_BROWSE_GROUPS, componentBrowseCategory, styleReferenceGroup } from './component-categories.mjs';
-import { compareComponentTitles, createSearchRanker, componentSearchFields, prepareSearchQuery } from './component-search.mjs';
+import { compareComponentSources, compareComponentTitles, createSearchRanker, componentSearchFields, prepareSearchQuery } from './component-search.mjs';
+import { compareFavoriteNames } from './favorite-button.mjs';
 
 const readPublishedSource = record => record.sourceShort || '';
 
@@ -33,12 +34,12 @@ export function describeComponentBrowse(records, readSource = readPublishedSourc
   }
   return {
     categoryCounts, subcategoryCounts,
-    sources: [...sourceCounts.keys()].sort((a, b) => sourceCounts.get(b) - sourceCounts.get(a)),
+    sources: [...sourceCounts.keys()].sort(compareComponentSources),
   };
 }
 
 export function browseComponentRecords(records, { query = '', category = '', subcategory = '', source = '' } = {},
-  { readSource = readPublishedSource, fuzzyFallback = false } = {}) {
+  { readSource = readPublishedSource, fuzzyFallback = false, favoritesFirst = false } = {}) {
   const group = Object.hasOwn(COMPONENT_BROWSE_GROUPS, category) ? COMPONENT_BROWSE_GROUPS[category] : undefined;
   const accepted = subcategory && group?.includes(subcategory) ? [subcategory] : group;
   const keyword = query.toLowerCase();
@@ -56,7 +57,9 @@ export function browseComponentRecords(records, { query = '', category = '', sub
     componentSearchFields(record, { source: readSource(record), category: componentBrowseCategory(record) }),
     () => record.prompt,
   )(search) >= 0) : matches;
-  return results.sort((a, b) => Number(readSource(a) === 'Motion Prompt') - Number(readSource(b) === 'Motion Prompt') ||
+  if (favoritesFirst) return results.sort(compareFavoriteNames);
+  return results.sort((a, b) => (!keyword ? compareComponentSources(readSource(a), readSource(b)) :
+    Number(readSource(a) === 'Motion Prompt') - Number(readSource(b) === 'Motion Prompt')) ||
     (!category ? (b.usage?.length || 0) - (a.usage?.length || 0) : 0) ||
     componentLoadRank(a) - componentLoadRank(b) || compareComponentTitles(a, b));
 }

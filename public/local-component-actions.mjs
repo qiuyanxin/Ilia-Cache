@@ -1,9 +1,9 @@
 import {
-  componentRequest, generatedPreview, openComponentForm, renderLocalPreviewCandidates,
+  bindComponentCategoryField, componentRequest, generatedPreview, openComponentForm, renderComponentCategoryField, renderLocalPreviewCandidates,
 } from './local-component-editor.mjs';
 import { componentWebUrl } from './component-workspace.mjs';
 import { collectionMediaEntries } from './catalog.mjs';
-import { COMPONENT_CATEGORIES, componentCategory } from './component-taxonomy.mjs';
+import { componentCategory } from './component-taxonomy.mjs';
 import { icon } from './icons.mjs';
 import { savedCasePreviewUrl } from './reference-media-model.mjs';
 
@@ -17,6 +17,41 @@ function legacyPreviews(record) {
   if (media.length) return media.slice(0, 2).map(({ url }) => ({ kind: 'image', url }));
   const url = record.kind === '案例' && savedCasePreviewUrl(record.preview);
   return url ? [{ kind: 'image', url }] : [];
+}
+
+function archiveSource(record) {
+  return componentWebUrl(record.sourcePageUrl || record.primarySourceUrl || record.sourceUrl || record.url);
+}
+
+export function componentArchiveManifest(record, files) {
+  return {
+    id: record.id,
+    name: record.name,
+    ...(record.originalName ? { originalName: record.originalName } : {}),
+    category: componentCategory(record),
+    framework: record.framework || '',
+    captureMethod: record.captureMethod || '',
+    author: record.primarySourceAuthor || record.registryAuthor || record.sourceShort || '',
+    license: record.license || '',
+    source: archiveSource(record),
+    dependencies: record.dependencies || [],
+    sourceFiles: files.map(file => file.name),
+    sourceNotice: record.sourceNotice || '',
+  };
+}
+
+export function componentArchivePrompt(record) {
+  if (record.prompt?.trim()) return record.prompt;
+  const dependencies = record.dependencies?.length ? `需要的依赖：${record.dependencies.join('、')}。` : '请先从源码 import 中核对依赖。';
+  return `请在当前项目中集成「${record.name}」组件。\n\n源码文件已经随 ZIP 提供。${dependencies}\n请适配目标项目现有的技术栈、字体、颜色和圆角，保留组件原有交互与动画。完成后运行项目并实际检查组件。`;
+}
+
+export function componentArchiveReadme(record, files) {
+  const source = archiveSource(record) || '未提供原网页，请以随附源码为准';
+  const dependencies = record.dependencies?.length ? record.dependencies.join('、') : '未单独记录，请从源码 import 中核对';
+  const author = record.primarySourceAuthor || record.registryAuthor || record.sourceShort || '未识别';
+  const license = record.license || '待确认';
+  return `# ${record.name}\n\n- 分类：${componentCategory(record)}\n- 代码格式：${record.framework || '未识别'}\n- 作者：${author}\n- 许可：${license}\n- 原始来源：${source}\n- 依赖：${dependencies}\n\n## 源码文件\n\n${files.map(file => `- ${file.name}`).join('\n')}\n\n## 使用方式\n\n1. 先阅读 PROMPT.md 和 manifest.json。\n2. 将源码文件复制到目标项目，并安装上面列出的依赖。\n3. 按目标项目的技术栈、样式系统和路径别名调整 import。\n4. 运行项目，实际检查布局、交互和动画。\n`;
 }
 
 export function createLocalComponentActions(host, acknowledgeResource) {
@@ -96,17 +131,14 @@ export function createLocalComponentActions(host, acknowledgeResource) {
   }
 
   async function downloadZip(record, files) {
-    const manifest = {
-      name: record.name, url: record.url, category: componentCategory(record),
-      id: record.id, sourceNotice: record.sourceNotice,
-    };
+    const manifest = componentArchiveManifest(record, files);
     const response = await fetch('/api/component-zip', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ files: [
         ...files,
-        { name: 'PROMPT.md', content: record.prompt || '尚无提示词' },
-        { name: 'README.md', content: `# ${record.name}\n\n来源：${record.url}\n\n原站许可与依赖请查阅来源页面。\n\n${record.sourceNotice || ''}` },
+        { name: 'PROMPT.md', content: componentArchivePrompt(record) },
+        { name: 'README.md', content: componentArchiveReadme(record, files) },
         { name: 'manifest.json', content: JSON.stringify(manifest, null, 2) },
       ] }),
     });
@@ -119,17 +151,16 @@ export function createLocalComponentActions(host, acknowledgeResource) {
   }
 
   function openLegacyEditor(dialog, record, onUpdated) {
-    const selectedCategory = componentCategory(record);
     dialog.innerHTML = `<form>
       <div class="dialog-heading"><h2 id="component-dialog-title">编辑组件</h2><button type="button" data-close aria-label="关闭">×</button></div>
       <label>名称<input name="name" value="${escape(record.name)}" required></label>
-      <label>分类<select name="category">${COMPONENT_CATEGORIES.map(category =>
-        `<option${selectedCategory === category ? ' selected' : ''}>${escape(category)}</option>`).join('')}</select></label>
+      ${renderComponentCategoryField(record)}
       <label>用途与备注<textarea name="note">${escape(record.note || record.description)}</textarea></label>
       <label>源码链接<input type="url" name="sourceUrl" value="${escape(record.sourceUrl || '')}"></label>
-      <label class="compact-file-control">${icon('upload')}<span>追加源码文件</span><input name="files" type="file" multiple hidden accept=".html,.css,.js,.mjs,.tsx,.jsx,.ts,.vue,.svelte,.json,.md,.txt"></label>
-      <button class="primary">保存修改</button> <button type="button" id="archive-component">移除组件</button>
+      <div class="dialog-actions"><label class="compact-file-control">${icon('upload')}<span>追加源码文件</span><input name="files" type="file" multiple hidden accept=".html,.css,.js,.mjs,.tsx,.jsx,.ts,.vue,.svelte,.json,.md,.txt"></label>
+      <button type="button" id="archive-component">${icon('trash')}移除组件</button><button type="submit" class="primary">保存修改</button></div>
     </form>`;
+    bindComponentCategoryField(dialog.querySelector('form'));
     dialog.querySelector('[data-close]').onclick = () => dialog.close();
     dialog.querySelector('#archive-component').onclick = () => {
       record.archived = true;
@@ -162,12 +193,13 @@ export function createLocalComponentActions(host, acknowledgeResource) {
 
   function mountManage(root, record, { read, edit, getFiles, canDownload }) {
     const canRead = !record.sourcePolicy && !record.componentRevision && sourceUrl(record);
-    root.querySelector("#copy-agent").insertAdjacentHTML('beforebegin', `
+    const actions = root.querySelector('.component-shared-actions');
+    actions.insertAdjacentHTML('beforeend', `
         <button id="fetch-source" ${canRead ? '' : 'hidden'}>读取原站源码与提示词</button>
         <button id="component-edit">编辑信息</button>
         <button id="mark-component-use">使用 ${record.usage?.length || 0} 次 ＋</button>
+        <button id="download-component">下载 ZIP</button>
         `);
-    root.querySelector("#copy-agent").insertAdjacentHTML('afterend', '<button id="download-component">下载 ZIP</button>');
     const editButton = root.querySelector('#component-edit');
     const useButton = root.querySelector('#mark-component-use');
     const download = root.querySelector('#download-component');

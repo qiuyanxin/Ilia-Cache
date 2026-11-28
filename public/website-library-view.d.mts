@@ -45,7 +45,7 @@ export const WEBSITE_SORTS: readonly (readonly [string, string])[];
 export function websiteTitle(site: WebsiteRecord): string;
 export function websiteCategories(sites: WebsiteRecord[]): string[];
 export function readWebsiteFilters(params: URLSearchParams, sites: WebsiteRecord[]): WebsiteSearch;
-export function filterWebsites<T extends WebsiteRecord>(sites: T[], options?: Partial<WebsiteSearch> & { view?: string }): T[];
+export function filterWebsites<T extends WebsiteRecord>(sites: T[], options?: Partial<WebsiteSearch> & { view?: string; favoritesFirst?: boolean }): T[];
 export function renderWebsiteRows(sites: WebsiteRecord[], options?: { selected?: string; tooltipId?: string; preview?: boolean; actions?: WebsiteActions['actions'] }): string;
 export function renderWebsiteCards(sites: WebsiteRecord[], options?: WebsiteActions & { screenshot?: (site: WebsiteRecord) => string }): string;
 export function renderWebsiteLayoutSwitch(layout: WebsiteSearch['layout']): string;

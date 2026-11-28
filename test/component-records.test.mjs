@@ -7,7 +7,7 @@ import { join } from 'node:path';
 const directory = await mkdtemp(join(tmpdir(), 'ilia-component-records-'));
 process.env.ILIA_DATA_DIR = directory;
 const {
-  addPreviewCandidate, getComponentRecord, readComponentPreview, saveComponentRecord, selectPreviewCandidate
+  addPreviewCandidate, getComponentRecord, previewComponentInput, readComponentPreview, saveComponentRecord, selectPreviewCandidate
 } = await import('../component-records.mjs');
 const { saveLibrary, loadLibrary, rebuildComponentIndex } = await import('../library-store.mjs');
 const { componentPackage } = await import('../component-packages.mjs');
@@ -16,9 +16,14 @@ after(() => rm(directory, { recursive: true, force: true }));
 test('粘贴 HTML 生成预览，原始文件留在独立源码包，旧资料可继续读取', async () => {
   const originalFile = { name: 'index.html', content: '<button onclick="this.textContent=\'On\'">Off</button>' };
   const { id, filePackage, preview, previewStatus, ...record } = await saveComponentRecord({
-    name: '本地 HTML 测试', category: '按钮与输入', prompt: '  保留原始提示词  ', framework: 'html', files: [originalFile]
+    name: '本地 HTML 测试', category: '按钮与输入', prompt: '  保留原始提示词  ', framework: 'html', files: [originalFile],
+    url: 'https://example.com/components/button', sourceAuthor: '@example', license: 'MIT', dependencies: ['motion']
   });
-  assert.equal(record.url, '');
+  assert.equal(record.url, 'https://example.com/components/button');
+  assert.equal(record.primarySourceAuthor, '@example');
+  assert.equal(record.primarySourceUrl, record.url);
+  assert.equal(record.license, 'MIT');
+  assert.deepEqual(record.dependencies, ['motion']);
   assert.equal(record.prompt, '  保留原始提示词  ');
   assert.equal(record.files, undefined);
   assert.equal(previewStatus.status, 'ready');
@@ -35,6 +40,15 @@ test('粘贴 HTML 生成预览，原始文件留在独立源码包，旧资料�
   assert.deepEqual(failed.promptHistory, [record.prompt]);
   assert.notEqual(failed.filePackage, filePackage);
   assert.equal((await getComponentRecord(id)).filePackage, failed.filePackage);
+});
+
+test('兼容预览成功时仍向界面说明适配范围', async () => {
+  const result = await previewComponentInput({
+    framework: 'react',
+    files: [{ name: 'Preview.tsx', content: `import Image from 'next/image'; export default function Preview(){ return <Image src="/demo.png" alt="Demo" width={40} height={40} /> }` }],
+  });
+  assert.equal(result.status, 'ready');
+  assert.match(result.message, /原源码不会修改/);
 });
 
 test('链接去重，Agent 候选提交幂等，旧网页的使用记录不会覆盖已选预览', async () => {

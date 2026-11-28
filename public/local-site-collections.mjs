@@ -36,7 +36,7 @@ export function installLocalSiteCollections(h) {
   });
 
   function addToCart(site) {
-    h.projects?.addReferenceToCart({
+    h.projects?.addReference({
       id: 'site:' + site.id, type: 'website', name: site.name,
       image: screenshot(site), url: site.url,
     });
@@ -207,7 +207,7 @@ export function installLocalSiteCollections(h) {
       image.onerror = () => refreshIcon(image, container, site);
       const actions = document.createElement('div');
       actions.className = 'site-row-actions';
-      actions.innerHTML = `<button data-site-add="${escape(id)}" aria-label="加入待选 ${escape(name)}" title="加入待选">＋</button>
+      actions.innerHTML = `<button data-site-add="${escape(id)}" aria-label="加入项目 ${escape(name)}" title="加入项目">＋</button>
         <button data-site-edit="${escape(id)}" aria-label="修改 ${escape(name)} 名称与域名" title="修改名称与域名">✎</button>
         <button data-site-delete="${escape(id)}" aria-label="删除 ${escape(name)}" title="删除网站">×</button>`;
       row.append(actions);

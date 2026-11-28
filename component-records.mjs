@@ -77,6 +77,12 @@ function frameworkOf(value) {
   throw new ComponentRecordError('预览支持 HTML 或 React。');
 }
 
+function dependencyList(value) {
+  if (value === undefined) return undefined;
+  if (!Array.isArray(value) || value.length > 80) throw new ComponentRecordError('依赖列表格式不正确。');
+  return [...new Set(value.map(entry => text(entry, 200, '依赖名称')).filter(Boolean))];
+}
+
 function idOf(value) {
   if (typeof value !== 'string' || !componentId.test(value)) throw new ComponentRecordError('组件编号无效。');
   return value;
@@ -116,7 +122,7 @@ async function preparePreview(files, framework, sourceRevision) {
   if (status !== 'ready' || typeof preview?.srcdoc !== 'string') return { status, message };
   const name = digest(preview.srcdoc);
   await writeContent(new URL('previews/' + name + '.html', libraryDirectory), preview.srcdoc);
-  return { status: 'ready', preview: { kind: 'html', url: '/api/component-previews/' + name, sourceRevision } };
+  return { status: 'ready', ...(message ? { message } : {}), preview: { kind: 'html', url: '/api/component-previews/' + name, sourceRevision } };
 }
 
 export async function previewComponentInput(input) {
@@ -148,6 +154,11 @@ export async function saveComponentRecord(input) {
   const license = input.license === undefined ? undefined : text(input.license, 4_000, '许可');
   const files = sourceFiles(input.files ?? []);
   const framework = frameworkOf(input.framework);
+  const dependencies = dependencyList(input.dependencies);
+  const registryUrl = input.registryUrl === undefined ? undefined : webUrl(input.registryUrl, 'Registry 链接', { preserveLink: true });
+  const installCommand = input.installCommand === undefined ? undefined : text(input.installCommand, 6_000, '安装命令', false);
+  const registryAuthor = input.registryAuthor === undefined ? undefined : text(input.registryAuthor, 200, 'Registry 作者');
+  const sourceAuthor = input.sourceAuthor === undefined ? undefined : text(input.sourceAuthor, 200, '源码作者');
   if (!id && !url && !files.length) throw new ComponentRecordError('请粘贴代码或组件原页链接。');
   const sourceRevision = files.length ? digest(JSON.stringify({ files, framework })) : null;
 
@@ -197,9 +208,31 @@ export async function saveComponentRecord(input) {
       const packageId = 'local-' + sourceRevision;
       const built = await preparePreview(files, framework, sourceRevision);
       await writeContent(new URL('packages/' + packageId + '.json', libraryDirectory),
-        JSON.stringify({ id: packageId, framework, files }, null, 2));
-      record.captureMethod = 'code';
+        JSON.stringify({ id: packageId, framework, files, ...(dependencies?.length ? { dependencies } : {}) }, null, 2));
+      record.captureMethod = registryUrl ? 'registry' : 'code';
       record.framework = framework;
+      if (dependencies !== undefined) record.dependencies = dependencies;
+      if (registryUrl !== undefined) record.registryUrl = registryUrl;
+      if (installCommand !== undefined) record.installCommand = installCommand;
+      if (registryAuthor !== undefined) {
+        record.registryAuthor = registryAuthor;
+        if (registryAuthor) {
+          record.primarySourceAuthor ||= registryAuthor;
+          record.sourceShort ||= registryAuthor;
+        }
+      }
+      if (sourceAuthor !== undefined) {
+        record.primarySourceAuthor = sourceAuthor;
+        if (sourceAuthor) record.sourceShort = sourceAuthor;
+      }
+      if (registryUrl) {
+        record.primarySourceUrl ||= registryUrl;
+        record.primarySourceKind ||= 'implementation-source';
+      }
+      if (url && sourceAuthor) {
+        record.primarySourceUrl = url;
+        record.primarySourceKind ||= 'implementation-source';
+      }
       record.sourceRevision = sourceRevision;
       record.filePackage = packageId;
       record.sourceFiles = files.map(({ name }) => ({ name }));

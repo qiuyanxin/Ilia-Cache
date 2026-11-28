@@ -1,5 +1,13 @@
 import { icon } from './icons.mjs';
 
+const names = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
+const recordName = record => record.originalName || record.name || '';
+const recordFavorite = record => record.favorite;
+
+export function compareFavoriteNames(a, b, name = recordName, isFavorite = recordFavorite) {
+  return Number(Boolean(isFavorite(b))) - Number(Boolean(isFavorite(a))) || names.compare(name(a), name(b));
+}
+
 export const esc = value => String(value ?? '').replace(/[&<>"']/g, char => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
 })[char]);

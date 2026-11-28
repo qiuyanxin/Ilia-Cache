@@ -18035,11 +18035,11 @@
     "originalName": "Modal open / close",
     "originalDescription": "Modal dialogs and full-overlay surfaces that scale up from center. Use when the surface is conceptually \"on top of\" the page rather than anchored to a trigger.",
     "localPoster": "/component-posters/transitions-modal.jpg",
-    "externalPreview": "https://transitions.dev/detail.html?t=modal",
+    "externalPreview": "https://transitions.dev/detail.html?t=modal-open-close",
     "primarySourceAuthor": "Jakub Antalík",
     "sourceShort": "Transitions.dev",
     "sourcePolicy": "official-source-only",
-    "sourcePageUrl": "https://transitions.dev/detail.html?t=modal",
+    "sourcePageUrl": "https://transitions.dev/detail.html?t=modal-open-close",
     "sourcePageKind": "primary"
   },
   {
@@ -18260,11 +18260,11 @@
     "originalName": "Input clear with dissolve",
     "originalDescription": "Clearing a text field — search box, filter input, any field with a clear (×) button. The typed text flies down + blurs + fades while a soft per-word streak ignites under each word, and the placeholder falls in from above. Per-frame JS is required: the streak envelope and per-word gradient stack cannot be expressed as static @keyframes.",
     "localPoster": "/component-posters/transitions-input-clear-dissolve.jpg",
-    "externalPreview": "https://transitions.dev/detail.html?t=input-clear-dissolve",
+    "externalPreview": "https://transitions.dev/detail.html?t=input-clear-with-dissolve",
     "primarySourceAuthor": "Jakub Antalík",
     "sourceShort": "Transitions.dev",
     "sourcePolicy": "official-source-only",
-    "sourcePageUrl": "https://transitions.dev/detail.html?t=input-clear-dissolve",
+    "sourcePageUrl": "https://transitions.dev/detail.html?t=input-clear-with-dissolve",
     "sourcePageKind": "primary"
   },
   {
@@ -18291,11 +18291,11 @@
     "originalName": "Skeleton loader and reveal",
     "originalDescription": "A placeholder that loads then reveals real content — list rows, cards, profile headers. The skeleton pulses, then both layers cross-fade with a matching cross-blur. Bring your own bars / avatar / text; the skeleton stays in the same slot as the content so the swap is layout-free.",
     "localPoster": "/component-posters/transitions-skeleton-reveal.jpg",
-    "externalPreview": "https://transitions.dev/detail.html?t=skeleton-reveal",
+    "externalPreview": "https://transitions.dev/detail.html?t=skeleton-loader-and-reveal",
     "primarySourceAuthor": "Jakub Antalík",
     "sourceShort": "Transitions.dev",
     "sourcePolicy": "official-source-only",
-    "sourcePageUrl": "https://transitions.dev/detail.html?t=skeleton-reveal",
+    "sourcePageUrl": "https://transitions.dev/detail.html?t=skeleton-loader-and-reveal",
     "sourcePageKind": "primary"
   },
   {
@@ -18384,11 +18384,11 @@
     "originalName": "Tooltip open/close",
     "originalDescription": "A hover/focus tooltip that fades + scales in with a short appear-delay but disappears immediately on leave. Pure CSS — the wrap (not the trigger) is the hover target so the pointer can drift onto the tooltip without flicker.",
     "localPoster": "/component-posters/transitions-tooltip.jpg",
-    "externalPreview": "https://transitions.dev/detail.html?t=tooltip",
+    "externalPreview": "https://transitions.dev/detail.html?t=tooltip-open-close",
     "primarySourceAuthor": "Jakub Antalík",
     "sourceShort": "Transitions.dev",
     "sourcePolicy": "official-source-only",
-    "sourcePageUrl": "https://transitions.dev/detail.html?t=tooltip",
+    "sourcePageUrl": "https://transitions.dev/detail.html?t=tooltip-open-close",
     "sourcePageKind": "primary"
   },
   {
@@ -18446,11 +18446,11 @@
     "originalName": "Card hover tilt",
     "originalDescription": "A card / tile / media surface that tilts in 3D toward the pointer while hovered, with a soft light \"glare\" tracking the cursor across it. Use for product cards, credit / membership cards, feature tiles, cover art �� anything that should feel physical and reactive on hover. Pointer-only (skips touch) and flattens under reduced motion.",
     "localPoster": "/component-posters/transitions-card-tilt.jpg",
-    "externalPreview": "https://transitions.dev/detail.html?t=card-tilt",
+    "externalPreview": "https://transitions.dev/detail.html?t=3d-tilt",
     "primarySourceAuthor": "Jakub Antalík",
     "sourceShort": "Transitions.dev",
     "sourcePolicy": "official-source-only",
-    "sourcePageUrl": "https://transitions.dev/detail.html?t=card-tilt",
+    "sourcePageUrl": "https://transitions.dev/detail.html?t=3d-tilt",
     "sourcePageKind": "primary"
   },
   {
@@ -18477,11 +18477,11 @@
     "originalName": "Plus to menu morph",
     "originalDescription": "A small circular trigger (a \"+\" FAB, a compose button, an add-action affordance) that **morphs into the menu / panel it opens** instead of popping a separate surface next to it. The button's box grows in width / height and relaxes its corner radius into a rounded panel while the plus icon cross-fades + rotates out and the menu content slides in.",
     "localPoster": "/component-posters/transitions-plus-menu-morph.jpg",
-    "externalPreview": "https://transitions.dev/detail.html?t=plus-menu-morph",
+    "externalPreview": "https://transitions.dev/detail.html?t=gooey-plus-menu",
     "primarySourceAuthor": "Jakub Antalík",
     "sourceShort": "Transitions.dev",
     "sourcePolicy": "official-source-only",
-    "sourcePageUrl": "https://transitions.dev/detail.html?t=plus-menu-morph",
+    "sourcePageUrl": "https://transitions.dev/detail.html?t=gooey-plus-menu",
     "sourcePageKind": "primary"
   },
   {
@@ -18539,11 +18539,11 @@
     "originalName": "Toast open/close",
     "originalDescription": "Toasts, snackbars, and transient confirmations that rise into view from the bottom edge — \"Saved\", \"Copied\", \"Message sent\". The toast translates up with a fade, a slight scale, and a cross-blur; opening runs on the slower open clock while dismissing uses the faster close clock, so arriving feels deliberate and leaving feels snappy.",
     "localPoster": "/component-posters/transitions-toast.jpg",
-    "externalPreview": "https://transitions.dev/detail.html?t=toast",
+    "externalPreview": "https://transitions.dev/detail.html?t=toast-open-close",
     "primarySourceAuthor": "Jakub Antalík",
     "sourceShort": "Transitions.dev",
     "sourcePolicy": "official-source-only",
-    "sourcePageUrl": "https://transitions.dev/detail.html?t=toast",
+    "sourcePageUrl": "https://transitions.dev/detail.html?t=toast-open-close",
     "sourcePageKind": "primary"
   },
   {
@@ -18849,11 +18849,11 @@
     "originalName": "Matrix dot loader",
     "originalDescription": "Tiny inline loaders built from a 4×4 matrix of 2px dots. All four variants share one colour-pulse keyframe; a per-dot delay table gives each its motion character — a column scan, a randomized-looking twinkle, a perimeter orbit, a centre-out pulse. Rounded variants drop the four corner dots.",
     "localPoster": "/component-posters/transitions-matrix-loader.jpg",
-    "externalPreview": "https://transitions.dev/detail.html?t=matrix-loader",
+    "externalPreview": "https://transitions.dev/detail.html?t=matrix-dot-loader",
     "primarySourceAuthor": "Jakub Antalík",
     "sourceShort": "Transitions.dev",
     "sourcePolicy": "official-source-only",
-    "sourcePageUrl": "https://transitions.dev/detail.html?t=matrix-loader",
+    "sourcePageUrl": "https://transitions.dev/detail.html?t=matrix-dot-loader",
     "sourcePageKind": "primary"
   },
   {
@@ -52909,7 +52909,7 @@
     "id": "ilia-holo-pack",
     "name": "光谱卡包",
     "originalName": "Holographic Card Pack",
-    "url": "https://github.com/qiuyanxin/Ilia-Cache/tree/main/public/motion/holo-pack",
+    "url": "https://holo.yashb.xyz/",
     "kind": "案例",
     "caseType": "组件",
     "category": "组件",
@@ -52921,11 +52921,11 @@
       "拆包动效"
     ],
     "thumbnailFrame": "/motion/holo-pack/index.html",
-    "primarySourceAuthor": "Ilia",
-    "primarySourceKind": "original",
-    "primarySourceUrl": "https://github.com/qiuyanxin/Ilia-Cache/tree/main/public/motion/holo-pack",
-    "sourceShort": "原创",
-    "sourcePageUrl": "https://github.com/qiuyanxin/Ilia-Cache/tree/main/public/motion/holo-pack",
+    "primarySourceAuthor": "Holo",
+    "primarySourceKind": "互动设计参考",
+    "primarySourceUrl": "https://holo.yashb.xyz/",
+    "sourceShort": "Holo",
+    "sourcePageUrl": "https://holo.yashb.xyz/",
     "sourcePageKind": "primary",
     "sourcePolicy": "source-link-only",
     "license": "以原始项目的许可说明为准",

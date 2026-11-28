@@ -1,0 +1,42 @@
+.card[data-finish] .secret-foil {
+  display: block;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.card:not([data-finish=angel]) .secret-foil {
+  background-image:
+    url('../r02/foil-grain.png'),
+    linear-gradient(133deg, #fff9 1%, #fff0 29%, #f8f5ff9c 48%, #fff0 69%, #fff9 96%),
+    var(--prism);
+  background-size: 96px 96px, 180% 155%, 185% 170%;
+  background-position: 0 0, calc(50% - var(--light-x)) calc(50% + var(--light-y)),
+    calc(43% + var(--light-x)) calc(56% - var(--light-y));
+  opacity: .73;
+}
+.card:not([data-finish=angel]) .secret-foil::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--texture);
+  opacity: .39;
+  mask-image: linear-gradient(#000 0%, #0007 38%, #000a 69%, #000);
+}
+.card[data-finish=angel] .secret-foil {
+  background-size: 86px 86px, 158% 150%, 100% 100%;
+  filter: saturate(1.22);
+}
+.card[data-finish] .foil { filter: saturate(1.22); }
+.card[data-finish] .glass-coat {
+  background-image:
+    linear-gradient(122deg, transparent 37%, #fffdf577 39%, #fffef348 47%, #f1f9ff16 51%, transparent 55%),
+    radial-gradient(ellipse at calc(48% + var(--light-x)) calc(37% - var(--light-y)), #fff9, #fff2 39%, transparent 65%);
+  background-size: 200% 100%, 100% 100%;
+  background-position: calc(47% - var(--light-x)) 0, center;
+  mask-image: linear-gradient(#000, #0009 66%, #0005 100%);
+}
+.card[data-finish] :is(.card-copy, .card-number, .card-type) {
+  text-shadow: 0 1px 2px #fffc, 0 0 5px #fffa;
+}

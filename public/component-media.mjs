@@ -9,6 +9,13 @@ import { hasOriginalMotionBundle } from './component-taxonomy.mjs';
 const escape = value => String(value ?? '').replace(/[&<>"']/g, character =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
 
+export function componentFramePermissions(url) {
+  const kashPack = '/motion/kash-card-pack/builds/kash-series/complete/index.html';
+  return url === kashPack || url.startsWith('/native-preview.html')
+    ? 'allow-scripts allow-same-origin'
+    : 'allow-scripts';
+}
+
 function iframeThumbnail(name, url, permissions = 'allow-scripts', deferred = false) {
   return `<iframe tabindex="-1" title="${escape(name)}" sandbox="${permissions}" ${deferred ? 'data-src' : 'src'}="${escape(url)}" loading="lazy"></iframe>`;
 }
@@ -37,9 +44,12 @@ function catalogThumbnail(record) {
 function knownComponentThumbnail(record, motionAssetPrefix) {
   const { name, referencePreview, preview, soundRecipe, previewVideo, previewPoster,
     thumbnailFrame, localPoster, builtin, builtinNative } = record;
+  if (hasOriginalMotionBundle(record)) {
+    return `<span data-card-original-motion="${escape(record.id)}"><span class="component-code-card" role="status">正在加载动效…</span></span>`;
+  }
   const reference = referenceMedia(referencePreview, name, { card: true });
   if (reference) return reference;
-  if (preview?.kind === 'html' || hasOriginalMotionBundle(record)) return cardPlaceholder('interaction');
+  if (preview?.kind === 'html') return cardPlaceholder('interaction');
   const official = soundRecipe ? null : officialPreviewForRecord(record);
   if (official?.kind === 'image') return referenceMedia(official, name, { card: true });
   if (official?.kind === 'html') return cardPlaceholder('interaction');
@@ -50,9 +60,7 @@ function knownComponentThumbnail(record, motionAssetPrefix) {
   const video = previewVideo && referenceMedia({ kind: 'video', url: previewVideo, poster: previewPoster }, name, { card: true });
   if (video) return video;
   if (thumbnailFrame) {
-    const permissions = thumbnailFrame.startsWith('/native-preview.html')
-      ? 'allow-scripts allow-same-origin' : 'allow-scripts';
-    return iframeThumbnail(name, thumbnailFrame, permissions);
+    return iframeThumbnail(name, thumbnailFrame, componentFramePermissions(thumbnailFrame));
   }
   if (localPoster) return cardImage(localPoster, name);
   if (builtin || builtinNative) return iframeThumbnail(name, '/motion/' + (builtin || builtinNative) + '.html');
@@ -76,8 +84,7 @@ export function componentMedia(record, { motionAssetPrefix, legacyPreviews, deta
       return `<video class="component-video" muted loop playsinline preload="none"${poster} data-src="${escape(record.previewVideo)}" aria-label="${escape(record.name)} 动态预览"></video>`;
     }
     if (record.thumbnailFrame) {
-      const permissions = record.thumbnailFrame.startsWith('/native-preview.html') ? 'allow-scripts allow-same-origin' : 'allow-scripts';
-      return iframeThumbnail(record.name, record.thumbnailFrame, permissions, true);
+      return iframeThumbnail(record.name, record.thumbnailFrame, componentFramePermissions(record.thumbnailFrame), true);
     }
     if (record.localPoster) return cardImage(record.localPoster, record.name);
     if (record.builtin || record.builtinNative) {
@@ -249,8 +256,8 @@ export function installDetailMediaPlayback(root) {
   };
 }
 
-/** Manage video hover and iframe scaling for the lifetime of a directory grid. */
-export function installCardPreviews(root) {
+/** Mount visible original demos and manage ordinary video hover previews. */
+export function installCardPreviews(root, loadOriginalMotion) {
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const positions = new WeakMap();
   let active;
@@ -273,6 +280,36 @@ export function installCardPreviews(root) {
     video.removeAttribute('src');
     video.load();
   }
+  const motionVisibility = new IntersectionObserver(entries => {
+    for (const {target, isIntersecting} of entries) {
+      if (!isIntersecting) continue;
+      motionVisibility.unobserve(target);
+      if (root.contains(target) && !target.hasAttribute('data-motion-started')) mountOriginalMotion(target);
+    }
+  }, { rootMargin: '160px 0px' });
+
+  async function mountOriginalMotion(stage) {
+    stage.dataset.motionStarted = '';
+    let source;
+    try {
+      source = await loadOriginalMotion(stage.dataset.cardOriginalMotion);
+    } catch {}
+    if (!root.contains(stage)) {
+      delete stage.dataset.motionStarted;
+      return;
+    }
+    if (!source) {
+      stage.querySelector('[role="status"]').textContent = '预览加载失败，打开详情重试';
+      return;
+    }
+    const frame = document.createElement('iframe');
+    frame.className = 'component-card-motion';
+    frame.title = stage.closest('.component-thumb').getAttribute('aria-label');
+    frame.sandbox = 'allow-scripts';
+    frame.srcdoc = source.replace('<main>', '<style>.stage .replay,.stage .cat-tag{display:none}</style><main>');
+    stage.replaceChildren(frame);
+  }
+
   root.addEventListener('pointerenter', event => {
     const card = event.target;
     if (!card.matches('.component-thumb') || event.pointerType === 'touch' || document.hidden || reduceMotion.matches) return;
@@ -316,7 +353,7 @@ export function installCardPreviews(root) {
 
   const resize = new ResizeObserver(entries => {
     for (const { target } of entries) {
-      const frame = target.querySelector('iframe');
+      const frame = target.querySelector('iframe:not(.component-card-motion,.motion-prompt-thumb)');
       if (!frame?.offsetWidth || !frame.offsetHeight) continue;
       const scale = Math.min(target.clientWidth / frame.offsetWidth, target.clientHeight / frame.offsetHeight);
       frame.style.transform = `translate(-50%,-50%) scale(${scale})`;
@@ -325,7 +362,12 @@ export function installCardPreviews(root) {
   function refresh() {
     if (active && !root.contains(active.card)) pause();
     resize.disconnect();
-    for (const box of root.querySelectorAll('.component-thumb:has(iframe:not(.motion-prompt-thumb))')) resize.observe(box);
+    for (const box of root.querySelectorAll('.component-thumb:has(iframe:not(.component-card-motion,.motion-prompt-thumb))')) resize.observe(box);
+    motionVisibility.disconnect();
+    if (!loadOriginalMotion) return;
+    for (const stage of root.querySelectorAll('[data-card-original-motion]:not([data-motion-started])')) {
+      motionVisibility.observe(stage);
+    }
   }
   installPreviewRecovery(root);
   return { refresh, pause };
@@ -338,10 +380,10 @@ export function pauseCollectionPreviews(root) {
   deferredWorkbenches.get(root)?.disconnect();
 }
 
-export function connectCollectionPreviews(root) {
+export function connectCollectionPreviews(root, loadOriginalMotion) {
   let preview = collectionPreviewControllers.get(root);
   if (!preview) {
-    preview = installCardPreviews(root);
+    preview = installCardPreviews(root, loadOriginalMotion);
     collectionPreviewControllers.set(root, preview);
   }
   preview.refresh();

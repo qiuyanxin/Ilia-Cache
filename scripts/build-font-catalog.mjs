@@ -25,9 +25,9 @@ const rows=picked.map(f=>({
 }));
 
 rows.unshift(
- {id:'guange-kai',name:'館閣楷 GuanGe Kai',source:'wainshine/guangeti',sourceUrl:'https://github.com/wainshine/guangeti',category:'中文',chinese:true,license:'SIL Open Font License 1.1',commercial:'免费商用'},
- {id:'xiangcui-chaoxisong',name:'香萃潮汐宋',source:'Miiiller/Xiangcui-Chaoxisong',sourceUrl:'https://github.com/Miiiller/Xiangcui-Chaoxisong',category:'中文',chinese:true,license:'SIL Open Font License 1.1',commercial:'免费商用'},
- {id:'qiji-font',name:'齊伋體 Qiji',source:'LingDong-/qiji-font',sourceUrl:'https://github.com/LingDong-/qiji-font',category:'中文',chinese:true,license:'SIL Open Font License 1.1',commercial:'免费商用'},
+ {id:'guange-kai',name:'館閣楷 GuanGe Kai',source:'wainshine/guangeti',sourceUrl:'https://github.com/wainshine/guangeti',category:'手写',chinese:true,license:'SIL Open Font License 1.1',commercial:'免费商用',fontUrl:'/fonts/guange-kai-v1.7.3.woff2',localFamily:'Ilia GuanGe Kai'},
+ {id:'xiangcui-chaoxisong',name:'香萃潮汐宋',source:'Miiiller/Xiangcui-Chaoxisong',sourceUrl:'https://github.com/Miiiller/Xiangcui-Chaoxisong',category:'衬线',chinese:true,license:'SIL Open Font License 1.1',commercial:'免费商用',fontUrl:'/fonts/xiangcui-chaoxisong-w40.woff2',localFamily:'Ilia Xiangcui Chaoxisong'},
+ {id:'qiji-font',name:'齊伋體 Qiji',source:'LingDong-/qiji-font',sourceUrl:'https://github.com/LingDong-/qiji-font',category:'衬线',chinese:true,license:'SIL Open Font License 1.1',commercial:'免费商用',fontUrl:'/fonts/qiji-combo-v0.0.4.woff2',localFamily:'Ilia Qiji'},
  {id:'nonflowers',name:'Nonflowers',source:'LingDong-/nonflowers',sourceUrl:'https://github.com/LingDong-/nonflowers',category:'实验项目',chinese:false,license:'MIT',commercial:'代码可商用',note:'这是工笔花卉程序生成项目，不是字体家族。'}
 );
 fs.writeFileSync('public/font-catalog.json',JSON.stringify(rows,null,2));

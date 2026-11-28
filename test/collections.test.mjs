@@ -1,5 +1,12 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';
-import {parseCapture} from '../public/capture-model.mjs';import {conciseTitle} from '../public/catalog.mjs';import {parsePinterest} from '../pinterest.mjs';
+import {detectCaptureInput,parseCapture} from '../public/capture-model.mjs';import {conciseTitle} from '../public/catalog.mjs';import {parsePinterest} from '../pinterest.mjs';
+test('统一输入可辨认组件命令、代码以及所在资料库的网址',()=>{
+ assert.deepEqual(detectCaptureInput('npx shadcn@latest add https://kokonutui.com/r/smooth-tab.json'),{kind:'component',mode:'registry',label:'组件安装命令'});
+ assert.equal(detectCaptureInput('export function Menu(){ return <nav /> }').mode,'source');
+ assert.equal(detectCaptureInput('https://example.com/page',[],'page').kind,'page');
+ assert.equal(detectCaptureInput('https://example.com',[],'website').kind,'website');
+ assert.equal(detectCaptureInput('https://example.com/component',[],'component').mode,'link');
+});
 test('长英文组件提示词与链接可直接分类，原文由调用方完整保留',()=>{const s='Add the "Copy button" animated component to my project.\nhttps://designbookmark.com/motion#db-copy-button\nCode: https://designbookmark.com/motion-src/copy-button/index.html';const r=parseCapture(s);assert.equal(r.title,'Copy button');assert.equal(r.category,'组件');assert.equal(r.source,'https://designbookmark.com/motion#db-copy-button');assert.equal(r.urls.length,2);});
 test('图片、视频提示词分别分类，纯文字先进入待整理',()=>{assert.equal(parseCapture('用 Seedream 生图，保持柔光').category,'图片提示词');assert.equal(parseCapture('Seedance 视频提示词，镜头推近').category,'视频提示词');assert.equal(parseCapture('记住这组留白和字距').category,'待整理');assert.equal(parseCapture('',[{name:'参考.png'}]).title,'参考.png');});
 test('GitHub 标题只用项目名，不把 README 或整段介绍塞进标题',()=>{assert.equal(conciseTitle({url:'https://github.com/danielwh2/cuelume',pageTitle:'danielwh2/cuelume: Cuelume is a curated sound palette, not an audio engine.'}),'Cuelume');assert.equal(conciseTitle({url:'https://github.com/nexu-io/motion-anything/blob/main/README.zh-CN.md'}),'Motion Anything');});

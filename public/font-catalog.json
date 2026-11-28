@@ -4,30 +4,36 @@
     "name": "館閣楷 GuanGe Kai",
     "source": "wainshine/guangeti",
     "sourceUrl": "https://github.com/wainshine/guangeti",
-    "category": "中文",
+    "category": "手写",
     "chinese": true,
     "license": "SIL Open Font License 1.1",
-    "commercial": "免费商用"
+    "commercial": "免费商用",
+    "fontUrl": "/fonts/guange-kai-v1.7.3.woff2",
+    "localFamily": "Ilia GuanGe Kai"
   },
   {
     "id": "xiangcui-chaoxisong",
     "name": "香萃潮汐宋",
     "source": "Miiiller/Xiangcui-Chaoxisong",
     "sourceUrl": "https://github.com/Miiiller/Xiangcui-Chaoxisong",
-    "category": "中文",
+    "category": "衬线",
     "chinese": true,
     "license": "SIL Open Font License 1.1",
-    "commercial": "免费商用"
+    "commercial": "免费商用",
+    "fontUrl": "/fonts/xiangcui-chaoxisong-w40.woff2",
+    "localFamily": "Ilia Xiangcui Chaoxisong"
   },
   {
     "id": "qiji-font",
     "name": "齊伋體 Qiji",
     "source": "LingDong-/qiji-font",
     "sourceUrl": "https://github.com/LingDong-/qiji-font",
-    "category": "中文",
+    "category": "衬线",
     "chinese": true,
     "license": "SIL Open Font License 1.1",
-    "commercial": "免费商用"
+    "commercial": "免费商用",
+    "fontUrl": "/fonts/qiji-combo-v0.0.4.woff2",
+    "localFamily": "Ilia Qiji"
   },
   {
     "id": "nonflowers",

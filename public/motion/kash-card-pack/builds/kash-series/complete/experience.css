@@ -1,0 +1,145 @@
+[hidden] { display: none !important; }
+main { min-height: 100svh; }
+.heading { position: relative; margin-bottom: 23px; padding-right: 92px; }
+.heading h1 { font: 400 clamp(43px, 6.5vw, 82px)/1 "Lobster", serif; letter-spacing: -.035em; }
+.heading p { margin-top: 8px; font-size: 15px; }
+#toggle-sound { position: absolute; top: 0; right: 0; }
+#toggle-sound, .result button {
+  border: 1px solid #b2a497; border-radius: 20px; background: #fffaf0;
+  color: #403327; padding: 7px 13px; font: inherit; font-size: 12px; cursor: pointer; text-decoration: none;
+}
+.experience { position: relative; isolation: isolate; display: grid; place-items: center; min-height: min(57svh, 510px); }
+.experience .package { grid-area: 1 / 1; position: relative; z-index: 2; width: min(63vw, 35svh, 252px); }
+.experience .wrap-front { overflow: visible; }
+.experience .wrap-front .tear-strip { background-color: var(--paper); }
+.ribbon-canvas { position: absolute; z-index: 3; width: 100%; height: 100%; inset: 0; pointer-events: none; }
+.drawn {
+  grid-area: 1 / 1; z-index: 1; width: min(100%, 990px); display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start;
+  gap: clamp(12px, 3.6vw, 49px); perspective: 1050px;
+}
+.drawn .sample { width: auto; }
+.drawn.is-flying { pointer-events: none; }
+.drawn .sample[data-reveal-secret] .card { animation: secret-glint 1.15s ease-out; }
+@keyframes secret-glint {
+  0% { filter: drop-shadow(0 0 28px #fcae29) brightness(1.26); }
+  100% { filter: drop-shadow(0 0 0 transparent) brightness(1); }
+}
+.result { margin: 19px auto 0; text-align: center; }
+.result button { background: #342b24; color: #fff9ef; border-color: #342b24; padding-inline: 19px; }
+@media (max-width: 620px) {
+  .experience { min-height: min(48svh, 420px); }
+  .drawn { width: min(100%, 415px); gap: 10px; grid-template-columns: repeat(2, minmax(0, 1fr)); padding-top: 15px; }
+  .drawn:not(:has(.card[data-finish=angel])) .sample:nth-child(3),
+  .drawn .sample:has(> .card[data-finish=angel]) {
+    grid-area: 2 / 1 / auto / -1;
+    width: calc((100% - 10px) / 2);
+    justify-self: center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .drawn .sample[data-reveal-secret] .card { animation: none; }
+}
+.ribbon-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+.package.is-opening :is(#cover-status, .cover-actions) { visibility: hidden; }
+.loose-seal { position: fixed; z-index: 6; pointer-events: none; }
+.experience .wrapper > span { pointer-events: none; }
+.drawn .sample { position: relative; }
+.drawn:not(.is-flying) .sample.is-raised { z-index: 10; }
+.drawn .card-plane {
+  pointer-events: none;
+  transform: translate3d(0, var(--hover-height, 0px), var(--hover-depth, 0px))
+    rotateX(var(--turn-x)) rotateY(var(--turn-y));
+}
+@media (prefers-reduced-motion: reduce) {
+  .drawn .card-plane { transform: none; }
+}
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; clip-path: inset(50%);
+  overflow: hidden; white-space: nowrap;
+}
+body { background: var(--paper); color: var(--ink); overflow-x: clip; }
+.heading p, .package #cover-status { color: var(--secondary); }
+#toggle-sound, .cover-actions button, .result #open-again {
+  background: var(--raised); color: var(--ink); border-color: var(--line);
+}
+.result { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 13px; }
+.creation-link {
+  display: inline-grid; place-items: center; min-width: 168px; height: 52px;
+  border-radius: 26px; color: #fff; text-decoration: none; font-size: 14px; font-weight: 650;
+}
+.creation-link > span {
+  display: flex; width: 100%; height: 100%; gap: 10px; align-items: center; justify-content: center;
+  border: 1px solid #747474; border-radius: inherit; pointer-events: none;
+  background: #151515;
+  box-shadow: 0 7px 21px #00000036, inset 0 1px 0 #ffffff24;
+}
+.creation-link:focus-visible { outline: 2px solid var(--secondary); outline-offset: 4px; }
+.drawn .card:focus-visible { outline-color: var(--secondary); }
+.drawn :is(.card-turn, .card-front, .card-back) { position: absolute; inset: 0; border-radius: inherit; }
+.drawn .card-turn {
+  transform-style: preserve-3d;
+  transition: transform .62s cubic-bezier(.28,.75,.22,1);
+}
+.drawn .card[aria-pressed=true] .card-turn { transform: rotateY(180deg); }
+.drawn .card-front { transform-style: preserve-3d; }
+.drawn :is(.card-front, .card-back) { backface-visibility: hidden; }
+.drawn .card-front { transition: visibility 0s .30s; }
+.drawn .card[aria-pressed=true] .card-front { visibility: hidden; }
+.drawn .card-back {
+  display: grid; place-items: center; padding: 10%;
+  transform: rotateY(180deg);
+  color: var(--ink); text-align: center;
+}
+.drawn .card-back .glass-coat { transform: none; }
+.card-message {
+  position: relative; z-index: 1; display: grid; gap: .52em;
+  font-size: clamp(10px, 5.7cqw, 17px); font-weight: 400; line-height: 1.66;
+  text-shadow: 0 1px 3px #fffd, 0 0 8px #fffc; text-wrap: pretty;
+}
+@media (prefers-reduced-motion: reduce) {
+  .drawn :is(.card-turn, .card-front) { transition: none; }
+}
+.experience .wrap-front, .loose-seal { transform-origin: 0 0; }
+.experience .wrap-front::after {
+  content: "";
+  position: absolute; inset: 0; border-radius: inherit;
+  pointer-events: none; opacity: var(--pack-pressure, 0);
+  background: linear-gradient(109deg, #64432225, transparent 23%, #fff5d847 48%, transparent 61%, #5e3f2e31);
+}
+.experience .wrap-front { transition: none; }
+.seal-segment {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 0;
+  background:
+    repeating-linear-gradient(94deg, #8a634746 0 1px, #fffdf270 1px 2px, transparent 2px 5px),
+    linear-gradient(16deg, #6c493884, transparent 17%, #fff8de, transparent 27%), var(--paper);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .drawn:not(.is-flying) .sample:not(.is-raised) .card-plane {
+    animation: card-idle 4.8s ease-in-out infinite;
+  }
+  .drawn .sample:nth-child(2) .card-plane { animation-delay: -.8s; }
+  .drawn .sample:nth-child(3) .card-plane { animation-delay: -1.7s; }
+}
+@keyframes card-idle {
+  0%, 100% { translate: 0 0; rotate: y 0deg; }
+  33% { translate: 0 -5px; rotate: y 4deg; }
+  72% { translate: 0 2px; rotate: y -3deg; }
+}
+.pack-embedded main { padding-block: 12px 15px; }
+.pack-embedded .heading { margin-bottom: 8px; }
+.pack-embedded .heading h1 { font-size: clamp(30px, 5.5vw, 49px); }
+.pack-embedded .heading p { margin-top: 4px; font-size: 12px; }
+.pack-embedded .result { margin-top: 10px; }
+@media (min-width: 621px) {
+  .pack-embedded .experience { min-height: min(59svh, 440px); }
+  .pack-embedded .drawn { width: min(100%, 990px, calc(max(190px, 100svh - 148px) * 2.14)); }
+}

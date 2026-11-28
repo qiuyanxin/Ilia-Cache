@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ilia Cache · 卡片材质预览</title>
+  <script>
+    if (new URLSearchParams(location.search).get('mode') === 'tilt') {
+      document.documentElement.dataset.mode = 'tilt';
+    }
+  </script>
+  <link rel="stylesheet" href="./card.css">
+  <script src="./card.js" defer></script>
+</head>
+<body>
+  <main class="stage">
+    <div class="card-hit" tabindex="0" role="group" aria-label="交互样卡" aria-describedby="card-help">
+      <div class="card" data-finish="spectrum">
+        <span class="rim" aria-hidden="true"></span>
+        <div class="art" aria-hidden="true">
+          <span class="halo"></span>
+          <span class="axis"></span>
+          <span class="disc"></span>
+          <span class="material"></span>
+        </div>
+        <span class="light" aria-hidden="true"></span>
+        <div class="card-copy">
+          <span>ILIA CACHE</span>
+          <strong lang="en">Afterlight</strong>
+          <small class="finish-name">彩虹镭射</small>
+        </div>
+      </div>
+    </div>
+    <div class="finishes" role="group" aria-label="卡面材质">
+      <button type="button" data-finish="spectrum" aria-pressed="true">彩虹镭射</button>
+      <button type="button" data-finish="silver" aria-pressed="false">局部银箔</button>
+      <button type="button" data-finish="stars" aria-pressed="false">星点闪箔</button>
+    </div>
+    <p class="hint" id="card-help">移过卡面或轻点，观察反光。键盘可用方向键。</p>
+  </main>
+</body>
+</html>

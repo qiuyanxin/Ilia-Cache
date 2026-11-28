@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import { buildPublicCatalog } from '../lib/public-catalog.mjs';
-import { officialPreviewForRecord, officialSourceForRecord } from '../public/official-component-previews.mjs';
+import { officialPreviewForRecord, officialSourceForRecord, transitionDemoForRecord } from '../public/official-component-previews.mjs';
 
 const seed = JSON.parse(await readFile(new URL('../public/seed.json', import.meta.url), 'utf8'));
 const byId = new Map(seed.map(row => [row.id, row]));
@@ -67,4 +67,15 @@ test('逐音色入口使用原站分享链接，音色在公开目录使用原�
   assert.equal(officialSourceForRecord({...pebble, sourcePageUrl: 'https://reactbits.dev.example.org/tools/sound-lab'}), null);
   assert.equal(officialSourceForRecord({...pebble, id: 'reactbits-sound-unreviewed'}), null);
   assert.equal(officialSourceForRecord({...pebble, sourceShort: 'Another source'}), null);
+});
+
+
+test('点阵加载的旧链接定位到当前组件，也保留点阵专用封面', () => {
+  const row = byId.get('transitions-matrix-loader');
+  const current = 'https://transitions.dev/detail.html?t=matrix-dot-loader';
+  const legacy = { ...row, sourcePageUrl: 'https://transitions.dev/detail.html?t=matrix-loader' };
+  assert.equal(transitionDemoForRecord(row), current);
+  assert.equal(officialSourceForRecord(legacy), current);
+  assert.equal(officialPreviewForRecord(legacy).url, '/component-posters/transitions-matrix-loader.jpg');
+  assert.equal(transitionDemoForRecord({ ...row, sourcePageUrl: 'https://transitions.dev/detail.html?t=card-resize' }), null);
 });

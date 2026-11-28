@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>卡什盲盒 · 玻璃镭射卡包</title>
+<link rel="stylesheet" href="../r01/cards.css">
+<link rel="stylesheet" href="../r01/pack.css">
+<link rel="stylesheet" href="../r02/angel.css">
+<link rel="stylesheet" href="../r03/layers.css">
+<link rel="stylesheet" href="../r07/cover.css">
+<link rel="stylesheet" href="../r08/collection.css">
+<link rel="stylesheet" href="../r09/full-foil.css">
+<link rel="stylesheet" href="../../../../../theme.css">
+<link rel="stylesheet" href="./experience.css">
+<script type="module" src="./open-pack.js"></script>
+</head>
+<body>
+<main>
+  <header class="heading">
+    <h1 lang="en">Cache</h1>
+    <p>抽一张主题小“卡”</p>
+    <button id="toggle-sound" type="button" aria-pressed="true">声音已开</button>
+  </header>
+  <div class="experience">
+    <section class="package" aria-label="卡包">
+      <button class="wrapper" type="button" aria-label="点击或横拖，撕开卡包封口">
+        <span class="wrap-face wrap-front" aria-hidden="true">
+          <span class="seam top tear-strip"></span>
+          <span class="wrap-title" lang="en">Cache</span>
+          <span class="cover-expression"><img class="expression-before" alt="" draggable="false"><img class="expression-after" alt="" draggable="false"></span>
+          <span class="wrap-spec" lang="en">3 cards</span>
+          <span class="seam bottom"></span>
+        </span>
+      </button>
+      <p id="cover-status">点击或横拖封口</p>
+      <div class="cover-actions">
+        <button id="next-cover" type="button">换个封面</button>
+      </div>
+    </section>
+    <section class="samples" hidden aria-label="七张卡牌素材"></section>
+    <canvas class="ribbon-canvas" aria-hidden="true"></canvas>
+    <section class="drawn" aria-label="本次抽到的卡片" hidden></section>
+  </div>
+  <footer class="result" hidden>
+    <p id="draw-status" class="visually-hidden" role="status"></p>
+    <a class="creation-link" href="/#/projects"><span>开启今天的创作</span></a>
+    <button id="open-again" type="button">再拆一包</button>
+  </footer>
+</main>
+</body>
+</html>

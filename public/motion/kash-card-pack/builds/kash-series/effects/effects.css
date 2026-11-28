@@ -1,0 +1,240 @@
+:root { --paper: #f6f0e5; --muted: #625b51; }
+body {
+  color: #2d2925;
+  background: radial-gradient(ellipse at 32% 43%, #fffef9 8%, #ece2d3 91%);
+}
+.studio {
+  min-height: 100svh;
+  display: grid;
+  grid-template-columns: minmax(0, 300px) minmax(0, 288px);
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 6vw, 66px);
+  padding: 22px clamp(16px, 5vw, 54px);
+}
+.stage { display: grid; justify-items: center; padding: 10px 4px 16px; }
+.stage .card { width: min(100%, 49svh, 274px); touch-action: pan-y; }
+.card-plane {
+  transform: rotateX(calc(0deg - var(--turn-x))) rotateY(var(--turn-y)) scale(var(--lift, 1));
+}
+.portrait-window .foil {
+  background-image:
+    radial-gradient(ellipse at 44% 36%, #fffdf6bd, transparent 68%),
+    var(--prism);
+  background-size: 100% 100%, 100% 100%;
+  background-position: center;
+  filter: saturate(.69);
+}
+.card-copy { z-index: 2; }
+.card-copy small { letter-spacing: .02em; }
+.card-type, .card-number { z-index: 2; }
+.card[data-finish=angel] {
+  --shell: #f3df91; --edge: #a57b30; --ink: #4d3022;
+  --prism: linear-gradient(145deg, #eaa65c, #f7d68a 32%, #fff2c4 49%, #f6bea5 76%, #edc575);
+}
+/* The printed effect covers the whole card body. The clear coat sits above the character. */
+.surface-effect, .face-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.surface-effect { opacity: .8; }
+.face-glare {
+  transform: translateZ(10cqw);
+  opacity: var(--gloss, .13);
+  background:
+    linear-gradient(125deg, transparent 34%, #fff7 46%, #fff2 51%, transparent 59%)
+      calc(51% - var(--light-x)) calc(54% + var(--light-y)) / 218% 180%,
+    radial-gradient(ellipse at calc(52% + var(--light-x)) calc(48% - var(--light-y)),
+      #fff8 3%, #fff2 35%, transparent 65%);
+}
+[data-effect=depth] .face-glare { transform: translateZ(1cqw); }
+[data-effect=lens] .surface-effect {
+  background:
+    repeating-radial-gradient(circle at calc(50% + var(--light-x) / 2) calc(50% - var(--light-y) / 2),
+      #edfcff05 0 7%, #effdff5b 8%, transparent 8.7% 16%),
+    radial-gradient(circle at calc(50% + var(--light-x)) calc(50% - var(--light-y)),
+      #fcffffc9, #83e5f49e 17%, #4b85df58 36%, #10226061 86%);
+}
+[data-effect=lens] .glass-base {
+  box-shadow: 0 2px 1px var(--edge),
+    calc(-.22 * var(--shift-x)) calc(16px + .17 * var(--shift-y)) 21px -6px #172d4e80;
+}
+[data-effect=reverse] .surface-effect {
+  z-index: 0;
+  opacity: .82;
+  background:
+    linear-gradient(123deg, #a95563, #e7ac9d 28%, #fae4d4 46%, #b97d76 64%, #efb9a4 87%, #fbddc4)
+    calc(50% + var(--light-x)) calc(50% - var(--light-y)) / 230% 170%;
+}
+/* Let the actual window cover the foil, so the cutout tracks its rounded corners. */
+[data-effect=reverse] :is(.portrait-window, .contact-shadow) { z-index: 1; }
+[data-effect=reverse] .face-glare { opacity: .1; }
+[data-effect=scan] .surface-effect {
+  background:
+    repeating-linear-gradient(0deg, #001a16a9 0 1px, #2effc83a 1px 3px, transparent 3px 6px),
+    linear-gradient(0deg, transparent 36%, #103f34 44%, #69ffbd 48%, #d9fff5 50%, #31857d 53%, transparent 61%)
+    50% calc(50% - var(--light-y)) / 100% 240%,
+    linear-gradient(140deg, #002a27bc, #3bdf9b63 51%, #062743a1);
+}
+[data-effect=film] .surface-effect {
+  background:
+    repeating-linear-gradient(118deg, #38281f39 0 1px, #ffe7ac22 1px 2px, transparent 2px 4px),
+    linear-gradient(118deg, #735043, #b46f51 24%, #f6bb87 38%, #fff2cd 50%, #e7a784 56%, #695166 83%)
+    calc(50% - var(--light-x)) 50% / 235% 135%;
+}
+[data-effect=scan], [data-effect=cosmos], [data-effect=film] {
+  --effect-ink: #fffaf1;
+}
+.card[data-effect] :is(.card-type, .card-copy, .card-number) {
+  color: var(--effect-ink, var(--ink));
+  text-shadow: var(--effect-text-shadow, none);
+}
+.card:is([data-effect=scan], [data-effect=cosmos], [data-effect=film]) {
+  --effect-text-shadow: 0 1px 2px #171522, 0 0 4px #171522, 0 0 7px #171522;
+}
+[data-effect=depth] .mascot {
+  transform: translate3d(calc(.17 * var(--shift-x)), calc(-.17 * var(--shift-y)), var(--mascot-depth, 9cqw));
+}
+[data-effect=depth] .card-copy {
+  transform: translate3d(calc(.08 * var(--shift-x)), calc(-.08 * var(--shift-y)), 5cqw);
+}
+[data-effect=depth] .surface-effect {
+  background:
+    radial-gradient(ellipse at calc(42% + var(--light-x) / 2) 91%, #ffecd8b8, #b473b941 52%, transparent 69%),
+    repeating-radial-gradient(ellipse at 15% 110%, transparent 0 12%, #fff5f76b 14% 16%, transparent 18% 24%);
+}
+[data-effect=cosmos] .surface-effect {
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at calc(66% + var(--light-x) / 4) calc(51% - var(--light-y) / 4),
+      #9299c447, transparent 63%),
+    radial-gradient(ellipse at 18% 30%, #6c557f5c, transparent 57%),
+    linear-gradient(141deg, #1d213e, #32385c 52%, #141830);
+}
+[data-effect=cosmos] .surface-effect::before,
+[data-effect=cosmos] .surface-effect::after {
+  content: "";
+  position: absolute;
+  inset: -7%;
+}
+[data-effect=cosmos] .surface-effect::before {
+  --dust: #d5ddf48c;
+  background:
+    radial-gradient(circle at 16% 35%, var(--dust) .3px, transparent .75px),
+    radial-gradient(circle at 21% 32%, var(--dust) .2px, transparent .6px),
+    radial-gradient(circle at 25% 39%, var(--dust) .35px, transparent .8px),
+    radial-gradient(circle at 29% 36%, var(--dust) .3px, transparent .7px),
+    radial-gradient(circle at 28% 47%, var(--dust) .3px, transparent .75px),
+    radial-gradient(circle at 32% 44%, var(--dust) .34px, transparent .8px),
+    radial-gradient(circle at 36% 51%, var(--dust) .2px, transparent .6px),
+    radial-gradient(circle at 40% 48%, var(--dust) .35px, transparent .85px),
+    radial-gradient(circle at 48% 55%, var(--dust) .2px, transparent .64px),
+    radial-gradient(circle at 51% 51%, var(--dust) .4px, transparent .8px),
+    radial-gradient(circle at 57% 61%, var(--dust) .3px, transparent .8px),
+    radial-gradient(circle at 63% 58%, var(--dust) .2px, transparent .6px),
+    radial-gradient(circle at 70% 69%, var(--dust) .35px, transparent .75px),
+    radial-gradient(circle at 75% 63%, var(--dust) .4px, transparent .8px),
+    radial-gradient(circle at 79% 70%, var(--dust) .3px, transparent .65px),
+    radial-gradient(circle at 83% 72%, var(--dust) .4px, transparent .85px),
+    radial-gradient(circle at 85% 81%, var(--dust) .35px, transparent .7px),
+    radial-gradient(circle at 21% 21%, var(--dust) .3px, transparent .7px),
+    radial-gradient(circle at 74% 21%, var(--dust) .3px, transparent .7px),
+    radial-gradient(circle at 28% 76%, var(--dust) .4px, transparent .8px),
+    radial-gradient(circle at 55% 84%, var(--dust) .3px, transparent .75px);
+  transform: translate(calc(-.12 * var(--shift-x)), calc(.12 * var(--shift-y)));
+}
+[data-effect=cosmos] .surface-effect::after {
+  background:
+    radial-gradient(circle at 27% 34%, #faf3df .56px, #e7ddbd4d 1.35px, transparent 2.1px),
+    radial-gradient(circle at 35% 45%, #c5d9ff .8px, #a4b7d44a 1.5px, transparent 2.7px),
+    radial-gradient(circle at 68% 28%, #eaf3ffaf .4px, transparent 1px),
+    radial-gradient(circle at 84% 51%, #e4eafecc .48px, transparent 1.5px),
+    radial-gradient(circle at 76% 68%, #fff5da .72px, #eae1c24d 1.42px, transparent 2.25px),
+    radial-gradient(circle at 20% 59%, #cce0ffca .46px, transparent 1.35px),
+    radial-gradient(circle at 65% 77%, #c1d2f6bf .48px, transparent 1.15px),
+    radial-gradient(circle at 80% 86%, #d7e8ff .5px, transparent 1.45px);
+  transform: translate(calc(.17 * var(--shift-x)), calc(-.17 * var(--shift-y)));
+}
+[data-effect=prism] .surface-effect {
+  background:
+    url('../r02/foil-grain.png') 0 0 / 94px 94px,
+    repeating-conic-gradient(from var(--turn-y) at calc(50% + var(--light-x) / 2) 52%,
+      #fff9 0deg 4deg, #fff0 7deg 13deg, #fef7af7d 16deg 20deg),
+    linear-gradient(123deg, #dc8def, #93e4ef, #a7addb, #fce395, #f3a497, #c985dc)
+      calc(50% + var(--light-x)) calc(50% - var(--light-y)) / 200% 160%;
+}
+[data-effect=prism] .surface-effect { opacity: .89; }
+.controls { min-width: 0; }
+.controls h1 {
+  margin: 0 0 17px;
+  font: 720 clamp(23px, 4.3vw, 40px)/1.1 system-ui, sans-serif;
+  letter-spacing: -.05em;
+}
+.picker {
+  display: grid;
+  grid-template-columns: 2em minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+.picker select {
+  min-width: 0;
+  min-height: 36px;
+  padding: 4px 4px 4px 8px;
+  border: 1px solid #c5b8a7;
+  border-radius: 8px;
+  background: #fffbf4;
+  color: #2d2925;
+  font: inherit;
+}
+.picker select:focus-visible, .effects button:focus-visible, .recommendation:focus-visible { outline: 2px solid #725431; outline-offset: 2px; }
+.effects {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 5px;
+}
+.effects button {
+  padding: 5px 6px;
+  min-height: 32px;
+  text-align: left;
+  background: #fffaf2;
+  border: 1px solid #c5b8a7;
+  border-radius: 7px;
+  font-size: 12px;
+  cursor: pointer;
+}
+.effects [aria-pressed="true"] { background: #41382d; border-color: #41382d; color: #fffaf2; }
+.recommendation {
+  padding: 5px 0;
+  margin-block-start: 5px;
+  border: 0;
+  background: none;
+  font-size: 11px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  color: #625b51;
+  cursor: pointer;
+}
+.controls p { margin: 12px 0 0; font-size: 12px; color: var(--muted); line-height: 1.6; }
+#effect-note { min-height: 3.2em; }
+#interaction { font-size: 11px; }
+@media (max-width: 425px) {
+  .studio { grid-template-columns: 1fr; gap: 6px; padding: 14px; }
+  .stage { padding-block: 6px 9px; }
+  .stage .card { width: min(57vw, 39svh, 178px); }
+  .controls { width: min(100%, 270px); margin-inline: auto; }
+  .controls h1 { margin-bottom: 8px; }
+  .controls p { margin-top: 6px; }
+  #effect-note { min-height: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-plane { transform: none; }
+  [data-effect=depth] .mascot { transform: translateZ(9cqw); }
+  [data-effect=depth] .card-copy,
+  [data-effect=cosmos] .surface-effect::before,
+  [data-effect=cosmos] .surface-effect::after { transform: none; }
+}

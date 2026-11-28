@@ -9,12 +9,14 @@ export interface PageReference {
   collectionSource?: { name?: string };
   prompt?: string;
   promptKind?: string | null;
+  favorite?: boolean;
 }
 
 export interface PageReferenceFilters {
   category?: string;
   source?: string;
   query?: string;
+  favoritesFirst?: boolean;
 }
 
 export const PAGE_CATEGORIES: readonly string[];

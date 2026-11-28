@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>卡什盲盒 · 玻璃镭射样卡</title>
+<link rel="stylesheet" href="../r01/cards.css">
+<link rel="stylesheet" href="../r01/pack.css">
+<link rel="stylesheet" href="../r02/angel.css">
+<link rel="stylesheet" href="../r03/layers.css">
+<link rel="stylesheet" href="../r07/cover.css">
+<link rel="stylesheet" href="./collection.css">
+<script type="module" src="./preview.js"></script>
+</head>
+<body>
+<main>
+  <header class="heading">
+    <p class="edition">ILIA CACHE / 卡什盲盒</p>
+    <h1>卡什的镭射收藏</h1>
+    <p>移动鼠标看反光。手机轻点卡面，键盘可用左右方向键。</p>
+  </header>
+  <div class="display">
+    <section class="package" aria-label="包装样稿">
+      <button class="wrapper" type="button" aria-label="点击或横拖，撕开卡包封口">
+        <span class="wrap-face wrap-front" aria-hidden="true">
+          <span class="seam top tear-strip"></span>
+          <span class="wrap-title" lang="en">Cache</span>
+          <span class="cover-expression"><img class="expression-before" alt="" draggable="false"><img class="expression-after" alt="" draggable="false"></span>
+          <span class="wrap-spec" lang="en">3 cards</span>
+          <span class="seam bottom"></span>
+        </span>
+        <span class="wrap-face wrap-back" aria-hidden="true">
+          <span class="seam top"></span>
+          <span class="wrap-brand">ILIA CACHE</span>
+          <span class="wrap-story">我给你<br>留了一张。</span>
+          <span class="wrap-inventory">摄影师 · 画家 · 代码<br>导演 · 芭蕾 · 蓝条纹睡衣<br>隐藏款 · 天使小鹿</span>
+          <span class="wrap-spec" lang="en">3 cards</span>
+          <span class="seam bottom"></span>
+        </span>
+      </button>
+      <p id="cover-status" role="status">点击卡包，或横拖封口</p>
+      <div class="cover-actions">
+        <button id="next-cover" type="button">换个封面</button>
+        <button id="flip-cover" type="button" aria-pressed="false">看背面</button>
+      </div>
+    </section>
+    <section class="samples" aria-label="七张镭射样卡"></section>
+  </div>
+</main>
+<dialog class="layer-dialog" aria-labelledby="layer-title">
+  <div class="layer-heading">
+    <div>
+      <h2 id="layer-title"></h2>
+      <p>前层是完整角色，后层是镭射卡体与卡面信息。</p>
+    </div>
+    <form method="dialog"><button aria-label="关闭分层演示">×</button></form>
+  </div>
+  <div class="layer-stage">
+    <div class="layer-preview"></div>
+    <span class="layer-tag mascot-tag" aria-hidden="true">前层 · 角色</span>
+    <span class="layer-tag frame-tag" aria-hidden="true">后层 · 卡体</span>
+  </div>
+  <button type="button" class="layer-action">合回卡片</button>
+</dialog>
+<template id="sample">
+  <article class="sample">
+    <button class="card" type="button">
+      <span class="card-plane">
+        <span class="card-body">
+          <span class="glass-base"></span>
+          <span class="secret-foil"></span>
+          <span class="portrait-window">
+            <span class="foil"></span>
+            <span class="foil-pattern"></span>
+          </span>
+          <span class="contact-shadow"></span>
+          <span class="card-type" lang="en"></span>
+          <span class="card-copy"><strong></strong><small></small></span>
+          <span class="card-number"></span>
+          <span class="glass-coat"></span>
+          <span class="glass-rim"></span>
+        </span>
+        <img class="mascot" alt="" draggable="false" width="768" height="1024">
+      </span>
+    </button>
+    <div class="sample-caption">
+      <p class="finish-label"></p>
+      <button type="button" class="inspect-layers">看分层</button>
+    </div>
+  </article>
+</template>
+</body>
+</html>

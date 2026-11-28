@@ -1,4 +1,5 @@
 import { COMPONENT_BROWSE_GROUPS } from './component-categories.mjs';
+import { compareComponentSources } from './component-search.mjs';
 
 export const allComponentCategories = '浏览全部';
 export const allComponentSources = '全部来源';
@@ -21,7 +22,8 @@ export function renderComponentFilterChoices(group, values, { selected = '', for
   const category = group !== 'source';
   const all = allLabel || (category ? allComponentCategories : allComponentSources);
   const attribute = group === 'subcategory' ? 'data-subcategory' : category ? 'data-cc' : 'data-source-filter';
-  return ['', ...values].map(value => {
+  const ordered = category ? values : [...values].sort(compareComponentSources);
+  return ['', ...ordered].map(value => {
     const label = escape(value || all);
     const active = selected === value;
     const count = category ? `<small>${escape(counts ? counts[value] ?? 0 : '')}</small>` : '';

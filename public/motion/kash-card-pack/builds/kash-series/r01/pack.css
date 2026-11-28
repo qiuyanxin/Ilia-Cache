@@ -1,0 +1,42 @@
+.wrapper {
+  border: 0; background: transparent; padding: 0; display: block; width: 100%;
+  aspect-ratio: 5 / 7; position: relative; perspective: 900px;
+  cursor: pointer; text-align: left; container-type: inline-size;
+}
+.wrap-face {
+  position: absolute; inset: 0; overflow: hidden; border-radius: 2%; backface-visibility: hidden;
+  color: #382c23; transition: transform .58s cubic-bezier(.22,.8,.25,1);
+  background: repeating-linear-gradient(11deg, #7c5e4210 0 .5px, transparent .5px 3px),
+              linear-gradient(108deg, #d2ba9f, #f8ead2 13%, #f4e8d4 49%, #e6d2b5 90%, #fbefd9);
+  box-shadow: inset 1px 0 1px #fff4db, inset -1px 0 3px #8566465d, 0 13px 24px -12px #49301c8c;
+}
+.wrap-face > span { position: absolute; left: 9%; right: 9%; display: block; }
+.wrap-face .seam {
+  inset-inline: 0; height: 9%; border-style: dashed; border-color: #866d585e; border-width: 0;
+  background: repeating-linear-gradient(90deg, #62463616 0 1px, #fff3d68c 1px 2px, transparent 2px 4px);
+}
+.seam.top { top: 0; border-bottom-width: 1px; }
+.seam.bottom { bottom: 0; border-top-width: 1px; }
+.wrap-brand, .wrap-spec { font: 700 4.8cqw/1.2 ui-monospace, monospace; letter-spacing: .12em; }
+.wrap-brand { top: 15%; }
+.wrap-title { top: 24%; font-weight: 850; font-size: 22cqw; letter-spacing: -.12em; line-height: .87; z-index: 1; }
+.wrap-face .wrap-mark { left: auto; right: 9%; width: 42%; height: 39%; top: 34%; }
+.wrap-mark i {
+  position: absolute; width: 78%; height: 68%; top: 0; left: 0;
+  border-radius: 11%; transform: translate(calc(var(--i) * 17%), calc(var(--i) * 16%)) rotate(calc(20deg - var(--i) * 17deg));
+  border: 1px solid #fff8f0; box-shadow: 1px 3px 3px #6b4d3a35;
+  background: linear-gradient(140deg,#fff9e5,#eec1bf 31%,#b6c8eb 56%,#fce7cb 83%);
+}
+.wrap-mark i:nth-child(1) { --i: 2; }
+.wrap-mark i:nth-child(2) { --i: 1; }
+.wrap-mark i:nth-child(3) { --i: 0; }
+.wrap-series { top: 69%; font-size: 7.7cqw; font-weight: 650; letter-spacing: .07em; }
+.wrap-face .wrap-spec { top: 82%; display: flex; justify-content: space-between; padding-top: 3%; border-top: 1px solid #866d587c; }
+.wrap-back { transform: rotateY(-180deg); }
+.wrapper[aria-pressed=true] .wrap-front { transform: rotateY(180deg); }
+.wrapper[aria-pressed=true] .wrap-back { transform: rotateY(0); }
+.wrap-story { top: 26%; font-size: 13.7cqw; font-weight: 800; line-height: 1.1; }
+.wrap-inventory { top: 58%; font-size: 5.3cqw; line-height: 1.66; }
+@media (prefers-reduced-motion: reduce) {
+  .wrap-face { transition: none; }
+}

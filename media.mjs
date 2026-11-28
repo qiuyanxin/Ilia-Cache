@@ -1,6 +1,6 @@
 import { lookup } from 'node:dns/promises';
 import { isIP } from 'node:net';
-const blockedIP=ip=>{if(ip.includes(':'))return !/^[23]/.test(ip)||ip.startsWith('2001:db8:');const a=ip.split('.').map(Number);return a[0]===0||a[0]===10||a[0]===127||a[0]===169&&a[1]===254||a[0]===172&&a[1]>=16&&a[1]<=31||a[0]===192&&a[1]===168||a[0]>=224||a[0]===100&&a[1]>=64&&a[1]<=127;};
+const blockedIP=ip=>{if(ip.includes(':')){const mapped=ip.toLowerCase().match(/^::ffff:(?:0:)?([\da-f]{1,4}):([\da-f]{1,4})$/);if(mapped){const high=parseInt(mapped[1],16),low=parseInt(mapped[2],16);return blockedIP(`${high>>8}.${high&255}.${low>>8}.${low&255}`);}return !/^[23]/.test(ip)||ip.startsWith('2001:db8:');}const a=ip.split('.').map(Number);return a[0]===0||a[0]===10||a[0]===127||a[0]===169&&a[1]===254||a[0]===172&&a[1]>=16&&a[1]<=31||a[0]===192&&a[1]===168||a[0]>=224||a[0]===100&&a[1]>=64&&a[1]<=127;};
 export async function publicUrl(value){
  let u;try{u=new URL(value);}catch{throw Error('请粘贴有效的网址');}
  if(!['http:','https:'].includes(u.protocol)||u.username||u.password||u.port&&!['80','443'].includes(u.port))throw Error('只支持公开的 http / https 网页');

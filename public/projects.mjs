@@ -1,31 +1,242 @@
-import {connectCollectionPreviews} from './component-media.mjs';
-import {icon} from './icons.mjs';import {spring} from './springs.mjs';import {uploadFile} from './native-controls.mjs';import {addToCart,moveCartToProject,markProjectUse,requirementsFor,duplicateProject} from './project-model.mjs';
-const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-export function installProjects(h){const {getState,save,toast}=h;const page=document.createElement('main');page.id='projects-page';page.hidden=true;document.querySelector('#component-library').after(page);const dialog=document.createElement('dialog');dialog.id='project-dialog';document.body.append(dialog);let current='',showing=false,selected=new Set(),selectedRefs=new Set();const cart=()=>getState().componentCart||[];const referenceCart=()=>getState().referenceCart||[];const projects=()=>(getState().projects?.filter(p=>!p.archived)||[]).sort((a,b)=>String(a.name||'').localeCompare(String(b.name||''),'en',{numeric:true,sensitivity:'base'}));const resource=id=>getState().resources.find(r=>r.id===id&&!r.archived);const cartButton=document.createElement('button');cartButton.id='project-cart';cartButton.type='button';cartButton.setAttribute('aria-label','打开项目待选区');document.querySelector('.topbar').append(cartButton);cartButton.onclick=openCart;
- const accumulationTabs=()=>`<nav class="collection-chips accumulation-tabs" aria-label="工作台分类">${[['inbox','收件箱'],['projects','项目'],['aesthetic','审美采集'],['accumulation','灵感库']].map(([view,label])=>`<button data-accumulation-view="${view}" class="${view==='projects'?'active':''}">${label}</button>`).join('')}</nav>`;
- function update(){cartButton.innerHTML=icon('folder')+'<span>待选 '+(cart().length+referenceCart().length)+'</span>';document.querySelectorAll('[data-cart-add]').forEach(b=>{const added=cart().includes(b.dataset.cartAdd);b.innerHTML=icon(added?'check':'plus');b.setAttribute('aria-pressed',String(added));b.setAttribute('aria-label',(added?'移出待选 ':'加入待选 ')+(resource(b.dataset.cartAdd)?.name||''));});document.querySelectorAll('[data-reference-cart]').forEach(updateReferenceButton);}
- function updateReferenceButton(button){
-  const added=referenceCart().some(reference=>reference.id===button.dataset.referenceCart);
-  button.innerHTML=icon(added?'check':'plus');
-  button.setAttribute('aria-pressed',String(added));
-  button.setAttribute('aria-label',(added?'移出待选 ':'加入待选 ')+(button._projectReference?.name||''));
- }
- function persist(){save();h.nav();update();}
- document.addEventListener('click',e=>{const b=e.target.closest('[data-cart-add]');if(b){const id=b.dataset.cartAdd;if(cart().includes(id))getState().componentCart=cart().filter(x=>x!==id);else addToCart(getState(),id);persist();return;}const refButton=e.target.closest('[data-reference-cart]');if(!refButton)return;const id=refButton.dataset.referenceCart;if(referenceCart().some(r=>r.id===id))getState().referenceCart=referenceCart().filter(r=>r.id!==id);else{const ref=refButton._projectReference;if(ref)getState().referenceCart=[...referenceCart(),ref];}persist();});
- function show(){showing=true;for(const id of ['library','learning','component-library','collection-pages'])document.getElementById(id).hidden=true;page.hidden=false;document.querySelector('#breadcrumb').textContent='工作台';render();}
- function leave(){showing=false;page.hidden=true;}
- function tile(id,p){const r=resource(id);if(!r)return '';const used=r.usage?.some(u=>u.projectId===p?.id);return `<article class="project-component ${p?'':'cart-ticket'}"><button class="project-preview" data-project-preview="${esc(id)}">${h.componentMedia(r)}</button><h3>${esc(r.name)}</h3>${p?`<div><button data-project-used="${esc(id)}" ${used?'disabled':''}>${used?'已使用':'标记使用'}</button><button data-project-remove="${esc(id)}">移出项目</button></div>`:`<div class="cart-ticket-actions"><label><input type="checkbox" data-cart-check="${esc(id)}" ${selected.has(id)?'checked':''}>保留</label><button data-cart-remove="${esc(id)}">移出</button></div>`}</article>`;}
- function wire(root,p){connectCollectionPreviews(root);root.querySelectorAll('[data-project-preview]').forEach(b=>b.onclick=()=>h.openComponent(b.dataset.projectPreview));root.querySelectorAll('[data-project-used]').forEach(b=>b.onclick=()=>{if(markProjectUse(getState(),p.id,b.dataset.projectUsed)){persist();render();}});root.querySelectorAll('[data-project-remove]').forEach(b=>b.onclick=()=>{p.componentIds=p.componentIds.filter(id=>id!==b.dataset.projectRemove);persist();render();});root.querySelectorAll('[data-cart-check]').forEach(b=>b.onchange=()=>b.checked?selected.add(b.dataset.cartCheck):selected.delete(b.dataset.cartCheck));root.querySelectorAll('[data-cart-remove]').forEach(b=>b.onclick=()=>{getState().componentCart=cart().filter(id=>id!==b.dataset.cartRemove);selected.delete(b.dataset.cartRemove);persist();openCart(false);});}
- function referenceTile(ref,p){return `<article class="project-reference"><a href="${esc(ref.url||'#')}" target="_blank" rel="noopener noreferrer">${ref.image?`<img src="${esc(ref.image)}" alt="${esc(ref.name)}" loading="lazy" referrerpolicy="no-referrer">`:icon(ref.type==='style'?'palette':'image')}<strong>${esc(ref.name)}</strong></a><button data-project-ref-remove="${esc(ref.id)}">移出项目</button></article>`;}
- function pendingReferenceTile(ref){return `<article class="project-reference project-reference-pending cart-ticket">${ref.image?`<img src="${esc(ref.image)}" alt="${esc(ref.name)}" loading="lazy" referrerpolicy="no-referrer">`:icon(ref.type==='style'?'palette':'image')}<strong>${esc(ref.name)}</strong><div class="cart-ticket-actions"><label><input type="checkbox" data-ref-check="${esc(ref.id)}" ${selectedRefs.has(ref.id)?'checked':''}>保留</label><button data-ref-cart-remove="${esc(ref.id)}">移出</button></div></article>`;}
- function projectTicket(p){const total=(p.componentIds?.length||0)+(p.references?.length||0),cover=p.cover?` style="--project-cover:url('${esc(p.cover)}')"`:'';return `<button class="project-ticket ${p.cover?'has-cover':''}" data-project="${esc(p.id)}"${cover}><span class="ticket-grid" aria-hidden="true"></span><span class="ticket-layer">${icon('folder')}<strong>${esc(p.name)}</strong><small>${esc(p.type||'网页')} · ${total} 项</small></span><i class="ticket-glare"></i></button>`;}
- function requirementList(p){const rows=p.requirements||[],done=rows.filter(item=>item.done).length;if(!rows.length)return '';return `<section class="project-requirements"><div class="project-requirements-heading"><div><h2>采购清单</h2><p>先把骨架买齐，再挑具体样式。${done}/${rows.length} 已完成</p></div></div><div class="project-requirement-grid">${rows.map(item=>`<article class="${item.done?'done':''}"><label><input type="checkbox" data-requirement="${esc(item.id)}" ${item.done?'checked':''}><span><strong>${esc(item.name)}</strong><small>${esc(item.note)}</small></span></label><button data-requirement-route="${esc(item.route)}">去挑选</button></article>`).join('')}</div></section>`;}
- function bindTickets(){page.querySelectorAll('.project-ticket').forEach(ticket=>{const layer=ticket.querySelector('.ticket-layer'),glare=ticket.querySelector('.ticket-glare'),rx=spring(0,[170,15],v=>ticket.style.setProperty('--rx',v+'deg')),ry=spring(0,[170,15],v=>ticket.style.setProperty('--ry',v+'deg')),dx=spring(0,[170,15],v=>layer.style.translate=v+'px '+(layer.dataset.dy||0)+'px'),dy=spring(0,[170,15],v=>{layer.dataset.dy=v;layer.style.translate=(layer.dataset.dx||0)+'px '+v+'px';});ticket.onpointermove=e=>{const r=ticket.getBoundingClientRect(),x=(e.clientX-r.left)/r.width*2-1,y=(e.clientY-r.top)/r.height*2-1;rx.set(-y*8);ry.set(x*10);layer.dataset.dx=x*8;dx.set(x*8);dy.set(y*6);glare.style.setProperty('--gx',(x+1)*50+'%');glare.style.setProperty('--gy',(y+1)*50+'%');};ticket.onpointerleave=()=>{rx.set(0);ry.set(0);dx.set(0);dy.set(0);};});}
- function render(){const list=projects(),p=list.find(p=>p.id===current);page.innerHTML=`<div class="page-heading"><h1>${p?esc(p.name):'工作台'}</h1><div>${p?`<button id="project-duplicate">${icon('copy')}复制项目</button><button id="project-cover">${icon('image')}文件夹背景</button>`:''}<button id="project-new" class="primary">${icon('plus')}添加项目</button><button id="project-pending">待选 ${cart().length}</button></div></div>${accumulationTabs()}${p?`<button id="project-back">返回项目</button>${requirementList(p)}<div class="project-components">${p.componentIds.map(id=>tile(id,p)).join('')}${(p.references||[]).map(ref=>referenceTile(ref,p)).join('')}</div>`:`<div class="project-grid">${list.map(projectTicket).join('')}</div>`}`;page.querySelectorAll('[data-accumulation-view]').forEach(button=>button.onclick=()=>h.switchView(button.dataset.accumulationView));page.querySelector('#project-new').onclick=()=>newProject();page.querySelector('#project-pending').onclick=()=>openCart();page.querySelector('#project-duplicate')?.addEventListener('click',()=>{const copy=duplicateProject(getState(),p.id);current=copy.id;persist();render();toast('已复制项目，可以开始替换内容');});page.querySelector('#project-cover')?.addEventListener('click',()=>editCover(p));page.querySelector('#project-back')?.addEventListener('click',()=>{current='';render();});page.querySelectorAll('[data-project]').forEach(b=>b.onclick=()=>{current=b.dataset.project;render();});page.querySelectorAll('[data-requirement]').forEach(input=>input.onchange=()=>{const item=p.requirements.find(item=>item.id===input.dataset.requirement);item.done=input.checked;persist();render();});page.querySelectorAll('[data-requirement-route]').forEach(button=>button.onclick=()=>h.switchView(button.dataset.requirementRoute));page.querySelectorAll('[data-project-ref-remove]').forEach(b=>b.onclick=()=>{p.references=(p.references||[]).filter(r=>r.id!==b.dataset.projectRefRemove);persist();render();});bindTickets();wire(page,p);}
- async function editCover(p){const formDialog=document.createElement('dialog');formDialog.className='project-create';formDialog.innerHTML=`<form><div class="dialog-heading"><h2>文件夹背景</h2><button type="button" aria-label="关闭">×</button></div><input name="url" type="url" placeholder="粘贴图片链接" value="${esc(p.cover||'')}"><label class="compact-file-control">${icon('upload')}<span>上传背景图片</span><input name="file" type="file" accept="image/*" hidden></label><div class="dialog-actions"><button class="primary">保存</button>${p.cover?'<button type="button" data-remove-cover>移除背景</button>':''}</div></form>`;document.body.append(formDialog);formDialog.querySelector('[aria-label=关闭]').onclick=()=>{formDialog.close();formDialog.remove();};formDialog.querySelector('[data-remove-cover]')?.addEventListener('click',()=>{p.cover='';persist();formDialog.close();formDialog.remove();render();});formDialog.querySelector('form').onsubmit=async e=>{e.preventDefault();const form=e.currentTarget,file=form.elements.file.files[0];try{p.cover=file?(await uploadFile(file,()=>{})).url:String(new FormData(form).get('url')).trim();persist();formDialog.close();formDialog.remove();render();toast('已更新文件夹背景');}catch(error){toast(error.message||'背景上传失败');}};formDialog.showModal();}
- function newProject(){const formDialog=document.createElement('dialog');formDialog.className='project-create';formDialog.innerHTML='<form><div class="dialog-heading"><h2>添加项目</h2><button type="button" aria-label="关闭">×</button></div><input name="name" required placeholder="项目名称" aria-label="项目名称"><select name="type" aria-label="项目类型"><option>网页</option><option>视频</option><option>其他</option></select><label>项目模板<select name="template" aria-label="项目模板"><option value="website-basic">网站基础采购单</option><option value="blank">空白项目</option></select></label><p class="project-template-note">不知道网站需要什么时，选择网站基础采购单。它会列出页面、按钮、表单、状态和字体等必需项。</p><button class="primary">创建项目</button></form>';document.body.append(formDialog);formDialog.querySelector('[aria-label=关闭]').onclick=()=>{formDialog.close();formDialog.remove();};formDialog.querySelector('form').onsubmit=e=>{e.preventDefault();const f=new FormData(e.currentTarget),p={id:crypto.randomUUID(),name:f.get('name').trim(),type:f.get('type'),componentIds:[],requirements:requirementsFor(f.get('template')),created:new Date().toISOString()};if(!p.name)return;(getState().projects||=[]).push(p);persist();formDialog.close();formDialog.remove();current=p.id;if(showing)render();if(dialog.open)openCart(false);};formDialog.showModal();}
- function openCart(reset=true){if(reset){selected=new Set(cart());selectedRefs=new Set(referenceCart().map(r=>r.id));}dialog.innerHTML=`<div class="project-cart-shell"><div class="dialog-heading"><h2>项目待选</h2><button data-close aria-label="关闭待选区">${icon('close')}</button></div><div class="cart-destination"><select id="cart-project" aria-label="目标项目">${projects().map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join('')}</select><button id="cart-new">添加项目</button><button id="cart-commit" class="primary" ${!projects().length||!(cart().length+referenceCart().length)?'disabled':''}>加入项目</button></div><div class="project-cart-scroll"><div class="project-components project-cart-grid">${cart().map(id=>tile(id)).join('')}${referenceCart().map(pendingReferenceTile).join('')}</div></div></div>`;dialog.querySelector('[data-close]').onclick=()=>dialog.close();dialog.querySelector('#cart-new').onclick=newProject;dialog.querySelector('#cart-commit').onclick=()=>{const id=dialog.querySelector('#cart-project').value,p=projects().find(p=>p.id===id),componentCount=moveCartToProject(getState(),id,[...selected]),refs=referenceCart().filter(r=>selectedRefs.has(r.id));p.references||=[];for(const ref of refs)if(!p.references.some(r=>r.id===ref.id))p.references.push(ref);getState().referenceCart=referenceCart().filter(r=>!selectedRefs.has(r.id));persist();toast(`已加入 ${componentCount+refs.length} 项`);dialog.close();current=id;h.switchView('projects');};wire(dialog);dialog.querySelectorAll('[data-ref-check]').forEach(b=>b.onchange=()=>b.checked?selectedRefs.add(b.dataset.refCheck):selectedRefs.delete(b.dataset.refCheck));dialog.querySelectorAll('[data-ref-cart-remove]').forEach(b=>b.onclick=()=>{getState().referenceCart=referenceCart().filter(r=>r.id!==b.dataset.refCartRemove);selectedRefs.delete(b.dataset.refCartRemove);persist();openCart(false);});if(!dialog.open)dialog.showModal();}
- function addReference(ref){if(!projects().length){toast('先建一个项目');newProject();return;}dialog.innerHTML=`<div class="dialog-heading"><h2>加入项目</h2><button data-close aria-label="关闭">×</button></div><p>${esc(ref.name)}</p><div class="cart-destination"><select id="reference-project" aria-label="目标项目">${projects().map(p=>`<option value="${esc(p.id)}">${esc(p.name)}</option>`).join('')}</select><button id="reference-commit" class="primary">加入</button></div>`;dialog.querySelector('[data-close]').onclick=()=>dialog.close();dialog.querySelector('#reference-commit').onclick=()=>{const p=projects().find(p=>p.id===dialog.querySelector('#reference-project').value);p.references||=[];if(!p.references.some(r=>r.id===ref.id))p.references.push(ref);persist();dialog.close();toast('已加入项目');if(showing&&current===p.id)render();};if(!dialog.open)dialog.showModal();}
- function addReferenceToCart(ref){const found=referenceCart().some(r=>r.id===ref.id);getState().referenceCart=found?referenceCart().filter(r=>r.id!==ref.id):[...referenceCart(),ref];persist();toast(found?'已移出待选':'已加入待选');}
- function bindReferenceButton(button,ref){button._projectReference=ref;button.dataset.referenceCart=ref.id;updateReferenceButton(button);}
- h.projects={show,leave,render,openCart,addReference,addReferenceToCart,bindReferenceButton,has:id=>cart().includes(id),hasReference:id=>referenceCart().some(r=>r.id===id),update};update();return h.projects;}
+import { connectCollectionPreviews } from './component-media.mjs';
+import { styleReferenceGroup } from './component-categories.mjs';
+import { isSoundEffect } from './extensions.js';
+import { icon } from './icons.mjs';
+import { spring } from './springs.mjs';
+import { uploadFile } from './native-controls.mjs';
+import { addResourceToProject, addReferenceToProject, moveLegacyPendingToProject, markProjectUse, requirementsFor, duplicateProject } from './project-model.mjs';
+import { filterByWorkbenchType, referenceType, workbenchTabs, workbenchTypeTabs } from './workbench-taxonomy.mjs';
+
+const esc = value => String(value ?? '').replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
+
+export function installProjects(h) {
+  const { getState, save, toast } = h;
+  const page = document.createElement('main');
+  page.id = 'projects-page';
+  page.hidden = true;
+  document.querySelector('#component-library').after(page);
+  const dialog = document.createElement('dialog');
+  dialog.id = 'project-dialog';
+  document.body.append(dialog);
+  let current = '';
+  let showing = false;
+  let projectFilter = 'all';
+
+  const cart = () => getState().componentCart || [];
+  const referenceCart = () => getState().referenceCart || [];
+  const legacyCount = () => cart().length + referenceCart().length;
+  const projects = () => (getState().projects?.filter(project => !project.archived) || [])
+    .sort((a, b) => String(a.name || '').localeCompare(String(b.name || ''), 'en', { numeric: true, sensitivity: 'base' }));
+  const resource = id => getState().resources.find(item => item.id === id && !item.archived);
+  const resourceType = item => isSoundEffect(item) ? 'sound' : styleReferenceGroup(item) ? 'visual' : 'component';
+  const containsResource = id => projects().some(project => (project.componentIds || []).includes(id));
+  const containsReference = id => projects().some(project => (project.references || []).some(reference => reference.id === id));
+
+  function persist() { save(); h.nav(); update(); }
+
+  function updateReferenceButton(button) {
+    const added = containsReference(button.dataset.projectReference);
+    button.innerHTML = icon(added ? 'check' : button.hasAttribute('data-favorite-project') ? 'folder' : 'plus');
+    button.setAttribute('aria-pressed', String(added));
+    const label = `${added ? '已在项目中，继续加入其他项目 ' : '加入项目 '}${button._projectReference?.name || ''}`;
+    button.setAttribute('aria-label', label);
+    button.title = label;
+  }
+
+  function update() {
+    document.querySelectorAll('[data-project-add],[data-cart-add]').forEach(button => {
+      const id = button.dataset.projectAdd || button.dataset.cartAdd;
+      const added = containsResource(id);
+      const idleIcon = button.hasAttribute('data-favorite-project-resource') ? 'folder' : 'plus';
+      button.innerHTML = button.classList.contains('component-cart-add') ? (added ? '✓' : '＋') : icon(added ? 'check' : idleIcon);
+      button.setAttribute('aria-pressed', String(added));
+      button.setAttribute('aria-label', `${added ? '已在项目中，继续加入其他项目 ' : '加入项目 '}${resource(id)?.name || ''}`);
+    });
+    document.querySelectorAll('[data-project-reference]').forEach(updateReferenceButton);
+  }
+
+  function chooseProject(onChoose, title = '选择项目') {
+    const list = projects();
+    if (!list.length) { toast('先创建一个项目'); newProject(onChoose); return; }
+    if (list.length === 1) { onChoose(list[0]); return; }
+    dialog.innerHTML = `<div class="dialog-heading"><h2>${esc(title)}</h2><button data-close aria-label="关闭">×</button></div>
+      <div class="project-picker-list">${list.map(project => `<button type="button" data-project-choice="${esc(project.id)}">${icon('folder')}<span><strong>${esc(project.name)}</strong><small>${esc(project.type || '网页')}</small></span></button>`).join('')}</div>
+      <button type="button" id="picker-new">添加项目</button>`;
+    dialog.querySelector('[data-close]').onclick = () => dialog.close();
+    dialog.querySelector('#picker-new').onclick = () => { dialog.close(); newProject(onChoose); };
+    dialog.querySelectorAll('[data-project-choice]').forEach(button => button.onclick = () => {
+      dialog.close();
+      onChoose(list.find(project => project.id === button.dataset.projectChoice));
+    });
+    if (!dialog.open) dialog.showModal();
+  }
+
+  function addResource(id) {
+    const item = resource(id);
+    if (!item) return;
+    chooseProject(project => {
+      const added = addResourceToProject(getState(), project.id, id);
+      persist();
+      toast(added ? `已加入 ${project.name}` : `${project.name} 里已经有了`);
+      if (showing && current === project.id) render();
+    }, `把 ${item.name} 加入项目`);
+  }
+
+  function addReference(reference) {
+    if (!reference) return;
+    chooseProject(project => {
+      const added = addReferenceToProject(getState(), project.id, reference);
+      persist();
+      toast(added ? `已加入 ${project.name}` : `${project.name} 里已经有了`);
+      if (showing && current === project.id) render();
+    }, `把 ${reference.name} 加入项目`);
+  }
+
+  document.addEventListener('click', event => {
+    const resourceButton = event.target.closest('[data-project-add],[data-cart-add]');
+    if (resourceButton) { addResource(resourceButton.dataset.projectAdd || resourceButton.dataset.cartAdd); return; }
+    const referenceButton = event.target.closest('[data-project-reference]');
+    if (referenceButton) addReference(referenceButton._projectReference);
+  });
+
+  function show() {
+    showing = true;
+    for (const id of ['library', 'learning', 'component-library', 'collection-pages']) document.getElementById(id).hidden = true;
+    page.hidden = false;
+    document.querySelector('#breadcrumb').textContent = '工作台';
+    render();
+  }
+
+  function leave() { showing = false; page.hidden = true; }
+
+  function tile(id, project) {
+    const item = resource(id);
+    if (!item) return '';
+    const used = item.usage?.some(entry => entry.projectId === project.id);
+    return `<article class="project-component"><button class="project-preview" data-project-preview="${esc(id)}">${h.componentMedia(item)}</button><h3>${esc(item.name)}</h3><div><button data-project-used="${esc(id)}" ${used ? 'disabled' : ''}>${used ? '已使用' : '标记使用'}</button><button data-project-remove="${esc(id)}">移出项目</button></div></article>`;
+  }
+
+  function wire(root, project) {
+    connectCollectionPreviews(root);
+    root.querySelectorAll('[data-project-preview]').forEach(button => button.onclick = () => h.openComponent(button.dataset.projectPreview));
+    root.querySelectorAll('[data-project-used]').forEach(button => button.onclick = () => {
+      if (markProjectUse(getState(), project.id, button.dataset.projectUsed)) { persist(); render(); }
+    });
+    root.querySelectorAll('[data-project-remove]').forEach(button => button.onclick = () => {
+      project.componentIds = project.componentIds.filter(id => id !== button.dataset.projectRemove);
+      persist(); render();
+    });
+  }
+
+  function referenceTile(reference) {
+    return `<article class="project-reference"><a href="${esc(reference.url || '#')}" target="_blank" rel="noopener noreferrer">${reference.image ? `<img src="${esc(reference.image)}" alt="${esc(reference.name)}" loading="lazy" referrerpolicy="no-referrer">` : icon(referenceType(reference) === 'visual' ? 'palette' : 'image')}<strong>${esc(reference.name)}</strong></a><button data-project-ref-remove="${esc(reference.id)}">移出项目</button></article>`;
+  }
+
+  function projectTicket(project) {
+    const total = (project.componentIds?.length || 0) + (project.references?.length || 0);
+    const cover = project.cover ? ` style="--project-cover:url('${esc(project.cover)}')"` : '';
+    return `<button class="project-ticket ${project.cover ? 'has-cover' : ''}" data-project="${esc(project.id)}"${cover}><span class="ticket-grid" aria-hidden="true"></span><span class="ticket-layer">${icon('folder')}<strong>${esc(project.name)}</strong><small>${esc(project.type || '网页')} · ${total} 项</small></span><i class="ticket-glare"></i></button>`;
+  }
+
+  function requirementList(project) {
+    const rows = project.requirements || [];
+    const done = rows.filter(item => item.done).length;
+    if (!rows.length) return '';
+    return `<section class="project-requirements"><div class="project-requirements-heading"><div><h2>采购清单</h2><p>先把骨架买齐，再挑具体样式。${done}/${rows.length} 已完成</p></div></div><div class="project-requirement-grid">${rows.map(item => `<article class="${item.done ? 'done' : ''}"><label><input type="checkbox" data-requirement="${esc(item.id)}" ${item.done ? 'checked' : ''}><span><strong>${esc(item.name)}</strong><small>${esc(item.note)}</small></span></label><button data-requirement-route="${esc(item.route)}">去挑选</button></article>`).join('')}</div></section>`;
+  }
+
+  function bindTickets() {
+    page.querySelectorAll('.project-ticket').forEach(ticket => {
+      const layer = ticket.querySelector('.ticket-layer');
+      const glare = ticket.querySelector('.ticket-glare');
+      const rx = spring(0, [170, 15], value => ticket.style.setProperty('--rx', value + 'deg'));
+      const ry = spring(0, [170, 15], value => ticket.style.setProperty('--ry', value + 'deg'));
+      const dx = spring(0, [170, 15], value => layer.style.translate = value + 'px ' + (layer.dataset.dy || 0) + 'px');
+      const dy = spring(0, [170, 15], value => { layer.dataset.dy = value; layer.style.translate = (layer.dataset.dx || 0) + 'px ' + value + 'px'; });
+      ticket.onpointermove = event => {
+        const rect = ticket.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width * 2 - 1;
+        const y = (event.clientY - rect.top) / rect.height * 2 - 1;
+        rx.set(-y * 8); ry.set(x * 10); layer.dataset.dx = x * 8; dx.set(x * 8); dy.set(y * 6);
+        glare.style.setProperty('--gx', (x + 1) * 50 + '%'); glare.style.setProperty('--gy', (y + 1) * 50 + '%');
+      };
+      ticket.onpointerleave = () => { rx.set(0); ry.set(0); dx.set(0); dy.set(0); };
+    });
+  }
+
+  function render() {
+    const list = projects();
+    const project = list.find(item => item.id === current);
+    const resources = project ? (project.componentIds || []).map(id => ({ kind: 'resource', item: resource(id) })).filter(row => row.item) : [];
+    const references = project ? (project.references || []).map(item => ({ kind: 'reference', item })) : [];
+    const rows = [...resources, ...references];
+    const typeOf = row => row.kind === 'resource' ? resourceType(row.item) : referenceType(row.item);
+    const visible = filterByWorkbenchType(rows, projectFilter, typeOf);
+    page.innerHTML = `<div class="page-heading"><h1>${project ? esc(project.name) : '工作台'}</h1><div>${project ? `<button id="project-duplicate">${icon('copy')}复制项目</button><button id="project-cover">${icon('image')}文件夹背景</button>` : ''}<button id="project-new" class="primary">${icon('plus')}添加项目</button></div></div>
+      ${workbenchTabs('projects')}
+      ${project ? `<button id="project-back">返回项目</button>${requirementList(project)}${workbenchTypeTabs(projectFilter, rows, typeOf)}<div class="project-components">${visible.map(row => row.kind === 'resource' ? tile(row.item.id, project) : referenceTile(row.item)).join('')}</div>` : `${legacyCount() ? `<section class="legacy-project-pending"><div><strong>待归入项目</strong><p>这是以前保留的待选内容，选择一个项目后再迁移，不会自动删除。</p></div><button id="project-pending">整理 ${legacyCount()} 项</button></section>` : ''}<div class="project-grid">${list.map(projectTicket).join('')}</div>`}`;
+    page.querySelectorAll('[data-workbench-view]').forEach(button => button.onclick = () => h.switchView(button.dataset.workbenchView));
+    page.querySelector('#project-new').onclick = () => newProject();
+    page.querySelector('#project-pending')?.addEventListener('click', openLegacyPending);
+    page.querySelector('#project-duplicate')?.addEventListener('click', () => { const copy = duplicateProject(getState(), project.id); current = copy.id; persist(); render(); toast('已复制项目，可以开始替换内容'); });
+    page.querySelector('#project-cover')?.addEventListener('click', () => editCover(project));
+    page.querySelector('#project-back')?.addEventListener('click', () => { current = ''; projectFilter = 'all'; render(); });
+    page.querySelectorAll('[data-project]').forEach(button => button.onclick = () => { current = button.dataset.project; projectFilter = 'all'; render(); });
+    page.querySelectorAll('[data-workbench-type]').forEach(button => button.onclick = () => { projectFilter = button.dataset.workbenchType; render(); });
+    page.querySelectorAll('[data-requirement]').forEach(input => input.onchange = () => { const item = project.requirements.find(row => row.id === input.dataset.requirement); item.done = input.checked; persist(); render(); });
+    page.querySelectorAll('[data-requirement-route]').forEach(button => button.onclick = () => h.switchView(button.dataset.requirementRoute));
+    page.querySelectorAll('[data-project-ref-remove]').forEach(button => button.onclick = () => { project.references = (project.references || []).filter(reference => reference.id !== button.dataset.projectRefRemove); persist(); render(); });
+    bindTickets();
+    if (project) wire(page, project);
+  }
+
+  async function editCover(project) {
+    const formDialog = document.createElement('dialog');
+    formDialog.className = 'project-create';
+    formDialog.innerHTML = `<form><div class="dialog-heading"><h2>文件夹背景</h2><button type="button" aria-label="关闭">×</button></div><input name="url" type="url" placeholder="粘贴图片链接" value="${esc(project.cover || '')}"><label class="compact-file-control">${icon('upload')}<span>上传背景图片</span><input name="file" type="file" accept="image/*" hidden></label><div class="dialog-actions"><button class="primary">保存</button>${project.cover ? '<button type="button" data-remove-cover>移除背景</button>' : ''}</div></form>`;
+    document.body.append(formDialog);
+    const close = () => { formDialog.close(); formDialog.remove(); };
+    formDialog.querySelector('[aria-label=关闭]').onclick = close;
+    formDialog.querySelector('[data-remove-cover]')?.addEventListener('click', () => { project.cover = ''; persist(); close(); render(); });
+    formDialog.querySelector('form').onsubmit = async event => {
+      event.preventDefault(); const form = event.currentTarget; const file = form.elements.file.files[0];
+      try { project.cover = file ? (await uploadFile(file, () => {})).url : String(new FormData(form).get('url')).trim(); persist(); close(); render(); toast('已更新文件夹背景'); }
+      catch (error) { toast(error.message || '背景上传失败'); }
+    };
+    formDialog.showModal();
+  }
+
+  function newProject(afterCreate) {
+    const formDialog = document.createElement('dialog');
+    formDialog.className = 'project-create';
+    formDialog.innerHTML = '<form><div class="dialog-heading"><h2>添加项目</h2><button type="button" aria-label="关闭">×</button></div><input name="name" required placeholder="项目名称" aria-label="项目名称"><select name="type" aria-label="项目类型"><option>网页</option><option>视频</option><option>其他</option></select><label>项目模板<select name="template" aria-label="项目模板"><option value="website-basic">网站基础采购单</option><option value="blank">空白项目</option></select></label><p class="project-template-note">不知道网站需要什么时，选择网站基础采购单。它会列出页面、按钮、表单、状态和字体等必需项。</p><button class="primary">创建项目</button></form>';
+    document.body.append(formDialog);
+    const close = () => { formDialog.close(); formDialog.remove(); };
+    formDialog.querySelector('[aria-label=关闭]').onclick = close;
+    formDialog.querySelector('form').onsubmit = event => {
+      event.preventDefault(); const form = new FormData(event.currentTarget);
+      const project = { id: crypto.randomUUID(), name: form.get('name').trim(), type: form.get('type'), componentIds: [], references: [], requirements: requirementsFor(form.get('template')), created: new Date().toISOString() };
+      if (!project.name) return;
+      (getState().projects ||= []).push(project); persist(); close();
+      if (typeof afterCreate === 'function') afterCreate(project); else { current = project.id; if (showing) render(); }
+    };
+    formDialog.showModal();
+  }
+
+  function openLegacyPending() {
+    chooseProject(project => {
+      const moved = moveLegacyPendingToProject(getState(), project.id);
+      persist(); toast(`已归入 ${project.name}，共 ${moved} 项`); current = project.id; h.switchView('projects');
+    }, '把旧待选归入项目');
+  }
+
+  function bindReferenceButton(button, reference) {
+    button._projectReference = reference;
+    button.dataset.projectReference = reference.id;
+    updateReferenceButton(button);
+  }
+
+  h.projects = { show, leave, render, openCart: openLegacyPending, addResource, addReference, addReferenceToCart: addReference, bindReferenceButton, has: containsResource, hasReference: containsReference, update };
+  update();
+  return h.projects;
+}
